@@ -208,7 +208,7 @@ def service_detail(request, service_slug):
             'service': service,
             'floating_backgrounds': floating_backgrounds,
         })
-    except ServicePage.DoesNotExist:
+    else:
         # Fallback to old template system
         service_map = {
             'social-media-marketing': 'social_media',
