@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Database Initialization Result - Novyra CMS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background: #f8f9fa;
+            font-weight: bold;
+        }
+        .status-ok {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .status-error {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        .status-created {
+            color: #007bff;
+            font-weight: bold;
+        }
+        .status-exists {
+            color: #6c757d;
+        }
+        .status-missing {
+            color: #ffc107;
+            font-weight: bold;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Database Initialization Result</h1>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Component</th>
+                    <th>Status</th>
+                    <th>Message</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for component, status, message in results %}
+                <tr>
+                    <td>{{ component }}</td>
+                    <td>
+                        {% if status == 'OK' or status == 'EXISTS' or status == 'CREATED' %}
+                            <span class="status-ok">{{ status }}</span>
+                        {% elif status == 'ERROR' %}
+                            <span class="status-error">{{ status }}</span>
+                        {% elif status == 'MISSING' %}
+                            <span class="status-missing">{{ status }}</span>
+                        {% else %}
+                            <span class="status-created">{{ status }}</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ message }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        {% if success %}
+            <p style="color: #28a745; font-weight: bold;">✅ Database initialized successfully!</p>
+        {% else %}
+            <p style="color: #dc3545; font-weight: bold;">❌ Some errors occurred. Please check the messages above.</p>
+        {% endif %}
+        
+        <div style="margin-top: 30px;">
+            <a href="/create-admin/" class="btn">Create Admin User</a>
+            <a href="/check-database/" class="btn" style="background: #6c757d;">Check Database Status</a>
+        </div>
+    </div>
+</body>
+</html>
+

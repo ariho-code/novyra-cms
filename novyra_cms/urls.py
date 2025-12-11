@@ -19,6 +19,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
+from . import init_views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -34,6 +35,10 @@ urlpatterns = [
     # Website Content Management
     path("cms/website/", include("website.cms_urls")),
     path("ckeditor/", include("ckeditor_uploader.urls")),
+    # Initialization endpoints (for Render free tier)
+    path("init-database/", init_views.init_database, name="init_database"),
+    path("create-admin/", init_views.create_admin, name="create_admin"),
+    path("check-database/", init_views.check_database, name="check_database"),
 ]
 
 # Serve media files in development

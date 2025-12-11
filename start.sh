@@ -20,11 +20,15 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'novyra_cms.settings')
 django.setup()
 try:
     from settings_app.models import SiteSettings
+    from django.contrib.auth.models import User
     settings, created = SiteSettings.objects.get_or_create(pk=1)
     print('[OK] SiteSettings initialized!' if created else '[OK] SiteSettings already exists!')
+    # Check for superuser
+    if not User.objects.filter(is_superuser=True).exists():
+        print('[INFO] No superuser found. Use /create-admin/ to create one.')
 except Exception as e:
-    print('[WARNING] SiteSettings initialization skipped:', str(e))
-" || echo "SiteSettings initialization skipped"
+    print('[WARNING] Initialization skipped:', str(e))
+" || echo "Initialization skipped"
 
 echo "=========================================="
 echo "Starting application server..."
