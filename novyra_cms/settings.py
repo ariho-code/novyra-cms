@@ -30,8 +30,9 @@ SECRET_KEY = config('SECRET_KEY', default="django-insecure-5r)!7&2sm4x2@ocens1g#
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # On Render, default to False for production
+# Temporarily set to True to see errors - change back to False after fixing
 if ON_RENDER:
-    DEBUG = config('DEBUG', default='False', cast=lambda v: v.lower() == 'true')
+    DEBUG = config('DEBUG', default='True', cast=lambda v: v.lower() == 'true')
 else:
     DEBUG = config('DEBUG', default=True, cast=bool)
 
