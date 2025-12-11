@@ -42,12 +42,17 @@ if 'RENDER' in os.environ:
     ALLOWED_HOSTS.append('*.onrender.com')
 
 # CSRF Trusted Origins - Required for HTTPS on Render
+# Django doesn't support wildcards, so we need to list specific domains
 CSRF_TRUSTED_ORIGINS = []
 if ON_RENDER:
+    # Add your specific Render domain
     CSRF_TRUSTED_ORIGINS = [
         'https://novyra-cms.onrender.com',
-        'https://*.onrender.com',
     ]
+    # Allow configuration via environment variable for additional domains
+    additional_origins = config('CSRF_TRUSTED_ORIGINS', default='', cast=str)
+    if additional_origins:
+        CSRF_TRUSTED_ORIGINS.extend([s.strip() for s in additional_origins.split(',') if s.strip()])
 else:
     # For local development
     CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', default='http://localhost:8000,http://127.0.0.1:8000', cast=lambda v: [s.strip() for s in v.split(',')])
