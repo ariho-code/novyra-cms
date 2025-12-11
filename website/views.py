@@ -144,10 +144,33 @@ def home(request):
 
 def about(request):
     """About page"""
-    site_settings = SiteSettings.load()
-    about_content = AboutPageContent.load()
-    about_values = AboutValue.objects.filter(is_active=True)
-    floating_backgrounds = FloatingBackground.objects.filter(is_active=True)
+    try:
+        site_settings = SiteSettings.load()
+    except (OperationalError, DatabaseError):
+        site_settings = None
+    except Exception:
+        site_settings = None
+    
+    try:
+        about_content = AboutPageContent.load()
+    except (OperationalError, DatabaseError):
+        about_content = None
+    except Exception:
+        about_content = None
+    
+    try:
+        about_values = list(AboutValue.objects.filter(is_active=True))
+    except (OperationalError, DatabaseError):
+        about_values = []
+    except Exception:
+        about_values = []
+    
+    try:
+        floating_backgrounds = list(FloatingBackground.objects.filter(is_active=True))
+    except (OperationalError, DatabaseError):
+        floating_backgrounds = []
+    except Exception:
+        floating_backgrounds = []
     
     return render(request, 'website/about.html', {
         'site_settings': site_settings,
@@ -166,7 +189,21 @@ def service_detail(request, service_slug):
     """Individual service detail pages"""
     try:
         service = ServicePage.objects.get(slug=service_slug, is_active=True)
-        floating_backgrounds = FloatingBackground.objects.filter(is_active=True)
+    except (OperationalError, DatabaseError):
+        service = None
+    except ServicePage.DoesNotExist:
+        service = None
+    except Exception:
+        service = None
+    
+    try:
+        floating_backgrounds = list(FloatingBackground.objects.filter(is_active=True))
+    except (OperationalError, DatabaseError):
+        floating_backgrounds = []
+    except Exception:
+        floating_backgrounds = []
+    
+    if service:
         return render(request, 'website/service_detail.html', {
             'service': service,
             'floating_backgrounds': floating_backgrounds,
@@ -191,9 +228,26 @@ def service_detail(request, service_slug):
 
 def blog_list(request):
     """Public blog listing page"""
-    posts = BlogPost.objects.filter(status='published').select_related('author').prefetch_related('categories')
-    site_settings = SiteSettings.load()
-    floating_backgrounds = FloatingBackground.objects.filter(is_active=True)
+    try:
+        posts = BlogPost.objects.filter(status='published').select_related('author').prefetch_related('categories')
+    except (OperationalError, DatabaseError):
+        posts = BlogPost.objects.none()
+    except Exception:
+        posts = BlogPost.objects.none()
+    
+    try:
+        site_settings = SiteSettings.load()
+    except (OperationalError, DatabaseError):
+        site_settings = None
+    except Exception:
+        site_settings = None
+    
+    try:
+        floating_backgrounds = list(FloatingBackground.objects.filter(is_active=True))
+    except (OperationalError, DatabaseError):
+        floating_backgrounds = []
+    except Exception:
+        floating_backgrounds = []
     
     # Search functionality
     search_query = request.GET.get('search', '')
@@ -248,9 +302,26 @@ def blog_detail(request, slug):
 
 def portfolio_list(request):
     """Public portfolio gallery page"""
-    items = PortfolioItem.objects.all().prefetch_related('categories', 'images')
-    site_settings = SiteSettings.load()
-    floating_backgrounds = FloatingBackground.objects.filter(is_active=True)
+    try:
+        items = PortfolioItem.objects.all().prefetch_related('categories', 'images')
+    except (OperationalError, DatabaseError):
+        items = PortfolioItem.objects.none()
+    except Exception:
+        items = PortfolioItem.objects.none()
+    
+    try:
+        site_settings = SiteSettings.load()
+    except (OperationalError, DatabaseError):
+        site_settings = None
+    except Exception:
+        site_settings = None
+    
+    try:
+        floating_backgrounds = list(FloatingBackground.objects.filter(is_active=True))
+    except (OperationalError, DatabaseError):
+        floating_backgrounds = []
+    except Exception:
+        floating_backgrounds = []
     
     # Filter by category
     category_filter = request.GET.get('category', '')
@@ -294,9 +365,26 @@ def portfolio_detail(request, slug):
 
 def contact(request):
     """Contact page"""
-    site_settings = SiteSettings.load()
-    contact_content = ContactPageContent.load()
-    floating_backgrounds = FloatingBackground.objects.filter(is_active=True)
+    try:
+        site_settings = SiteSettings.load()
+    except (OperationalError, DatabaseError):
+        site_settings = None
+    except Exception:
+        site_settings = None
+    
+    try:
+        contact_content = ContactPageContent.load()
+    except (OperationalError, DatabaseError):
+        contact_content = None
+    except Exception:
+        contact_content = None
+    
+    try:
+        floating_backgrounds = list(FloatingBackground.objects.filter(is_active=True))
+    except (OperationalError, DatabaseError):
+        floating_backgrounds = []
+    except Exception:
+        floating_backgrounds = []
     
     if request.method == 'POST':
         # Handle form submission
