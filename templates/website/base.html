@@ -405,9 +405,9 @@
         <div class="nav-container">
             <a href="{% url 'website:home' %}" class="logo">
                 {% if site_settings and site_settings.logo|has_file %}
-                    <img src="{{ site_settings.logo.url }}" alt="Novyra Marketing Logo" style="height: 45px; width: auto;">
+                    <img src="{{ site_settings.logo.url }}" alt="Novyra Marketing Logo" style="height: 45px; width: auto; object-fit: contain;">
                 {% else %}
-                    <img src="{% static 'novyralogo.jpg' %}" alt="Novyra Marketing Logo" style="height: 45px; width: auto;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                    <img src="{% static 'novyralogo.jpg' %}" alt="Novyra Marketing Logo" style="height: 45px; width: auto; object-fit: contain;" onerror="this.onerror=null; this.src='{% static 'novyralogo.jpg' %}';">
                     <i class="fas fa-rocket" style="display: none;"></i>
                 {% endif %}
                 <span>Novyra</span> Marketing
