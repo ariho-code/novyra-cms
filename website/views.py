@@ -36,18 +36,91 @@ def home(request):
         site_settings = None
     except Exception:
         site_settings = None
-    homepage_sections = HomePageSection.objects.filter(is_active=True)
-    statistics = Statistic.objects.filter(is_active=True)
-    floating_backgrounds = FloatingBackground.objects.filter(is_active=True)
-    features = Feature.objects.filter(is_active=True)
-    process_steps = ProcessStep.objects.filter(is_active=True)
-    team_members = TeamMember.objects.filter(is_active=True)
-    testimonials = Testimonial.objects.filter(is_active=True)
-    consultation = ConsultationSection.load() if ConsultationSection.objects.exists() else None
-    faqs = FAQ.objects.filter(is_active=True)
-    footer_content = FooterContent.load() if FooterContent.objects.exists() else None
-    videos = VideoSection.objects.filter(is_active=True)
-    pricing_packages = PricingPackage.objects.filter(is_active=True).order_by('order', 'price')
+    
+    # Safely load all data with error handling
+    try:
+        homepage_sections = list(HomePageSection.objects.filter(is_active=True))
+    except (OperationalError, DatabaseError):
+        homepage_sections = []
+    except Exception:
+        homepage_sections = []
+    
+    try:
+        statistics = list(Statistic.objects.filter(is_active=True))
+    except (OperationalError, DatabaseError):
+        statistics = []
+    except Exception:
+        statistics = []
+    
+    try:
+        floating_backgrounds = list(FloatingBackground.objects.filter(is_active=True))
+    except (OperationalError, DatabaseError):
+        floating_backgrounds = []
+    except Exception:
+        floating_backgrounds = []
+    
+    try:
+        features = list(Feature.objects.filter(is_active=True))
+    except (OperationalError, DatabaseError):
+        features = []
+    except Exception:
+        features = []
+    
+    try:
+        process_steps = list(ProcessStep.objects.filter(is_active=True))
+    except (OperationalError, DatabaseError):
+        process_steps = []
+    except Exception:
+        process_steps = []
+    
+    try:
+        team_members = list(TeamMember.objects.filter(is_active=True))
+    except (OperationalError, DatabaseError):
+        team_members = []
+    except Exception:
+        team_members = []
+    
+    try:
+        testimonials = list(Testimonial.objects.filter(is_active=True))
+    except (OperationalError, DatabaseError):
+        testimonials = []
+    except Exception:
+        testimonials = []
+    
+    try:
+        consultation = ConsultationSection.load() if ConsultationSection.objects.exists() else None
+    except (OperationalError, DatabaseError):
+        consultation = None
+    except Exception:
+        consultation = None
+    
+    try:
+        faqs = list(FAQ.objects.filter(is_active=True))
+    except (OperationalError, DatabaseError):
+        faqs = []
+    except Exception:
+        faqs = []
+    
+    try:
+        footer_content = FooterContent.load() if FooterContent.objects.exists() else None
+    except (OperationalError, DatabaseError):
+        footer_content = None
+    except Exception:
+        footer_content = None
+    
+    try:
+        videos = list(VideoSection.objects.filter(is_active=True))
+    except (OperationalError, DatabaseError):
+        videos = []
+    except Exception:
+        videos = []
+    
+    try:
+        pricing_packages = list(PricingPackage.objects.filter(is_active=True).order_by('order', 'price'))
+    except (OperationalError, DatabaseError):
+        pricing_packages = []
+    except Exception:
+        pricing_packages = []
     
     context = {
         'recent_posts': recent_posts,
