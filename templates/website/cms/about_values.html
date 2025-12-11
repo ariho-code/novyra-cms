@@ -1,0 +1,116 @@
+{% extends 'website/cms/base_cms.html' %}
+{% load static %}
+
+{% block title %}About Values - Novyra CMS{% endblock %}
+
+{% block content %}
+{% include 'website/cms/modal_base.html' %}
+
+<div class="section" data-aos="fade-up">
+    <div class="cms-header">
+        <h2><i class="fas fa-star"></i> About Values</h2>
+        <button onclick="loadValueForm()" class="btn btn-primary"><i class="fas fa-plus"></i> Add Value</button>
+    </div>
+
+    {% if values %}
+    <div class="cms-grid">
+        {% for value in values %}
+        <div class="cms-card" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:50 }}">
+            <div class="cms-card-header">
+                <h3 class="cms-card-title">
+                    {% if value.icon %}<i class="{{ value.icon }}"></i> {% endif %}{{ value.title }}
+                </h3>
+                <span class="cms-card-status {% if value.is_active %}status-active{% else %}status-inactive{% endif %}">
+                    {% if value.is_active %}Active{% else %}Inactive{% endif %}
+                </span>
+            </div>
+            <div class="cms-card-content">
+                <p>{{ value.description|truncatewords:30 }}</p>
+                <p><strong>Order:</strong> {{ value.order }}</p>
+            </div>
+            <div class="cms-card-actions">
+                <button onclick="loadValueForm({{ value.id }})" class="btn btn-sm btn-outline"><i class="fas fa-edit"></i> Edit</button>
+                <button onclick="deleteValue({{ value.id }})" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Delete</button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="cms-empty-state">
+        <i class="fas fa-star"></i>
+        <h3>No values found</h3>
+        <button onclick="loadValueForm()" class="btn btn-primary"><i class="fas fa-plus"></i> Add Value</button>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+function loadValueForm(valueId = null) {
+    const url = valueId 
+        ? `{% url 'website_cms:about_value_get' 0 %}`.replace('0', valueId)
+        : null;
+    const formUrl = valueId
+        ? `{% url 'website_cms:about_value_update' 0 %}`.replace('0', valueId)
+        : `{% url 'website_cms:about_value_create' %}`;
+    
+    openModal(
+        valueId ? 'Edit Value' : 'Add Value',
+        getValueFormHTML(),
+        formUrl,
+        'POST',
+        url
+    );
+}
+
+function getValueFormHTML() {
+    return `
+        <form id="valueForm">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="form-label">Title *</label>
+                <input type="text" name="title" id="value_title" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Description *</label>
+                <textarea name="description" id="value_description" class="form-control" rows="3" required></textarea>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Icon (Font Awesome class)</label>
+                <input type="text" name="icon" id="value_icon" class="form-control" placeholder="e.g., fas fa-star">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Order</label>
+                <input type="number" name="order" id="value_order" class="form-control" value="0">
+            </div>
+            <div class="form-group">
+                <label class="form-check-label">
+                    <input type="checkbox" name="is_active" id="value_is_active" class="form-check-input" checked>
+                    Active
+                </label>
+            </div>
+        </form>
+    `;
+}
+
+function deleteValue(valueId) {
+    if (confirm('Are you sure you want to delete this value?')) {
+        fetch(`{% url 'website_cms:about_value_delete' 0 %}`.replace('0', valueId), {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken'),
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Error: ' + (data.message || 'Failed to delete'));
+            }
+        });
+    }
+}
+</script>
+{% endblock %}
+

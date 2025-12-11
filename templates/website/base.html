@@ -1,0 +1,593 @@
+{% load static %}
+{% load website_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{% block meta_description %}{% if site_settings %}{{ site_settings.site_description }}{% else %}Novyra Marketing - Leading digital marketing agency in Nigeria and Africa. We specialize in social media marketing, branding, digital campaigns, content strategy, and paid advertising.{% endif %}{% endblock %}">
+    <title>{% block title %}{% if site_settings %}{{ site_settings.site_title }}{% else %}Novyra Marketing{% endif %} - Digital Marketing Agency{% endblock %}</title>
+    
+    <!-- Favicon -->
+    {% if site_settings and site_settings.favicon|has_file %}
+    <link rel="icon" type="image/png" href="{{ site_settings.favicon.url }}">
+    <link rel="shortcut icon" type="image/png" href="{{ site_settings.favicon.url }}">
+    {% elif site_settings and site_settings.logo|has_file %}
+    <link rel="icon" type="image/jpeg" href="{{ site_settings.logo.url }}">
+    <link rel="shortcut icon" type="image/jpeg" href="{{ site_settings.logo.url }}">
+    {% else %}
+    <link rel="icon" type="image/jpeg" href="{% static 'novyralogo.jpg' %}">
+    <link rel="shortcut icon" type="image/jpeg" href="{% static 'novyralogo.jpg' %}">
+    {% endif %}
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    
+    <style>
+        :root {
+            --novyra-deep-blue: #0006B1;
+            --novyra-black: #000000;
+            --novyra-white: #FFFFFF;
+            --novyra-gold: #CFB53B;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--novyra-black);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Floating Backgrounds */
+        .floating-backgrounds {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .floating-bg-element {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .floating-bg-element img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            25% {
+                transform: translate(20px, -20px) rotate(5deg);
+            }
+            50% {
+                transform: translate(-20px, 20px) rotate(-5deg);
+            }
+            75% {
+                transform: translate(20px, 20px) rotate(3deg);
+            }
+        }
+
+        .floating-bg-element.slow {
+            animation-duration: 30s;
+        }
+
+        .floating-bg-element.medium {
+            animation-duration: 20s;
+        }
+
+        .floating-bg-element.fast {
+            animation-duration: 10s;
+        }
+
+        .floating-bg-element.top-left {
+            top: 5%;
+            left: 5%;
+            width: 300px !important;
+            height: 300px !important;
+        }
+
+        .floating-bg-element.top-right {
+            top: 5%;
+            right: 5%;
+            width: 250px !important;
+            height: 250px !important;
+        }
+
+        .floating-bg-element.bottom-left {
+            bottom: 5%;
+            left: 5%;
+            width: 280px !important;
+            height: 280px !important;
+        }
+
+        .floating-bg-element.bottom-right {
+            bottom: 5%;
+            right: 5%;
+            width: 320px !important;
+            height: 320px !important;
+        }
+
+        .floating-bg-element.center {
+            top: 50%;
+            left: 50%;
+            width: 400px !important;
+            height: 400px !important;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: var(--transition);
+            padding: 1rem 0;
+        }
+
+        .navbar.scrolled {
+            padding: 0.75rem 0;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-size: 1.8rem;
+            color: var(--novyra-deep-blue);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo img {
+            height: 45px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, var(--novyra-deep-blue), var(--novyra-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--novyra-black);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--novyra-gold);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .nav-link:hover {
+            color: var(--novyra-deep-blue);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--novyra-deep-blue), #0015E8);
+            color: var(--novyra-white);
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(0, 6, 177, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0, 6, 177, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--novyra-deep-blue);
+            padding: 0.8rem 2rem;
+            border: 2px solid var(--novyra-deep-blue);
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-block;
+        }
+
+        .btn-outline:hover {
+            background: var(--novyra-deep-blue);
+            color: var(--novyra-white);
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--novyra-deep-blue);
+            cursor: pointer;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--novyra-black);
+            color: var(--novyra-white);
+            padding: 4rem 0 2rem;
+            margin-top: 6rem;
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--novyra-gold);
+        }
+        
+        .footer-section h3 i {
+            margin-right: 0.5rem;
+        }
+        
+        .footer-section a i,
+        .footer-section p i {
+            margin-right: 0.5rem;
+            width: 16px;
+            text-align: center;
+            opacity: 0.9;
+            color: var(--novyra-gold);
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            line-height: 1.8;
+            transition: var(--transition);
+        }
+
+        .footer-section a:hover {
+            color: var(--novyra-gold);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--novyra-gold);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                transition: var(--transition);
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu li {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="{% url 'website:home' %}" class="logo">
+                {% if site_settings and site_settings.logo|has_file %}
+                    <img src="{{ site_settings.logo.url }}" alt="Novyra Marketing Logo" style="height: 45px; width: auto;">
+                {% else %}
+                    <img src="{% static 'novyralogo.jpg' %}" alt="Novyra Marketing Logo" style="height: 45px; width: auto;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                    <i class="fas fa-rocket" style="display: none;"></i>
+                {% endif %}
+                <span>Novyra</span> Marketing
+            </a>
+            <ul class="nav-menu" id="navMenu">
+                {% if nav_links %}
+                    {% for link in nav_links %}
+                    <li>
+                        <a href="{% if link.is_external %}{{ link.url }}{% else %}{{ link.url }}{% endif %}" 
+                           class="nav-link {% if link.url in request.path %}active{% endif %}"
+                           {% if link.is_external %}target="_blank"{% endif %}>
+                            {{ link.title }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                {% else %}
+                    <li><a href="{% url 'website:home' %}" class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}">Home</a></li>
+                    <li><a href="{% url 'website:about' %}" class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}">About</a></li>
+                    <li><a href="{% url 'website:services' %}" class="nav-link {% if 'service' in request.resolver_match.url_name %}active{% endif %}">Services</a></li>
+                    <li><a href="{% url 'website:portfolio_list' %}" class="nav-link {% if 'portfolio' in request.resolver_match.url_name %}active{% endif %}">Portfolio</a></li>
+                    <li><a href="{% url 'website:blog_list' %}" class="nav-link {% if 'blog' in request.resolver_match.url_name %}active{% endif %}">Blog</a></li>
+                    <li><a href="{% url 'website:contact' %}" class="nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}">Contact</a></li>
+                {% endif %}
+                <li><a href="{% url 'website:contact' %}" class="btn-primary">Get Started</a></li>
+            </ul>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Floating Backgrounds -->
+    {% if floating_backgrounds %}
+    <div class="floating-backgrounds">
+        {% for bg in floating_backgrounds %}
+        <div class="floating-bg-element {{ bg.position }} {{ bg.animation_speed }}" style="opacity: {{ bg.opacity }};">
+            {% if bg.image|has_file %}
+                <img src="{{ bg.image.url }}" alt="{{ bg.name }}">
+            {% else %}
+                <div style="width: 100%; height: 100%; background: radial-gradient(circle, rgba(0, 6, 177, 0.3), rgba(207, 181, 59, 0.1), transparent); border-radius: 50%;"></div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Main Content -->
+    <main style="margin-top: 80px; position: relative; z-index: 1;">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>Novyra Marketing</h3>
+                    {% if footer_content and footer_content.about_text %}
+                        <p>{{ footer_content.about_text }}</p>
+                    {% else %}
+                        <p>Leading digital marketing agency in Nigeria and Africa. We help businesses grow through strategic digital marketing, compelling branding, and results-driven campaigns.</p>
+                    {% endif %}
+                    <div class="social-links">
+                        {% if site_settings %}
+                        {% if site_settings.facebook_handle or site_settings.facebook_url %}
+                        <a href="{{ site_settings.get_facebook_url }}" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        {% endif %}
+                        {% if site_settings.x_handle or site_settings.twitter_url %}
+                        <a href="{{ site_settings.get_x_url }}" target="_blank" title="X">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle;">
+                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                            </svg>
+                        </a>
+                        {% endif %}
+                        {% if site_settings.instagram_handle or site_settings.instagram_url %}
+                        <a href="{{ site_settings.get_instagram_url }}" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        {% endif %}
+                        {% if site_settings.linkedin_handle or site_settings.linkedin_url %}
+                        <a href="{{ site_settings.get_linkedin_url }}" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        {% endif %}
+                        {% if site_settings.tiktok_handle or site_settings.tiktok_url %}
+                        <a href="{{ site_settings.get_tiktok_url }}" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
+                        {% endif %}
+                        {% if site_settings.youtube_handle or site_settings.youtube_url %}
+                        <a href="{{ site_settings.get_youtube_url }}" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+                        {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3><i class="fas fa-briefcase"></i> Services</h3>
+                    <a href="{% url 'website:service_detail' 'social-media-marketing' %}"><i class="fas fa-share-alt"></i> Social Media Marketing</a><br>
+                    <a href="{% url 'website:service_detail' 'branding' %}"><i class="fas fa-palette"></i> Branding</a><br>
+                    <a href="{% url 'website:service_detail' 'digital-campaigns' %}"><i class="fas fa-bullhorn"></i> Digital Campaigns</a><br>
+                    <a href="{% url 'website:service_detail' 'content-strategy' %}"><i class="fas fa-pen-nib"></i> Content Strategy</a><br>
+                    <a href="{% url 'website:service_detail' 'advertising' %}"><i class="fas fa-ad"></i> Paid Advertising</a>
+                </div>
+                <div class="footer-section">
+                    <h3><i class="fas fa-building"></i> Company</h3>
+                    <a href="{% url 'website:about' %}"><i class="fas fa-info-circle"></i> About Us</a><br>
+                    <a href="{% url 'website:portfolio_list' %}"><i class="fas fa-briefcase"></i> Portfolio</a><br>
+                    <a href="{% url 'website:blog_list' %}"><i class="fas fa-blog"></i> Blog</a><br>
+                    <a href="{% url 'website:contact' %}"><i class="fas fa-envelope"></i> Contact</a>
+                </div>
+                <div class="footer-section">
+                    <h3><i class="fas fa-map-marker-alt"></i> Contact</h3>
+                    {% if site_settings %}
+                        {% if site_settings.address_line_1 %}
+                        <p><i class="fas fa-map-marker-alt"></i> {{ site_settings.address_line_1 }}{% if site_settings.address_line_2 %}<br>{{ site_settings.address_line_2 }}{% endif %}<br>{% if site_settings.city %}{{ site_settings.city }}{% endif %}{% if site_settings.state %}, {{ site_settings.state }}{% endif %}<br>{% if site_settings.country %}{{ site_settings.country }}{% endif %}</p>
+                        {% else %}
+                        <p><i class="fas fa-map-marker-alt"></i> Lagos<br>Lagos State<br>Nigeria</p>
+                        {% endif %}
+                        {% if site_settings.admin_email %}
+                        <p style="margin-top: 1rem;"><a href="mailto:{{ site_settings.admin_email }}"><i class="fas fa-envelope"></i> {{ site_settings.admin_email }}</a></p>
+                        {% endif %}
+                        {% if site_settings.phone %}
+                        <p><a href="tel:{{ site_settings.phone }}"><i class="fas fa-phone"></i> {{ site_settings.phone }}</a></p>
+                        {% endif %}
+                    {% else %}
+                        <p><i class="fas fa-map-marker-alt"></i> Lagos<br>Lagos State<br>Nigeria</p>
+                        <p style="margin-top: 1rem;"><a href="mailto:novyramarketingagency@gmail.com"><i class="fas fa-envelope"></i> novyramarketingagency@gmail.com</a></p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>{% if footer_content %}{{ footer_content.copyright_text }}{% else %}&copy; 2025 Novyra Marketing LLC. All rights reserved.{% endif %}</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true,
+            offset: 100
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu toggle
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        mobileMenuToggle.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            const icon = this.querySelector('i');
+            if (navMenu.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function() {
+                navMenu.classList.remove('active');
+                const icon = mobileMenuToggle.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            });
+        });
+    </script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
+

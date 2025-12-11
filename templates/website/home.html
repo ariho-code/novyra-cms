@@ -1,0 +1,1081 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% load website_tags %}
+
+{% block title %}Home - Novyra Marketing | Digital Marketing Agency{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Hero Section */
+    .hero {
+        background: linear-gradient(135deg, var(--novyra-deep-blue) 0%, #0015E8 100%);
+        color: var(--novyra-white);
+        padding: 8rem 0 6rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .hero-content {
+        max-width: 800px;
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .hero h1 {
+        font-family: 'Poppins', sans-serif;
+        font-size: clamp(2.5rem, 5vw, 4.5rem);
+        font-weight: 900;
+        margin-bottom: 1.5rem;
+        line-height: 1.2;
+    }
+
+    .hero .highlight {
+        color: var(--novyra-gold);
+    }
+
+    .hero p {
+        font-size: 1.3rem;
+        margin-bottom: 2.5rem;
+        opacity: 0.95;
+        line-height: 1.8;
+    }
+
+    .hero-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .hero-buttons .btn-primary {
+        background: var(--novyra-gold);
+        color: var(--novyra-black);
+        box-shadow: 0 4px 20px rgba(207, 181, 59, 0.4);
+        font-size: 1rem;
+        padding: 0.8rem 2rem;
+    }
+
+    /* Features Section */
+    .features-section {
+        padding: 6rem 0;
+        background: var(--novyra-white);
+        position: relative;
+    }
+    
+    .features-section[style*="background-image"]::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.85);
+        z-index: 0;
+    }
+    
+    .features-section[style*="background-image"] > * {
+        position: relative;
+        z-index: 1;
+    }
+
+    .section-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .section-header {
+        text-align: center;
+        margin-bottom: 4rem;
+    }
+
+    .section-header h2 {
+        font-family: 'Poppins', sans-serif;
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 800;
+        color: var(--novyra-deep-blue);
+        margin-bottom: 1rem;
+    }
+
+    .section-header p {
+        font-size: 1.2rem;
+        color: #666;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+
+    .feature-card {
+        background: white;
+        padding: 2.5rem;
+        border-radius: 20px;
+        box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08);
+        transition: var(--transition);
+        text-align: center;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 50px rgba(0, 6, 177, 0.15);
+    }
+
+    .feature-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, rgba(0, 6, 177, 0.1), rgba(207, 181, 59, 0.1));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        color: var(--novyra-deep-blue);
+        margin: 0 auto 1.5rem;
+    }
+
+    .feature-card h3 {
+        font-family: 'Poppins', sans-serif;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--novyra-deep-blue);
+        margin-bottom: 1rem;
+    }
+
+    /* Services Section */
+    .services-section {
+        padding: 6rem 0;
+        background: #f8f9fa;
+        position: relative;
+    }
+    
+    .services-section[style*="background-image"]::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(248, 249, 250, 0.85);
+        z-index: 0;
+    }
+    
+    .services-section[style*="background-image"] > * {
+        position: relative;
+        z-index: 1;
+    }
+
+    .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+
+    .service-card {
+        background: white;
+        padding: 2.5rem;
+        border-radius: 20px;
+        box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08);
+        transition: var(--transition);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .service-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 50px rgba(0, 6, 177, 0.15);
+    }
+
+    .service-card h3 {
+        font-family: 'Poppins', sans-serif;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--novyra-deep-blue);
+        margin-bottom: 1rem;
+    }
+
+    .service-card p {
+        flex-grow: 1;
+        color: #666;
+        line-height: 1.8;
+        margin-bottom: 1.5rem;
+    }
+
+    .service-card a {
+        color: var(--novyra-deep-blue);
+        text-decoration: none;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: var(--transition);
+        margin-top: auto;
+    }
+
+    .service-card a:hover {
+        color: var(--novyra-gold);
+        gap: 1rem;
+    }
+
+    .service-icon {
+        width: 70px;
+        height: 70px;
+        background: linear-gradient(135deg, rgba(0, 6, 177, 0.1), rgba(207, 181, 59, 0.1));
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        color: var(--novyra-deep-blue);
+        margin-bottom: 1.5rem;
+    }
+
+    /* Process Section */
+    .process-section {
+        padding: 6rem 0;
+        background: var(--novyra-white);
+        position: relative;
+    }
+    
+    .process-section[style*="background-image"]::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.85);
+        z-index: 0;
+    }
+    
+    .process-section[style*="background-image"] > * {
+        position: relative;
+        z-index: 1;
+    }
+
+    .process-steps {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+
+    .process-step {
+        text-align: center;
+        position: relative;
+    }
+
+    .process-number {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, var(--novyra-deep-blue), var(--novyra-gold));
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        font-weight: 700;
+        margin: 0 auto 1.5rem;
+    }
+
+    /* Stats Section */
+    .stats-section {
+        background: linear-gradient(135deg, var(--novyra-deep-blue), #0015E8);
+        color: var(--novyra-white);
+        padding: 4rem 0;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 3rem;
+        text-align: center;
+    }
+
+    .stat-item h3 {
+        font-family: 'Poppins', sans-serif;
+        font-size: 3rem;
+        font-weight: 900;
+        color: var(--novyra-gold);
+        margin-bottom: 0.5rem;
+    }
+
+    /* Portfolio Section */
+    .portfolio-section {
+        padding: 6rem 0;
+        background: #f8f9fa;
+    }
+
+    .portfolio-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+
+    .portfolio-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+        transition: var(--transition);
+    }
+
+    .portfolio-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(0, 6, 177, 0.2);
+    }
+
+    .portfolio-image {
+        height: 250px;
+        background: linear-gradient(135deg, var(--novyra-deep-blue), var(--novyra-gold));
+        position: relative;
+        overflow: hidden;
+    }
+
+    .portfolio-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .portfolio-content {
+        padding: 1.5rem;
+    }
+
+    /* Team Section */
+    .team-section {
+        padding: 6rem 0;
+        background: var(--novyra-white);
+    }
+
+    .team-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2.5rem;
+        margin-top: 3rem;
+    }
+
+    .team-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 20px;
+        box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08);
+        text-align: center;
+        transition: var(--transition);
+    }
+
+    .team-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 50px rgba(0, 6, 177, 0.15);
+    }
+
+    .team-photo {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        margin: 0 auto 1.5rem;
+        background: linear-gradient(135deg, var(--novyra-deep-blue), var(--novyra-gold));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 3rem;
+        font-weight: 700;
+        overflow: hidden;
+    }
+
+    .team-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Testimonials Section */
+    .testimonials-section {
+        padding: 6rem 0;
+        background: linear-gradient(135deg, rgba(0, 6, 177, 0.05), rgba(207, 181, 59, 0.05));
+    }
+
+    .testimonials-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+
+    .testimonial-card {
+        background: white;
+        padding: 2.5rem;
+        border-radius: 20px;
+        box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08);
+        position: relative;
+    }
+
+    .testimonial-rating {
+        color: var(--novyra-gold);
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+
+    .testimonial-author {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    .testimonial-photo {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--novyra-deep-blue), var(--novyra-gold));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 700;
+        overflow: hidden;
+    }
+
+    /* Consultation Section */
+    .consultation-section {
+        padding: 6rem 0;
+        background: linear-gradient(135deg, var(--novyra-deep-blue), #0015E8);
+        color: var(--novyra-white);
+        text-align: center;
+        position: relative;
+    }
+
+    .consultation-section h2 {
+        font-family: 'Poppins', sans-serif;
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 900;
+        margin-bottom: 1.5rem;
+    }
+
+    /* FAQ Section */
+    .faq-section {
+        padding: 6rem 0;
+        background: var(--novyra-white);
+    }
+
+    .faq-container {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .faq-item {
+        background: white;
+        border: 2px solid #e2e8f0;
+        border-radius: 15px;
+        margin-bottom: 1rem;
+        overflow: hidden;
+        transition: var(--transition);
+    }
+
+    .faq-item:hover {
+        border-color: var(--novyra-deep-blue);
+        box-shadow: 0 5px 20px rgba(0, 6, 177, 0.1);
+    }
+
+    .faq-question {
+        padding: 1.5rem;
+        font-weight: 600;
+        color: var(--novyra-deep-blue);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .faq-answer {
+        padding: 0 1.5rem 1.5rem;
+        color: #666;
+        line-height: 1.8;
+    }
+
+    /* Contact Section */
+    .contact-section {
+        padding: 6rem 0;
+        background: #f8f9fa;
+    }
+
+    .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        margin-top: 3rem;
+    }
+
+    .contact-info-card {
+        background: white;
+        padding: 2.5rem;
+        border-radius: 20px;
+        box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .contact-form-card {
+        background: white;
+        padding: 2.5rem;
+        border-radius: 20px;
+        box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    /* CTA Section */
+    .cta-section {
+        background: linear-gradient(135deg, var(--novyra-deep-blue), #0015E8);
+        color: var(--novyra-white);
+        padding: 5rem 0;
+        text-align: center;
+    }
+
+    .cta-section h2 {
+        font-family: 'Poppins', sans-serif;
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 800;
+        margin-bottom: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+        .contact-grid {
+            grid-template-columns: 1fr;
+        }
+        .hero {
+            padding: 5rem 0 4rem;
+        }
+        .hero h1 {
+            font-size: 2rem;
+        }
+        .hero p {
+            font-size: 1.1rem;
+        }
+        .section-container {
+            padding: 0 1.5rem;
+        }
+        .services-grid,
+        .features-grid,
+        .process-steps,
+        .team-grid,
+        .testimonials-grid,
+        .portfolio-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        .service-card,
+        .feature-card,
+        .team-card,
+        .testimonial-card {
+            padding: 2rem;
+        }
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+        .stat-item h3 {
+            font-size: 2rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+{% with hero_section=homepage_sections|first %}
+<section class="hero" {% if hero_section.background_image|has_file %}style="background-image: url('{{ hero_section.background_image.url }}'); background-size: cover; background-position: center;"{% endif %}>
+    <div class="hero-container">
+        <div class="hero-content" data-aos="fade-up">
+            <h1>{% if hero_section.title %}{{ hero_section.title }}{% else %}<span class="highlight">Welcome To Novyra Marketing</span>{% endif %}</h1>
+            {% if hero_section.subtitle %}
+            <p>{{ hero_section.subtitle }}</p>
+            {% endif %}
+            {% if hero_section.content %}
+            <div style="font-size: 1.1rem; margin-top: 1rem;">{{ hero_section.content|safe }}</div>
+            {% endif %}
+            <div class="hero-buttons">
+                <a href="{% url 'website:contact' %}" class="btn-primary">Get Started</a>
+                <a href="{% url 'website:services' %}" class="btn-outline" style="border-color: var(--novyra-white); color: var(--novyra-white);">Our Services</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endwith %}
+
+<!-- Features / Why Choose Us Section -->
+{% for section in homepage_sections %}
+    {% if section.section_type == 'features' %}
+        {% with features_section=section %}
+{% if features %}
+<section class="features-section" {% if section.background_image|has_file %}style="background-image: url('{{ section.background_image.url }}'); background-size: cover; background-position: center; background-attachment: fixed;"{% endif %}>
+    <div class="section-container">
+        <div class="section-header" data-aos="fade-up">
+            {% for section in homepage_sections %}
+                {% if section.section_type == 'features' %}
+                <h2>{{ section.title|default:"Why Choose Us" }}</h2>
+                <p>{{ section.subtitle|default:"What makes us different" }}</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="features-grid">
+            {% for feature in features %}
+            <div class="feature-card" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+                <div class="feature-icon">
+                    <i class="{{ feature.icon }}"></i>
+                </div>
+                {% if feature.image|has_file %}
+                <img src="{{ feature.image.url }}" alt="{{ feature.title }}" style="width: 100%; max-width: 200px; margin: 0 auto 1rem; border-radius: 10px;">
+                {% endif %}
+                <h3>{{ feature.title }}</h3>
+                <p>{{ feature.description }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+        {% endwith %}
+    {% endif %}
+{% endfor %}
+
+<!-- Services Section -->
+{% for section in homepage_sections %}
+    {% if section.section_type == 'services' %}
+        {% with services_section=section %}
+<section class="services-section" {% if section.background_image|has_file %}style="background-image: url('{{ section.background_image.url }}'); background-size: cover; background-position: center; background-attachment: fixed;"{% endif %}>
+    <div class="section-container">
+        <div class="section-header" data-aos="fade-up">
+            {% for section in homepage_sections %}
+                {% if section.section_type == 'services' %}
+                <h2>{{ section.title|default:"What We Do" }}</h2>
+                <p>{{ section.subtitle|default:"We offer five key end-to-end solutions to help your business thrive" }}</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="services-grid">
+            <div class="service-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="service-icon"><i class="fas fa-share-alt"></i></div>
+                <h3>Social Media Marketing</h3>
+                <p>Beyond simple posting. We manage Instagram, Facebook, TikTok with daily engagement, community management, custom graphic design, and monthly content calendars.</p>
+                <a href="{% url 'website:service_detail' 'social-media-marketing' %}">Learn More <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="service-icon"><i class="fas fa-palette"></i></div>
+                <h3>Branding</h3>
+                <p>Complete brand identity solutions including logo design, brand style guides with color palettes and typography, tone of voice documentation.</p>
+                <a href="{% url 'website:service_detail' 'branding' %}">Learn More <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="service-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="service-icon"><i class="fas fa-bullhorn"></i></div>
+                <h3>Digital Campaigns</h3>
+                <p>Strategic campaign planning and execution for lead generation, product launches, and brand awareness across multiple platforms.</p>
+                <a href="{% url 'website:service_detail' 'digital-campaigns' %}">Learn More <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="service-card" data-aos="fade-up" data-aos-delay="400">
+                <div class="service-icon"><i class="fas fa-pen-nib"></i></div>
+                <h3>Content Strategy</h3>
+                <p>High-value content creation including SEO-optimized blog content, video scripts, website copy refinement, and email marketing sequences.</p>
+                <a href="{% url 'website:service_detail' 'content-strategy' %}">Learn More <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="service-card" data-aos="fade-up" data-aos-delay="500">
+                <div class="service-icon"><i class="fas fa-ad"></i></div>
+                <h3>Advertising (Paid Media)</h3>
+                <p>Complete paid media management across Google Ads, Facebook/Instagram Ads, and LinkedIn Ads with audience segmentation and optimization.</p>
+                <a href="{% url 'website:service_detail' 'advertising' %}">Learn More <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </div>
+</section>
+        {% endwith %}
+    {% endif %}
+{% endfor %}
+
+<!-- Process Section -->
+{% if process_steps %}
+{% for section in homepage_sections %}
+    {% if section.section_type == 'process' %}
+        {% with process_section=section %}
+<section class="process-section" {% if section.background_image|has_file %}style="background-image: url('{{ section.background_image.url }}'); background-size: cover; background-position: center; background-attachment: fixed;"{% endif %}>
+    <div class="section-container">
+        <div class="section-header" data-aos="fade-up">
+            {% for section in homepage_sections %}
+                {% if section.section_type == 'process' %}
+                <h2>{{ section.title|default:"Our Process" }}</h2>
+                <p>{{ section.subtitle|default:"How we work with you to achieve success" }}</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="process-steps">
+            {% for step in process_steps %}
+            <div class="process-step" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+                <div class="process-number">{{ forloop.counter }}</div>
+                <h3 style="font-family: 'Poppins', sans-serif; color: var(--novyra-deep-blue); margin-bottom: 1rem;">{{ step.title }}</h3>
+                <p style="color: #666;">{{ step.description }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+        {% endwith %}
+    {% endif %}
+{% endfor %}
+{% endif %}
+
+<!-- Stats Section -->
+{% if statistics %}
+<section class="stats-section">
+    <div class="section-container">
+        <div class="stats-grid">
+            {% for stat in statistics %}
+            <div class="stat-item" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+                <h3><i class="{{ stat.icon }}" style="font-size: 2rem; margin-bottom: 0.5rem; display: block;"></i>{{ stat.number }}</h3>
+                <p>{{ stat.label }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Portfolio Section -->
+{% if featured_portfolio %}
+{% with portfolio_section=homepage_sections|first %}
+<section class="portfolio-section">
+    <div class="section-container">
+        <div class="section-header" data-aos="fade-up">
+            {% for section in homepage_sections %}
+                {% if section.section_type == 'portfolio' %}
+                <h2>{{ section.title|default:"Featured Work" }}</h2>
+                <p>{{ section.subtitle|default:"Explore some of our successful projects and campaigns" }}</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="portfolio-grid">
+            {% for item in featured_portfolio %}
+            <div class="portfolio-card" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+                <a href="{% url 'website:portfolio_detail' item.slug %}" style="text-decoration: none; color: inherit;">
+                    <div class="portfolio-image">
+                        {% if item.featured_image|has_file %}
+                            <img src="{{ item.featured_image.url }}" alt="{{ item.title }}">
+                        {% else %}
+                            <i class="fas fa-briefcase" style="display: flex; align-items: center; justify-content: center; height: 100%; color: white; font-size: 3rem;"></i>
+                        {% endif %}
+                    </div>
+                    <div class="portfolio-content">
+                        <h3 style="font-family: 'Poppins', sans-serif; font-size: 1.3rem; font-weight: 700; color: var(--novyra-deep-blue); margin-bottom: 0.5rem;">{{ item.title }}</h3>
+                        <p style="color: #666; font-size: 0.9rem;">{{ item.short_description|truncatewords:20 }}</p>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="{% url 'website:portfolio_list' %}" class="btn-outline">View All Portfolio</a>
+        </div>
+    </div>
+</section>
+{% endwith %}
+{% endif %}
+
+<!-- Team Section -->
+{% if team_members %}
+{% with team_section=homepage_sections|first %}
+<section class="team-section">
+    <div class="section-container">
+        <div class="section-header" data-aos="fade-up">
+            {% for section in homepage_sections %}
+                {% if section.section_type == 'team' %}
+                <h2>{{ section.title|default:"Our Team" }}</h2>
+                <p>{{ section.subtitle|default:"Meet the experts behind Novyra Marketing" }}</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="team-grid">
+            {% for member in team_members %}
+            <div class="team-card" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}" style="background: white; border-radius: 20px; padding: 2rem; box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08); transition: var(--transition); text-align: center; border: 1px solid #e2e8f0;">
+                <div class="team-photo" style="width: 150px; height: 150px; border-radius: 50%; margin: 0 auto 1.5rem; background: linear-gradient(135deg, var(--novyra-deep-blue), var(--novyra-gold)); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; font-weight: 700; overflow: hidden; border: 4px solid white; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);">
+                    {% if member.photo|has_file %}
+                        <img src="{{ member.photo.url }}" alt="{{ member.name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                    {% else %}
+                        {{ member.get_initials }}
+                    {% endif %}
+                </div>
+                <h3 style="font-family: 'Poppins', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--novyra-deep-blue); margin-bottom: 0.5rem;">{{ member.name }}</h3>
+                <p style="color: var(--novyra-deep-blue); font-weight: 600; font-size: 1rem; margin-bottom: 1rem;">{{ member.position }}</p>
+                <span style="display: inline-block; background: rgba(68, 182, 105, 0.1); color: #44b669; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; margin-bottom: 1rem;">Active</span>
+                {% if member.bio %}
+                <p style="color: #666; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem; text-align: left;">{{ member.bio|truncatewords:30 }}</p>
+                {% endif %}
+                <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #e2e8f0;">
+                    {% if member.linkedin_url %}
+                    <a href="{{ member.linkedin_url }}" target="_blank" style="color: var(--novyra-deep-blue); font-size: 1.2rem; transition: var(--transition);" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'"><i class="fab fa-linkedin-in"></i></a>
+                    {% endif %}
+                    {% if member.twitter_url %}
+                    <a href="{{ member.twitter_url }}" target="_blank" style="color: var(--novyra-deep-blue); font-size: 1.2rem; transition: var(--transition);" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'" title="X">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle;">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                        </svg>
+                    </a>
+                    {% endif %}
+                    {% if member.email %}
+                    <a href="mailto:{{ member.email }}" style="color: var(--novyra-deep-blue); font-size: 1.2rem; transition: var(--transition);" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'"><i class="fas fa-envelope"></i></a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endwith %}
+{% endif %}
+
+<!-- Testimonials Section -->
+{% if testimonials %}
+{% with testimonials_section=homepage_sections|first %}
+<section class="testimonials-section">
+    <div class="section-container">
+        <div class="section-header" data-aos="fade-up">
+            {% for section in homepage_sections %}
+                {% if section.section_type == 'testimonials' %}
+                <h2>{{ section.title|default:"What Our Clients Say" }}</h2>
+                <p>{{ section.subtitle|default:"Don't just take our word for it" }}</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="testimonials-grid">
+            {% for testimonial in testimonials %}
+            <div class="testimonial-card" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+                <div class="testimonial-rating">
+                    {% for i in "12345"|make_list %}
+                        {% if forloop.counter <= testimonial.rating %}
+                            <i class="fas fa-star"></i>
+                        {% else %}
+                            <i class="far fa-star"></i>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <p style="font-style: italic; color: #666; line-height: 1.8; margin-bottom: 1rem;">"{{ testimonial.testimonial_text }}"</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-photo">
+                        {% if testimonial.client_photo|has_file %}
+                            <img src="{{ testimonial.client_photo.url }}" alt="{{ testimonial.client_name }}">
+                        {% else %}
+                            {{ testimonial.client_name|slice:":2"|upper }}
+                        {% endif %}
+                    </div>
+                    <div>
+                        <strong style="color: var(--novyra-deep-blue);">{{ testimonial.client_name }}</strong>
+                        {% if testimonial.client_position %}
+                        <p style="color: #666; font-size: 0.9rem; margin: 0;">{{ testimonial.client_position }}{% if testimonial.company %}, {{ testimonial.company }}{% endif %}</p>
+                        {% elif testimonial.company %}
+                        <p style="color: #666; font-size: 0.9rem; margin: 0;">{{ testimonial.company }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endwith %}
+{% endif %}
+
+<!-- Consultation Section -->
+{% if consultation %}
+<section class="consultation-section" {% if consultation.background_image|has_file %}style="background-image: url('{{ consultation.background_image.url }}'); background-size: cover; background-position: center;"{% endif %}>
+    <div class="section-container">
+        <div data-aos="fade-up">
+            <h2>{{ consultation.title|default:"Ready to Grow Your Business?" }}</h2>
+            {% if consultation.subtitle %}
+            <p style="font-size: 1.2rem; margin-bottom: 1.5rem; opacity: 0.95;">{{ consultation.subtitle }}</p>
+            {% endif %}
+            {% if consultation.description %}
+            <div style="font-size: 1.1rem; margin-bottom: 2rem; opacity: 0.9;">{{ consultation.description|safe }}</div>
+            {% endif %}
+            <a href="{% url 'website:contact' %}" class="btn-primary" style="background: var(--novyra-gold); color: var(--novyra-black);">{{ consultation.button_text|default:"Get Started" }}</a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- FAQ Section -->
+{% if faqs %}
+{% with faq_section=homepage_sections|first %}
+<section class="faq-section">
+    <div class="section-container">
+        <div class="section-header" data-aos="fade-up">
+            {% for section in homepage_sections %}
+                {% if section.section_type == 'faq' %}
+                <h2>{{ section.title|default:"Frequently Asked Questions" }}</h2>
+                <p>{{ section.subtitle|default:"Everything you need to know" }}</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="faq-container">
+            {% for faq in faqs %}
+            <div class="faq-item" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+                <div class="faq-question">
+                    <span>{{ faq.question }}</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    {{ faq.answer|safe }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endwith %}
+{% endif %}
+
+<!-- Blog Preview -->
+{% if recent_posts %}
+{% with blog_section=homepage_sections|first %}
+<section class="blog-section" style="padding: 6rem 0; background: var(--novyra-white);">
+    <div class="section-container">
+        <div class="section-header" data-aos="fade-up">
+            {% for section in homepage_sections %}
+                {% if section.section_type == 'blog' %}
+                <h2>{{ section.title|default:"Latest Insights" }}</h2>
+                <p>{{ section.subtitle|default:"Stay updated with our latest marketing tips and strategies" }}</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="blog-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem;">
+            {% for post in recent_posts %}
+            <div class="blog-card" style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08); transition: var(--transition);" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+                <a href="{% url 'website:blog_detail' post.slug %}" style="text-decoration: none; color: inherit;">
+                    <div class="blog-image" style="height: 200px; background: linear-gradient(135deg, var(--novyra-deep-blue), var(--novyra-gold));">
+                        {% if post.featured_image|has_file %}
+                            <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" style="width: 100%; height: 100%; object-fit: cover;">
+                        {% else %}
+                            <i class="fas fa-blog" style="display: flex; align-items: center; justify-content: center; height: 100%; color: white; font-size: 3rem;"></i>
+                        {% endif %}
+                    </div>
+                    <div class="blog-content" style="padding: 1.5rem;">
+                        <div class="blog-meta" style="display: flex; gap: 1rem; font-size: 0.85rem; color: #999; margin-bottom: 0.75rem;">
+                            <span><i class="far fa-calendar"></i> {{ post.created_at|date:"M d, Y" }}</span>
+                        </div>
+                        <h3 style="font-family: 'Poppins', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--novyra-deep-blue); margin-bottom: 0.75rem;">{{ post.title }}</h3>
+                        <p style="color: #666; font-size: 0.95rem;">{{ post.excerpt|truncatewords:20|default:post.content|striptags|truncatewords:20 }}</p>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="{% url 'website:blog_list' %}" class="btn-outline">View All Blog Posts</a>
+        </div>
+    </div>
+</section>
+{% endwith %}
+{% endif %}
+
+<!-- Video Section -->
+{% if videos %}
+<section class="video-section" style="padding: 6rem 0; background: var(--novyra-white);">
+    <div class="section-container">
+        {% for video in videos %}
+        <div class="section-header" data-aos="fade-up">
+            {% if video.title %}
+            <h2>{{ video.title }}</h2>
+            {% endif %}
+            {% if video.description %}
+            <p>{{ video.description }}</p>
+            {% endif %}
+        </div>
+        <div class="video-wrapper" style="max-width: 900px; margin: 3rem auto; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 20px; box-shadow: 0 10px 50px rgba(0, 6, 177, 0.2);" data-aos="fade-up" data-aos-delay="200">
+            <iframe src="{{ video.get_embed_url }}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<!-- Pricing Section -->
+{% if pricing_packages %}
+<section class="pricing-section" style="padding: 6rem 0; background: linear-gradient(135deg, #0006B1 0%, #0015E8 100%); position: relative; overflow: hidden;">
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; pointer-events: none; z-index: 0; background-image: repeating-linear-gradient(0deg, transparent, transparent 20px, rgba(255,255,255,0.05) 20px, rgba(255,255,255,0.05) 21px), repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(255,255,255,0.05) 20px, rgba(255,255,255,0.05) 21px);"></div>
+    <div class="section-container" style="position: relative; z-index: 1;">
+        <div class="section-header" data-aos="fade-up" style="text-align: center; color: white; margin-bottom: 4rem;">
+            <h2 style="color: white; font-size: 3rem; margin-bottom: 1rem;">Our Pricing Packages</h2>
+            <p style="font-size: 1.2rem; opacity: 0.9;">Choose the perfect plan for your business needs</p>
+        </div>
+        <div class="pricing-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto;">
+            {% for package in pricing_packages %}
+            <div class="pricing-card {% if package.is_featured %}featured{% endif %}" style="background: white; border-radius: 20px; padding: 2.5rem; position: relative; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1); transition: var(--transition);" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+                {% if package.is_featured %}
+                <div style="position: absolute; top: -15px; right: 20px; background: var(--novyra-gold); color: var(--novyra-black); padding: 0.5rem 1.5rem; border-radius: 25px; font-weight: 700; font-size: 0.9rem; box-shadow: 0 5px 15px rgba(207, 181, 59, 0.3);">
+                    MOST POPULAR
+                </div>
+                {% endif %}
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <h3 style="color: var(--novyra-deep-blue); font-size: 1.8rem; font-weight: 700; margin-bottom: 1rem;">{{ package.name }}</h3>
+                    <div style="font-size: 2.5rem; font-weight: 700; color: var(--novyra-deep-blue); margin: 1.5rem 0;">
+                        {{ package.get_display_price }}
+                    </div>
+                </div>
+                <ul style="list-style: none; padding: 0; margin: 2rem 0;">
+                    {% for feature in package.features %}
+                    <li style="padding: 0.75rem 0; border-bottom: 1px solid #f0f0f0; display: flex; align-items: start; gap: 0.75rem;">
+                        <i class="fas fa-check-circle" style="color: var(--novyra-gold); font-size: 1.2rem; margin-top: 0.2rem; flex-shrink: 0;"></i>
+                        <span style="color: #333; line-height: 1.6;">{{ feature }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <a href="{% url 'website:contact' %}" class="btn-primary" style="width: 100%; text-align: center; display: block; margin-top: 2rem; {% if package.is_featured %}background: var(--novyra-gold); color: var(--novyra-black);{% else %}background: var(--novyra-deep-blue); color: white;{% endif %}">
+                    Get Started
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+
+<script>
+// FAQ Accordion
+document.querySelectorAll('.faq-question').forEach(question => {
+    question.addEventListener('click', function() {
+        const answer = this.nextElementSibling;
+        const icon = this.querySelector('i');
+        const item = this.parentElement;
+        
+        // Close all other FAQs
+        document.querySelectorAll('.faq-item').forEach(otherItem => {
+            if (otherItem !== item) {
+                otherItem.querySelector('.faq-answer').style.display = 'none';
+                otherItem.querySelector('.faq-question i').classList.remove('fa-chevron-up');
+                otherItem.querySelector('.faq-question i').classList.add('fa-chevron-down');
+            }
+        });
+        
+        // Toggle current FAQ
+        if (answer.style.display === 'block') {
+            answer.style.display = 'none';
+            icon.classList.remove('fa-chevron-up');
+            icon.classList.add('fa-chevron-down');
+        } else {
+            answer.style.display = 'block';
+            icon.classList.remove('fa-chevron-down');
+            icon.classList.add('fa-chevron-up');
+        }
+    });
+});
+</script>
+{% endblock %}
+

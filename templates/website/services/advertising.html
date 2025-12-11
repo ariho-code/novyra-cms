@@ -1,0 +1,160 @@
+{% extends 'website/base.html' %}
+{% load static %}
+
+{% block title %}Paid Advertising - Novyra Marketing{% endblock %}
+
+{% block extra_css %}
+<style>
+    .service-hero {
+        background: linear-gradient(135deg, var(--novyra-deep-blue), #0015E8);
+        color: var(--novyra-white);
+        padding: 6rem 0 4rem;
+    }
+
+    .service-hero h1 {
+        font-family: 'Poppins', sans-serif;
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        font-weight: 900;
+        margin-bottom: 1rem;
+    }
+
+    .service-content {
+        padding: 4rem 0;
+        background: var(--novyra-white);
+    }
+
+    .section-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .service-intro {
+        font-size: 1.3rem;
+        color: #666;
+        line-height: 1.8;
+        margin-bottom: 3rem;
+    }
+
+    .platforms-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin: 3rem 0;
+    }
+
+    .platform-card {
+        background: #f8f9fa;
+        padding: 2.5rem;
+        border-radius: 15px;
+        border-left: 4px solid var(--novyra-gold);
+    }
+
+    .platform-card h3 {
+        font-family: 'Poppins', sans-serif;
+        color: var(--novyra-deep-blue);
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+    }
+
+    .optimization-section {
+        background: linear-gradient(135deg, rgba(0, 6, 177, 0.05), rgba(207, 181, 59, 0.05));
+        padding: 4rem 2rem;
+        border-radius: 20px;
+        margin: 4rem 0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="service-hero">
+    <div class="section-container">
+        <h1 data-aos="fade-up">Paid Advertising (Paid Media)</h1>
+        <p data-aos="fade-up" data-aos-delay="100" style="font-size: 1.2rem; opacity: 0.95;">Complete paid media management for maximum ROI</p>
+    </div>
+</section>
+
+<section class="service-content">
+    <div class="section-container">
+        <div class="service-intro" data-aos="fade-up">
+            <p>Paid advertising is one of the most effective ways to reach your target audience and drive immediate results. At Novyra Marketing, we manage paid ads across Google Ads, Facebook/Instagram Ads, and LinkedIn Ads. Our comprehensive approach includes audience segmentation, ad copy creation, A/B testing of creatives, and continuous budget optimization to maximize efficiency and ROI.</p>
+        </div>
+
+        <h2 style="font-family: 'Poppins', sans-serif; font-size: 2.5rem; color: var(--novyra-deep-blue); margin: 3rem 0 2rem;" data-aos="fade-up">Platforms We Manage</h2>
+        
+        <div class="platforms-grid" data-aos="fade-up">
+            <div class="platform-card">
+                <h3><i class="fab fa-google" style="color: var(--novyra-gold); margin-right: 0.5rem;"></i> Google Ads</h3>
+                <p>Search and display advertising on Google's network. We create and optimize campaigns for search, display, shopping, and YouTube to drive qualified traffic and conversions.</p>
+            </div>
+            <div class="platform-card">
+                <h3><i class="fab fa-facebook" style="color: var(--novyra-gold); margin-right: 0.5rem;"></i> Facebook & Instagram Ads</h3>
+                <p>Social media advertising on Meta platforms. We leverage advanced targeting options to reach your ideal customers with compelling ad creatives and strategic placements.</p>
+            </div>
+            <div class="platform-card">
+                <h3><i class="fab fa-linkedin" style="color: var(--novyra-gold); margin-right: 0.5rem;"></i> LinkedIn Ads</h3>
+                <p>B2B advertising on LinkedIn. We target professionals and decision-makers with sponsored content, message ads, and display ads to generate B2B leads.</p>
+            </div>
+        </div>
+
+        <h2 style="font-family: 'Poppins', sans-serif; font-size: 2.5rem; color: var(--novyra-deep-blue); margin: 3rem 0 2rem;" data-aos="fade-up">Our Services</h2>
+        
+        <div class="platforms-grid" data-aos="fade-up">
+            <div class="platform-card">
+                <h3><i class="fas fa-users" style="color: var(--novyra-gold); margin-right: 0.5rem;"></i> Audience Segmentation</h3>
+                <p>We create detailed audience segments based on demographics, interests, behaviors, and custom audiences to ensure your ads reach the right people.</p>
+            </div>
+            <div class="platform-card">
+                <h3><i class="fas fa-pen" style="color: var(--novyra-gold); margin-right: 0.5rem;"></i> Ad Copy Creation</h3>
+                <p>Compelling ad copy that captures attention and drives action. We write platform-specific copy optimized for each channel's best practices.</p>
+            </div>
+            <div class="platform-card">
+                <h3><i class="fas fa-vial" style="color: var(--novyra-gold); margin-right: 0.5rem;"></i> A/B Testing</h3>
+                <p>Continuous testing of ad creatives, copy, and targeting to identify what works best. We test multiple variations to optimize performance.</p>
+            </div>
+            <div class="platform-card">
+                <h3><i class="fas fa-chart-bar" style="color: var(--novyra-gold); margin-right: 0.5rem;"></i> Budget Optimization</h3>
+                <p>Strategic budget allocation and continuous optimization to maximize ROI. We shift budgets to top-performing campaigns and pause underperformers.</p>
+            </div>
+            <div class="platform-card">
+                <h3><i class="fas fa-bullseye" style="color: var(--novyra-gold); margin-right: 0.5rem;"></i> Campaign Strategy</h3>
+                <p>Comprehensive campaign planning from setup to optimization. We develop strategies aligned with your business goals and target audience.</p>
+            </div>
+            <div class="platform-card">
+                <h3><i class="fas fa-chart-line" style="color: var(--novyra-gold); margin-right: 0.5rem;"></i> Performance Reporting</h3>
+                <p>Regular performance reports with insights and recommendations. We track key metrics and provide actionable insights to improve results.</p>
+            </div>
+        </div>
+
+        <div class="optimization-section" data-aos="fade-up">
+            <h2 style="font-family: 'Poppins', sans-serif; color: var(--novyra-deep-blue); font-size: 2.5rem; margin-bottom: 1.5rem;">Continuous Optimization</h2>
+            <p style="font-size: 1.2rem; color: #666; line-height: 1.8; margin-bottom: 2rem;">We don't just set up campaigns and walk away. Our team continuously monitors performance and optimizes campaigns to ensure maximum efficiency and ROI.</p>
+            <ul style="list-style: none; margin-top: 2rem;">
+                <li style="padding: 1rem 0; font-size: 1.1rem; color: #555; display: flex; align-items: center; gap: 1rem;">
+                    <i class="fas fa-check-circle" style="color: var(--novyra-gold); font-size: 1.5rem;"></i>
+                    <strong>Daily Monitoring:</strong> We monitor campaigns daily to catch issues early
+                </li>
+                <li style="padding: 1rem 0; font-size: 1.1rem; color: #555; display: flex; align-items: center; gap: 1rem;">
+                    <i class="fas fa-check-circle" style="color: var(--novyra-gold); font-size: 1.5rem;"></i>
+                    <strong>Bid Optimization:</strong> Continuous bid adjustments for optimal performance
+                </li>
+                <li style="padding: 1rem 0; font-size: 1.1rem; color: #555; display: flex; align-items: center; gap: 1rem;">
+                    <i class="fas fa-check-circle" style="color: var(--novyra-gold); font-size: 1.5rem;"></i>
+                    <strong>Creative Refresh:</strong> Regular creative updates to prevent ad fatigue
+                </li>
+                <li style="padding: 1rem 0; font-size: 1.1rem; color: #555; display: flex; align-items: center; gap: 1rem;">
+                    <i class="fas fa-check-circle" style="color: var(--novyra-gold); font-size: 1.5rem;"></i>
+                    <strong>Performance Analysis:</strong> Deep-dive analysis to identify optimization opportunities
+                </li>
+            </ul>
+        </div>
+
+        <div style="background: linear-gradient(135deg, var(--novyra-deep-blue), #0015E8); color: white; padding: 3rem; border-radius: 20px; text-align: center; margin-top: 4rem;" data-aos="fade-up">
+            <h2 style="font-family: 'Poppins', sans-serif; margin-bottom: 1rem;">Ready to Maximize Your Advertising ROI?</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem;">Let's create and optimize paid campaigns that drive results for your business.</p>
+            <a href="{% url 'website:contact' %}" class="btn-primary" style="background: var(--novyra-gold); color: var(--novyra-black);">Start Advertising</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+

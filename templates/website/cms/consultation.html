@@ -1,0 +1,95 @@
+{% extends 'website/cms/base_cms.html' %}
+{% load static %}
+
+{% block title %}Consultation Section - Novyra CMS{% endblock %}
+
+{% block content %}
+{% include 'website/cms/modal_base.html' %}
+
+<div class="section" data-aos="fade-up">
+    <div class="cms-header">
+        <h2><i class="fas fa-comments"></i> Consultation Section</h2>
+        <button onclick="loadConsultationForm()" class="btn btn-primary"><i class="fas fa-edit"></i> Edit Section</button>
+    </div>
+
+    <div class="cms-card" style="max-width: 800px; margin: 0 auto;">
+        <div class="cms-card-content">
+            <h3>Current Consultation Section Settings</h3>
+            {% if consultation %}
+            <p><strong>Title:</strong> {{ consultation.title|default:"Not set" }}</p>
+            <p><strong>Subtitle:</strong> {{ consultation.subtitle|default:"Not set" }}</p>
+            <p><strong>Button Text:</strong> {{ consultation.button_text|default:"Not set" }}</p>
+            <p><strong>Status:</strong> {% if consultation.is_active %}Active{% else %}Inactive{% endif %}</p>
+            {% else %}
+            <p>No content set yet. Click "Edit Section" to add content.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+function loadConsultationForm() {
+    const formUrl = `{% url 'website_cms:consultation_update' %}`;
+    const formHTML = getConsultationFormHTML();
+    
+    openModal(
+        'Edit Consultation Section',
+        formHTML,
+        formUrl,
+        'POST'
+    );
+    
+    // Load existing data after modal is opened
+    setTimeout(() => {
+        {% if consultation %}
+        const title = document.getElementById('consultation_title');
+        const subtitle = document.getElementById('consultation_subtitle');
+        const description = document.getElementById('consultation_description');
+        const buttonText = document.getElementById('consultation_button_text');
+        const isActive = document.getElementById('consultation_is_active');
+        
+        if (title) title.value = '{{ consultation.title|default:""|escapejs }}';
+        if (subtitle) subtitle.value = '{{ consultation.subtitle|default:""|escapejs }}';
+        if (description) description.value = '{{ consultation.description|default:""|escapejs }}';
+        if (buttonText) buttonText.value = '{{ consultation.button_text|default:""|escapejs }}';
+        if (isActive) isActive.checked = {{ consultation.is_active|yesno:"true,false" }};
+        {% endif %}
+    }, 100);
+}
+
+function getConsultationFormHTML() {
+    return `
+        <form id="consultationForm" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="form-label">Title</label>
+                <input type="text" name="title" id="consultation_title" class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Subtitle</label>
+                <textarea name="subtitle" id="consultation_subtitle" class="form-control" rows="2"></textarea>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Description</label>
+                <textarea name="description" id="consultation_description" class="form-control" rows="6"></textarea>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Button Text</label>
+                <input type="text" name="button_text" id="consultation_button_text" class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Background Image</label>
+                <input type="file" name="background_image" id="consultation_background_image" class="form-control" accept="image/*">
+            </div>
+            <div class="form-group">
+                <label class="form-check-label">
+                    <input type="checkbox" name="is_active" id="consultation_is_active" class="form-check-input" checked>
+                    Active
+                </label>
+            </div>
+        </form>
+    `;
+}
+</script>
+{% endblock %}
+

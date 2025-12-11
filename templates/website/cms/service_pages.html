@@ -1,0 +1,155 @@
+{% extends 'website/cms/base_cms.html' %}
+{% load static %}
+
+{% block title %}Service Pages - Novyra CMS{% endblock %}
+
+{% block content %}
+{% include 'website/cms/modal_base.html' %}
+
+<div class="section" data-aos="fade-up">
+    <div class="cms-header">
+        <h2><i class="fas fa-briefcase"></i> Service Pages</h2>
+        <button onclick="loadServiceForm()" class="btn btn-primary"><i class="fas fa-plus"></i> Add Service</button>
+    </div>
+
+    <div class="cms-search-bar">
+        <form method="get">
+            <input type="text" name="search" placeholder="Search services..." value="{{ search }}">
+            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
+            {% if search %}<a href="{% url 'website_cms:service_pages' %}" class="btn btn-outline"><i class="fas fa-times"></i> Clear</a>{% endif %}
+        </form>
+    </div>
+
+    {% if services %}
+    <div class="cms-grid">
+        {% for service in services %}
+        <div class="cms-card" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:50 }}">
+            {% if service.hero_background_image %}
+            <img src="{{ service.hero_background_image.url }}" alt="{{ service.title }}" class="cms-card-image">
+            {% endif %}
+            <div class="cms-card-header">
+                <h3 class="cms-card-title">{{ service.title }}</h3>
+                <span class="cms-card-status {% if service.is_active %}status-active{% else %}status-inactive{% endif %}">
+                    {% if service.is_active %}Active{% else %}Inactive{% endif %}
+                </span>
+            </div>
+            <div class="cms-card-content">
+                <p><strong>Slug:</strong> {{ service.slug }}</p>
+                {% if service.hero_subtitle %}
+                <p>{{ service.hero_subtitle|truncatewords:20 }}</p>
+                {% endif %}
+            </div>
+            <div class="cms-card-actions">
+                <button onclick="loadServiceForm({{ service.id }})" class="btn btn-sm btn-outline"><i class="fas fa-edit"></i> Edit</button>
+                <button onclick="deleteService({{ service.id }})" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Delete</button>
+                <a href="{% url 'website:service_detail' service.slug %}" target="_blank" class="btn btn-sm btn-primary"><i class="fas fa-external-link-alt"></i> View</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="cms-empty-state">
+        <i class="fas fa-briefcase"></i>
+        <h3>No service pages found</h3>
+        <button onclick="loadServiceForm()" class="btn btn-primary"><i class="fas fa-plus"></i> Add Service</button>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+function loadServiceForm(serviceId = null) {
+    const url = serviceId 
+        ? `{% url 'website_cms:service_get' 0 %}`.replace('0', serviceId)
+        : null;
+    const formUrl = serviceId
+        ? `{% url 'website_cms:service_update' 0 %}`.replace('0', serviceId)
+        : `{% url 'website_cms:service_create' %}`;
+    
+    openModal(
+        serviceId ? 'Edit Service Page' : 'Add Service Page',
+        getServiceFormHTML(),
+        formUrl,
+        'POST',
+        url
+    );
+}
+
+function getServiceFormHTML() {
+    return `
+        <form id="serviceForm" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="form-label">Title *</label>
+                <input type="text" name="title" id="service_title" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Slug</label>
+                <input type="text" name="slug" id="service_slug" class="form-control" placeholder="auto-generated">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Hero Title</label>
+                <input type="text" name="hero_title" id="service_hero_title" class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Hero Subtitle</label>
+                <textarea name="hero_subtitle" id="service_hero_subtitle" class="form-control" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Hero Background Image</label>
+                <input type="file" name="hero_background_image" id="service_hero_image" class="form-control" accept="image/*">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Intro Text</label>
+                <textarea name="intro_text" id="service_intro_text" class="form-control" rows="4"></textarea>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Main Content</label>
+                <textarea name="main_content" id="service_main_content" class="form-control" rows="6"></textarea>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Features Title</label>
+                <input type="text" name="features_title" id="service_features_title" class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Process Title</label>
+                <input type="text" name="process_title" id="service_process_title" class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="form-label">CTA Title</label>
+                <input type="text" name="cta_title" id="service_cta_title" class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="form-label">CTA Text</label>
+                <textarea name="cta_text" id="service_cta_text" class="form-control" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label class="form-check-label">
+                    <input type="checkbox" name="is_active" id="service_is_active" class="form-check-input" checked>
+                    Active
+                </label>
+            </div>
+        </form>
+    `;
+}
+
+function deleteService(serviceId) {
+    if (confirm('Are you sure you want to delete this service page?')) {
+        fetch(`{% url 'website_cms:service_delete' 0 %}`.replace('0', serviceId), {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken'),
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Error: ' + (data.message || 'Failed to delete'));
+            }
+        });
+    }
+}
+</script>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}Message Detail - Novyra CMS{% endblock %}
+
+{% block content %}
+<div class="section" data-aos="fade-up">
+    <div style="margin-bottom: 2rem;">
+        <a href="{% url 'website_cms:contact_messages' %}" class="btn btn-outline">
+            <i class="fas fa-arrow-left"></i> Back to Messages
+        </a>
+    </div>
+
+    <div class="cms-card" style="max-width: 800px; margin: 0 auto;">
+        <div class="cms-card-header">
+            <div style="flex: 1;">
+                <h2 class="cms-card-title">{{ message.subject|default:"Contact Form Submission" }}</h2>
+                <div style="display: flex; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap;">
+                    <div>
+                        <strong style="color: var(--gray); font-size: 0.9rem;">From:</strong>
+                        <p style="margin: 0.25rem 0 0; font-size: 1.1rem;">{{ message.name }}</p>
+                    </div>
+                    <div>
+                        <strong style="color: var(--gray); font-size: 0.9rem;">Email:</strong>
+                        <p style="margin: 0.25rem 0 0; font-size: 1.1rem;">
+                            <a href="mailto:{{ message.email }}">{{ message.email }}</a>
+                        </p>
+                    </div>
+                    {% if message.phone %}
+                    <div>
+                        <strong style="color: var(--gray); font-size: 0.9rem;">Phone:</strong>
+                        <p style="margin: 0.25rem 0 0; font-size: 1.1rem;">
+                            <a href="tel:{{ message.phone }}">{{ message.phone }}</a>
+                        </p>
+                    </div>
+                    {% endif %}
+                    <div>
+                        <strong style="color: var(--gray); font-size: 0.9rem;">Date:</strong>
+                        <p style="margin: 0.25rem 0 0; font-size: 1.1rem;">{{ message.created_at|date:"F d, Y at H:i" }}</p>
+                    </div>
+                </div>
+            </div>
+            <span class="cms-card-status {% if message.is_read %}status-active{% else %}status-inactive{% endif %}">
+                {% if message.is_read %}Read{% else %}Unread{% endif %}
+            </span>
+        </div>
+
+        <div class="cms-card-content" style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #e2e8f0;">
+            <h3 style="margin-bottom: 1rem; color: var(--dark);">Message:</h3>
+            <div style="background: #f7fafc; padding: 1.5rem; border-radius: 10px; white-space: pre-wrap; line-height: 1.8;">
+                {{ message.message }}
+            </div>
+        </div>
+
+        <div class="cms-card-actions" style="margin-top: 2rem;">
+            <a href="mailto:{{ message.email }}?subject=Re: {{ message.subject }}" class="btn btn-primary">
+                <i class="fas fa-reply"></i> Reply via Email
+            </a>
+            <a href="{% url 'website_cms:contact_messages' %}" class="btn btn-outline">
+                <i class="fas fa-arrow-left"></i> Back to List
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

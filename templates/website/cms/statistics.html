@@ -1,0 +1,118 @@
+{% extends 'website/cms/base_cms.html' %}
+{% load static %}
+
+{% block title %}Statistics - Novyra CMS{% endblock %}
+
+{% block content %}
+{% include 'website/cms/modal_base.html' %}
+
+<div class="section" data-aos="fade-up">
+    <div class="cms-header">
+        <h2><i class="fas fa-chart-line"></i> Statistics</h2>
+        <button onclick="loadStatisticForm()" class="btn btn-primary"><i class="fas fa-plus"></i> Add Statistic</button>
+    </div>
+
+    {% if stats %}
+    <div class="cms-grid">
+        {% for stat in stats %}
+        <div class="cms-card" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:50 }}">
+            <div style="text-align: center;">
+                <div style="font-size: 3rem; font-weight: 900; color: var(--primary); margin-bottom: 0.5rem;">
+                    <i class="{{ stat.icon }}" style="font-size: 2rem; display: block; margin-bottom: 0.5rem;"></i>
+                    {{ stat.number }}
+                </div>
+                <h3 class="cms-card-title" style="text-align: center; margin-bottom: 1rem;">{{ stat.label }}</h3>
+                <span class="cms-card-status {% if stat.is_active %}status-active{% else %}status-inactive{% endif %}">
+                    {% if stat.is_active %}Active{% else %}Inactive{% endif %}
+                </span>
+            </div>
+            <div class="cms-card-actions">
+                <button onclick="loadStatisticForm({{ stat.id }})" class="btn btn-sm btn-outline"><i class="fas fa-edit"></i> Edit</button>
+                <button onclick="deleteStatistic({{ stat.id }})" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Delete</button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="cms-empty-state">
+        <i class="fas fa-chart-line"></i>
+        <h3>No statistics found</h3>
+        <button onclick="loadStatisticForm()" class="btn btn-primary"><i class="fas fa-plus"></i> Add Statistic</button>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+function loadStatisticForm(statId = null) {
+    const title = statId ? 'Edit Statistic' : 'Add New Statistic';
+    const formHtml = `
+        <form id="statisticForm" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="form-label">Number *</label>
+                <input type="text" name="number" id="stat_number" class="form-control" required placeholder="e.g., 500+">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Label *</label>
+                <input type="text" name="label" id="stat_label" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Icon (Font Awesome class)</label>
+                <input type="text" name="icon" id="stat_icon" class="form-control" placeholder="e.g., fas fa-chart-line">
+            </div>
+            <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                    <label class="form-label">Order</label>
+                    <input type="number" name="order" id="stat_order" class="form-control" value="0">
+                </div>
+                <div class="form-group" style="display: flex; align-items: center; padding-top: 2rem;">
+                    <input type="checkbox" name="is_active" id="stat_is_active" class="form-check-input" checked>
+                    <label class="form-check-label" for="stat_is_active">Active</label>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+                <button type="button" class="btn btn-outline" onclick="closeCMSModal()">Cancel</button>
+            </div>
+        </form>
+    `;
+    const submitUrl = statId 
+        ? `/cms/website/statistics/${statId}/update/`
+        : `/cms/website/statistics/create/`;
+    
+    openCMSModal(title, formHtml, 'statisticForm', submitUrl);
+    
+    if (statId) {
+        fetch(`/cms/website/statistics/${statId}/get/`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('stat_number').value = data.number || '';
+                document.getElementById('stat_label').value = data.label || '';
+                document.getElementById('stat_icon').value = data.icon || '';
+                document.getElementById('stat_order').value = data.order || 0;
+                document.getElementById('stat_is_active').checked = data.is_active;
+            });
+    }
+}
+
+function deleteStatistic(statId) {
+    if (confirm('Are you sure you want to delete this statistic?')) {
+        const formData = new FormData();
+        formData.append('csrfmiddlewaretoken', getCookie('csrftoken'));
+        fetch(`/cms/website/statistics/${statId}/delete/`, {
+            method: 'POST',
+            body: formData,
+            headers: {'X-CSRFToken': getCookie('csrftoken')}
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showNotification(data.message, 'success');
+                setTimeout(() => location.reload(), 1000);
+            }
+        });
+    }
+}
+</script>
+{% endblock %}
+

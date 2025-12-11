@@ -1,0 +1,91 @@
+{% load static %}
+<form id="featureForm" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="hidden" name="id" id="feature_id" value="">
+    
+    <div class="form-group">
+        <label class="form-label">Title *</label>
+        <input type="text" name="title" id="feature_title" class="form-control" required>
+    </div>
+    
+    <div class="form-group">
+        <label class="form-label">Description *</label>
+        <textarea name="description" id="feature_description" class="form-control" rows="4" required></textarea>
+    </div>
+    
+    <div class="form-group">
+        <label class="form-label">Icon (Font Awesome class)</label>
+        <input type="text" name="icon" id="feature_icon" class="form-control" placeholder="e.g., fas fa-star">
+        <small style="color: var(--gray); display: block; margin-top: 0.5rem;">Example: fas fa-star, fas fa-check-circle</small>
+    </div>
+    
+    <div class="form-group">
+        <label class="form-label">Image</label>
+        <input type="file" name="image" id="feature_image" class="form-control" accept="image/*">
+        <div id="feature_image_preview" style="margin-top: 0.5rem;"></div>
+    </div>
+    
+    <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <div class="form-group">
+            <label class="form-label">Order</label>
+            <input type="number" name="order" id="feature_order" class="form-control" value="0">
+        </div>
+        <div class="form-group" style="display: flex; align-items: center; padding-top: 2rem;">
+            <input type="checkbox" name="is_active" id="feature_is_active" class="form-check-input" checked>
+            <label class="form-check-label" for="feature_is_active">Active</label>
+        </div>
+    </div>
+    
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save"></i> Save Feature
+        </button>
+        <button type="button" class="btn btn-outline" onclick="closeCMSModal()">
+            Cancel
+        </button>
+    </div>
+</form>
+
+<script>
+function loadFeatureForm(featureId = null) {
+    const title = featureId ? 'Edit Feature' : 'Add New Feature';
+    const formHtml = `{% include 'website/cms/feature_form_modal.html' %}`;
+    const submitUrl = featureId 
+        ? `{% url 'website_cms:feature_update' 0 %}`.replace('0', featureId)
+        : `{% url 'website_cms:feature_create' %}`;
+    
+    openCMSModal(title, formHtml, 'featureForm', submitUrl);
+    
+    if (featureId) {
+        // Load existing data
+        fetch(`{% url 'website_cms:feature_get' 0 %}`.replace('0', featureId))
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('feature_id').value = data.id;
+                document.getElementById('feature_title').value = data.title || '';
+                document.getElementById('feature_description').value = data.description || '';
+                document.getElementById('feature_icon').value = data.icon || '';
+                document.getElementById('feature_order').value = data.order || 0;
+                document.getElementById('feature_is_active').checked = data.is_active;
+                if (data.image_url) {
+                    document.getElementById('feature_image_preview').innerHTML = 
+                        `<img src="${data.image_url}" style="max-width: 200px; border-radius: 10px; margin-top: 0.5rem;">`;
+                }
+            });
+    }
+    
+    // Image preview
+    document.getElementById('feature_image').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('feature_image_preview').innerHTML = 
+                    `<img src="${e.target.result}" style="max-width: 200px; border-radius: 10px; margin-top: 0.5rem;">`;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+}
+</script>
+

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Edit User - Novyra CMS{% endblock %}
+
+{% block content %}
+<div class="section" data-aos="fade-up">
+    <div class="section-header">
+        <h2>Edit User</h2>
+    </div>
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h3 style="margin-bottom: 1rem; color: var(--primary);">User Information</h3>
+        {{ user_form|crispy }}
+        
+        <h3 style="margin: 2rem 0 1rem 0; color: var(--primary);">Profile Information</h3>
+        {{ profile_form|crispy }}
+        
+        <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <a href="{% url 'accounts:list' %}" class="btn btn-outline">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+

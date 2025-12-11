@@ -1,0 +1,193 @@
+{% extends 'website/cms/base_cms.html' %}
+{% load static %}
+
+{% block title %}Team Members - Novyra CMS{% endblock %}
+
+{% block content %}
+{% include 'website/cms/modal_base.html' %}
+
+<div class="section" data-aos="fade-up">
+    <div class="cms-header">
+        <h2><i class="fas fa-users"></i> Team Members</h2>
+        <button onclick="loadTeamMemberForm()" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Add Team Member
+        </button>
+    </div>
+
+    <div class="cms-search-bar">
+        <form method="get">
+            <input type="text" name="search" placeholder="Search team members..." value="{{ search }}">
+            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
+            {% if search %}<a href="{% url 'website_cms:team_members' %}" class="btn btn-outline"><i class="fas fa-times"></i> Clear</a>{% endif %}
+        </form>
+    </div>
+
+    {% if members %}
+    <div class="cms-grid">
+        {% for member in members %}
+        <div class="cms-card" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:50 }}">
+            <div style="text-align: center; margin-bottom: 1rem;">
+                {% if member.photo %}
+                <img src="{{ member.photo.url }}" alt="{{ member.name }}" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin: 0 auto;">
+                {% else %}
+                <div style="width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--secondary)); display: flex; align-items: center; justify-content: center; color: white; font-size: 2.5rem; font-weight: 700; margin: 0 auto;">
+                    {{ member.get_initials }}
+                </div>
+                {% endif %}
+            </div>
+            <div class="cms-card-header" style="flex-direction: column; align-items: center;">
+                <h3 class="cms-card-title" style="text-align: center;">{{ member.name }}</h3>
+                <p style="color: var(--primary); font-weight: 600; margin: 0.5rem 0;">{{ member.position }}</p>
+                <span class="cms-card-status {% if member.is_active %}status-active{% else %}status-inactive{% endif %}">
+                    {% if member.is_active %}Active{% else %}Inactive{% endif %}
+                </span>
+            </div>
+            {% if member.bio %}
+            <div class="cms-card-content">
+                <p>{{ member.bio|truncatewords:20 }}</p>
+            </div>
+            {% endif %}
+            <div style="display: flex; gap: 0.75rem; justify-content: center; margin: 1rem 0;">
+                {% if member.linkedin_url %}<a href="{{ member.linkedin_url }}" target="_blank" style="color: var(--primary);"><i class="fab fa-linkedin-in"></i></a>{% endif %}
+                {% if member.twitter_url %}<a href="{{ member.twitter_url }}" target="_blank" style="color: var(--primary);" title="X">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle;">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                </a>{% endif %}
+                {% if member.email %}<a href="mailto:{{ member.email }}" style="color: var(--primary);"><i class="fas fa-envelope"></i></a>{% endif %}
+            </div>
+            <div class="cms-card-actions">
+                <button onclick="loadTeamMemberForm({{ member.id }})" class="btn btn-sm btn-outline"><i class="fas fa-edit"></i> Edit</button>
+                <button onclick="deleteTeamMember({{ member.id }})" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Delete</button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% if members.has_other_pages %}
+    <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 0.5rem;">
+        {% if members.has_previous %}<a href="?page={{ members.previous_page_number }}{% if search %}&search={{ search }}{% endif %}" class="btn btn-outline"><i class="fas fa-chevron-left"></i> Previous</a>{% endif %}
+        <span style="padding: 0.7rem 1.5rem; background: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);">Page {{ members.number }} of {{ members.paginator.num_pages }}</span>
+        {% if members.has_next %}<a href="?page={{ members.next_page_number }}{% if search %}&search={{ search }}{% endif %}" class="btn btn-outline">Next <i class="fas fa-chevron-right"></i></a>{% endif %}
+    </div>
+    {% endif %}
+    {% else %}
+    <div class="cms-empty-state">
+        <i class="fas fa-users"></i>
+        <h3>No team members found</h3>
+        <button onclick="loadTeamMemberForm()" class="btn btn-primary"><i class="fas fa-plus"></i> Add Team Member</button>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+function loadTeamMemberForm(memberId = null) {
+    const title = memberId ? 'Edit Team Member' : 'Add New Team Member';
+    const formHtml = `
+        <form id="teamMemberForm" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="form-label">Name *</label>
+                <input type="text" name="name" id="team_name" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Position *</label>
+                <input type="text" name="position" id="team_position" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Bio</label>
+                <textarea name="bio" id="team_bio" class="form-control" rows="4"></textarea>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Photo</label>
+                <input type="file" name="photo" id="team_photo" class="form-control" accept="image/*">
+                <div id="team_photo_preview" style="margin-top: 0.5rem;"></div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" name="email" id="team_email" class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="form-label">LinkedIn URL</label>
+                <input type="url" name="linkedin_url" id="team_linkedin" class="form-control" placeholder="https://linkedin.com/in/...">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Twitter URL</label>
+                <input type="url" name="twitter_url" id="team_twitter" class="form-control" placeholder="https://twitter.com/...">
+            </div>
+            <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                    <label class="form-label">Order</label>
+                    <input type="number" name="order" id="team_order" class="form-control" value="0">
+                </div>
+                <div class="form-group" style="display: flex; align-items: center; padding-top: 2rem;">
+                    <input type="checkbox" name="is_active" id="team_is_active" class="form-check-input" checked>
+                    <label class="form-check-label" for="team_is_active">Active</label>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+                <button type="button" class="btn btn-outline" onclick="closeCMSModal()">Cancel</button>
+            </div>
+        </form>
+    `;
+    const submitUrl = memberId 
+        ? `/cms/website/team-members/${memberId}/update/`
+        : `/cms/website/team-members/create/`;
+    
+    openCMSModal(title, formHtml, 'teamMemberForm', submitUrl);
+    
+    if (memberId) {
+        fetch(`/cms/website/team-members/${memberId}/get/`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('team_name').value = data.name || '';
+                document.getElementById('team_position').value = data.position || '';
+                document.getElementById('team_bio').value = data.bio || '';
+                document.getElementById('team_email').value = data.email || '';
+                document.getElementById('team_linkedin').value = data.linkedin_url || '';
+                document.getElementById('team_twitter').value = data.twitter_url || '';
+                document.getElementById('team_order').value = data.order || 0;
+                document.getElementById('team_is_active').checked = data.is_active;
+                if (data.photo_url) {
+                    document.getElementById('team_photo_preview').innerHTML = 
+                        `<img src="${data.photo_url}" style="max-width: 200px; border-radius: 50%; margin-top: 0.5rem;">`;
+                }
+            });
+    }
+    
+    setTimeout(() => {
+        document.getElementById('team_photo').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('team_photo_preview').innerHTML = 
+                        `<img src="${e.target.result}" style="max-width: 200px; border-radius: 50%; margin-top: 0.5rem;">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }, 100);
+}
+
+function deleteTeamMember(memberId) {
+    if (confirm('Are you sure you want to delete this team member?')) {
+        const formData = new FormData();
+        formData.append('csrfmiddlewaretoken', getCookie('csrftoken'));
+        fetch(`/cms/website/team-members/${memberId}/delete/`, {
+            method: 'POST',
+            body: formData,
+            headers: {'X-CSRFToken': getCookie('csrftoken')}
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showNotification(data.message, 'success');
+                setTimeout(() => location.reload(), 1000);
+            }
+        });
+    }
+}
+</script>
+{% endblock %}
+

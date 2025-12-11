@@ -1,0 +1,148 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% load website_tags %}
+
+{% block title %}{{ service.title }} - Novyra Marketing{% endblock %}
+
+{% block extra_css %}
+<style>
+    .service-hero {
+        background: {% if service.hero_background_image|has_file %}url('{{ service.hero_background_image.url }}'){% else %}linear-gradient(135deg, var(--novyra-deep-blue), #0015E8){% endif %};
+        background-size: cover;
+        background-position: center;
+        color: var(--novyra-white);
+        padding: 6rem 0 4rem;
+        position: relative;
+    }
+
+    .service-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: {% if service.hero_background_image|has_file %}rgba(0, 6, 177, 0.8){% else %}transparent{% endif %};
+    }
+
+    .service-hero h1 {
+        font-family: 'Poppins', sans-serif;
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        font-weight: 900;
+        margin-bottom: 1rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .service-content {
+        padding: 4rem 0;
+        background: var(--novyra-white);
+    }
+
+    .section-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .service-intro {
+        font-size: 1.3rem;
+        color: #666;
+        line-height: 1.9;
+        margin-bottom: 3rem;
+    }
+
+    .features-section {
+        margin: 4rem 0;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .feature-card {
+        background: #f8f9fa;
+        padding: 2rem;
+        border-radius: 15px;
+        border-left: 4px solid var(--novyra-gold);
+    }
+
+    .feature-card h3 {
+        font-family: 'Poppins', sans-serif;
+        color: var(--novyra-deep-blue);
+        margin-bottom: 1rem;
+        font-size: 1.3rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .feature-card h3 i {
+        color: var(--novyra-gold);
+    }
+
+    .cta-box {
+        background: linear-gradient(135deg, var(--novyra-deep-blue), #0015E8);
+        color: white;
+        padding: 3rem;
+        border-radius: 20px;
+        text-align: center;
+        margin-top: 4rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="service-hero">
+    <div class="section-container">
+        <h1 data-aos="fade-up">{{ service.hero_title|default:service.title }}</h1>
+        {% if service.hero_subtitle %}
+        <p data-aos="fade-up" data-aos-delay="100" style="font-size: 1.2rem; opacity: 0.95; position: relative; z-index: 1;">{{ service.hero_subtitle }}</p>
+        {% endif %}
+    </div>
+</section>
+
+<section class="service-content">
+    <div class="section-container">
+        {% if service.intro_text %}
+        <div class="service-intro" data-aos="fade-up">
+            {{ service.intro_text|safe }}
+        </div>
+        {% endif %}
+
+        <div data-aos="fade-up">
+            {{ service.main_content|safe }}
+        </div>
+
+        {% if service.features.all %}
+        <div class="features-section" data-aos="fade-up">
+            {% if service.features_title %}
+            <h2 style="font-family: 'Poppins', sans-serif; font-size: 2.5rem; color: var(--novyra-deep-blue); margin-bottom: 1rem;">{{ service.features_title }}</h2>
+            {% endif %}
+            <div class="features-grid">
+                {% for feature in service.features.all %}
+                <div class="feature-card">
+                    <h3><i class="{{ feature.icon }}"></i> {{ feature.title }}</h3>
+                    <p>{{ feature.description }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if service.cta_title %}
+        <div class="cta-box" data-aos="fade-up">
+            <h2 style="font-family: 'Poppins', sans-serif; margin-bottom: 1rem;">{{ service.cta_title }}</h2>
+            {% if service.cta_text %}
+            <p style="font-size: 1.2rem; margin-bottom: 2rem;">{{ service.cta_text }}</p>
+            {% endif %}
+            <a href="{% url 'website:contact' %}" class="btn-primary" style="background: var(--novyra-gold); color: var(--novyra-black);">Get Started Today</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
+

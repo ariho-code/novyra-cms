@@ -1,0 +1,97 @@
+{% extends 'website/cms/base_cms.html' %}
+{% load static %}
+
+{% block title %}Contact Page - Novyra CMS{% endblock %}
+
+{% block content %}
+{% include 'website/cms/modal_base.html' %}
+
+<div class="section" data-aos="fade-up">
+    <div class="cms-header">
+        <h2><i class="fas fa-envelope"></i> Contact Page Content</h2>
+        <button onclick="loadContactForm()" class="btn btn-primary"><i class="fas fa-edit"></i> Edit Content</button>
+    </div>
+
+    <div class="cms-card" style="max-width: 800px; margin: 0 auto;">
+        <div class="cms-card-content">
+            <h3>Current Contact Page Settings</h3>
+            {% if contact_content %}
+            <p><strong>Hero Title:</strong> {{ contact_content.hero_title|default:"Not set" }}</p>
+            <p><strong>Hero Subtitle:</strong> {{ contact_content.hero_subtitle|default:"Not set" }}</p>
+            <p><strong>Address:</strong> {{ contact_content.address|default:"Not set" }}</p>
+            <p><strong>Phone:</strong> {{ contact_content.phone|default:"Not set" }}</p>
+            <p><strong>Business Hours:</strong> {{ contact_content.business_hours|default:"Not set" }}</p>
+            <p><strong>Form Title:</strong> {{ contact_content.form_title|default:"Not set" }}</p>
+            {% else %}
+            <p>No content set yet. Click "Edit Content" to add content.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+function loadContactForm() {
+    const formUrl = `{% url 'website_cms:contact_update' %}`;
+    const formHTML = getContactFormHTML();
+    
+    openModal(
+        'Edit Contact Page Content',
+        formHTML,
+        formUrl,
+        'POST'
+    );
+    
+    // Load existing data after modal is opened
+    setTimeout(() => {
+        {% if contact_content %}
+        const heroTitle = document.getElementById('contact_hero_title');
+        const heroSubtitle = document.getElementById('contact_hero_subtitle');
+        const address = document.getElementById('contact_address');
+        const phone = document.getElementById('contact_phone');
+        const businessHours = document.getElementById('contact_business_hours');
+        const formTitle = document.getElementById('contact_form_title');
+        
+        if (heroTitle) heroTitle.value = '{{ contact_content.hero_title|default:""|escapejs }}';
+        if (heroSubtitle) heroSubtitle.value = '{{ contact_content.hero_subtitle|default:""|escapejs }}';
+        if (address) address.value = '{{ contact_content.address|default:""|escapejs }}';
+        if (phone) phone.value = '{{ contact_content.phone|default:""|escapejs }}';
+        if (businessHours) businessHours.value = '{{ contact_content.business_hours|default:""|escapejs }}';
+        if (formTitle) formTitle.value = '{{ contact_content.form_title|default:""|escapejs }}';
+        {% endif %}
+    }, 100);
+}
+
+function getContactFormHTML() {
+    return `
+        <form id="contactForm" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="form-label">Hero Title</label>
+                <input type="text" name="hero_title" id="contact_hero_title" class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Hero Subtitle</label>
+                <textarea name="hero_subtitle" id="contact_hero_subtitle" class="form-control" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Address</label>
+                <textarea name="address" id="contact_address" class="form-control" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Phone</label>
+                <input type="text" name="phone" id="contact_phone" class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Business Hours</label>
+                <textarea name="business_hours" id="contact_business_hours" class="form-control" rows="4"></textarea>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Form Title</label>
+                <input type="text" name="form_title" id="contact_form_title" class="form-control">
+            </div>
+        </form>
+    `;
+}
+</script>
+{% endblock %}
+

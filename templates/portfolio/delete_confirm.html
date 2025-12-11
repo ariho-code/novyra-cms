@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Delete Portfolio Item - Novyra CMS{% endblock %}
+
+{% block content %}
+<div class="section" data-aos="fade-up">
+    <div class="section-header">
+        <h2>Delete Portfolio Item</h2>
+    </div>
+    
+    <div style="padding: 2rem; text-align: center;">
+        <i class="fas fa-exclamation-triangle" style="font-size: 4rem; color: var(--danger); margin-bottom: 1rem;"></i>
+        <h3 style="margin-bottom: 1rem;">Are you sure you want to delete "{{ item.title }}"?</h3>
+        <p style="color: var(--gray); margin-bottom: 2rem;">This action cannot be undone.</p>
+        
+        <form method="post" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Yes, Delete</button>
+            <a href="{% url 'portfolio:list' %}" class="btn btn-outline">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,242 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Blog Posts - Novyra CMS{% endblock %}
+
+{% block extra_css %}
+<style>
+    .blog-filters {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 15px;
+        margin-bottom: 2rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .blog-filters select,
+    .blog-filters input {
+        padding: 0.75rem 1rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 10px;
+        font-size: 0.95rem;
+        transition: var(--transition);
+    }
+
+    .blog-filters select:focus,
+    .blog-filters input:focus {
+        outline: none;
+        border-color: var(--primary);
+    }
+
+    .blog-card {
+        background: white;
+        border-radius: 15px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        transition: var(--transition);
+        display: flex;
+        gap: 1.5rem;
+    }
+
+    .blog-card:hover {
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+    }
+
+    .blog-image {
+        width: 200px;
+        height: 150px;
+        border-radius: 10px;
+        object-fit: cover;
+        flex-shrink: 0;
+    }
+
+    .blog-content {
+        flex: 1;
+    }
+
+    .blog-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--dark);
+        margin-bottom: 0.5rem;
+        line-height: 1.4;
+    }
+
+    .blog-meta {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+        color: var(--gray);
+    }
+
+    .blog-meta span {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .blog-categories {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin-bottom: 1rem;
+    }
+
+    .category-badge {
+        background: rgba(10, 74, 191, 0.1);
+        color: var(--primary);
+        padding: 0.4rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+    .blog-excerpt {
+        color: var(--gray);
+        line-height: 1.6;
+        margin-bottom: 1rem;
+    }
+
+    .blog-actions {
+        display: flex;
+        gap: 0.75rem;
+    }
+
+    @media (max-width: 768px) {
+        .blog-card {
+            flex-direction: column;
+        }
+        .blog-image {
+            width: 100%;
+            height: 200px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="section" data-aos="fade-up">
+    <div class="section-header">
+        <h2>Blog Posts</h2>
+        <a href="{% url 'blog:create' %}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Add New Post
+        </a>
+    </div>
+    
+    <!-- Filters -->
+    <div class="blog-filters">
+        <form method="get" style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; width: 100%;">
+            <input type="text" name="search" placeholder="Search posts..." value="{{ search_query }}" style="flex: 1; min-width: 200px;">
+            <select name="status" style="min-width: 150px;">
+                <option value="">All Status</option>
+                <option value="published" {% if status_filter == 'published' %}selected{% endif %}>Published</option>
+                <option value="draft" {% if status_filter == 'draft' %}selected{% endif %}>Draft</option>
+                <option value="pending" {% if status_filter == 'pending' %}selected{% endif %}>Pending</option>
+            </select>
+            <select name="category" style="min-width: 150px;">
+                <option value="">All Categories</option>
+                {% for category in categories %}
+                <option value="{{ category.id }}" {% if category_filter == category.id|stringformat:"s" %}selected{% endif %}>{{ category.name }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-search"></i> Filter
+            </button>
+            {% if search_query or status_filter or category_filter %}
+            <a href="{% url 'blog:list' %}" class="btn btn-outline">
+                <i class="fas fa-times"></i> Clear
+            </a>
+            {% endif %}
+        </form>
+    </div>
+    
+    <!-- Blog Posts List -->
+    {% if posts %}
+    <div>
+        {% for post in posts %}
+        <div class="blog-card" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:50 }}">
+            {% if post.featured_image %}
+            <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="blog-image">
+            {% else %}
+            <div class="blog-image" style="background: linear-gradient(135deg, var(--primary), var(--secondary)); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
+                <i class="fas fa-blog"></i>
+            </div>
+            {% endif %}
+            <div class="blog-content">
+                <h3 class="blog-title">{{ post.title }}</h3>
+                <div class="blog-meta">
+                    <span><i class="fas fa-user"></i> {{ post.author.get_full_name|default:post.author.username }}</span>
+                    <span><i class="fas fa-calendar"></i> {{ post.created_at|date:"M d, Y" }}</span>
+                    <span><i class="fas fa-eye"></i> {{ post.views }} views</span>
+                </div>
+                {% if post.categories.all %}
+                <div class="blog-categories">
+                    {% for category in post.categories.all %}
+                    <span class="category-badge">{{ category.name }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                <div class="blog-excerpt">
+                    {{ post.excerpt|default:post.content|striptags|truncatewords:30 }}
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span class="status {{ post.status }}">{{ post.get_status_display }}</span>
+                    <div class="blog-actions">
+                        <a href="{% url 'blog:edit' post.slug %}" class="btn btn-sm btn-outline">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <a href="{% url 'blog:delete' post.slug %}" class="btn btn-sm btn-danger">
+                            <i class="fas fa-trash"></i> Delete
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <!-- Pagination -->
+    {% if posts.has_other_pages %}
+    <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap;">
+        {% if posts.has_previous %}
+            <a href="?page={{ posts.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if category_filter %}&category={{ category_filter }}{% endif %}" class="btn btn-outline">
+                <i class="fas fa-chevron-left"></i> Previous
+            </a>
+        {% endif %}
+        <span style="padding: 0.7rem 1.5rem; background: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); display: flex; align-items: center;">
+            Page {{ posts.number }} of {{ posts.paginator.num_pages }}
+        </span>
+        {% if posts.has_next %}
+            <a href="?page={{ posts.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if category_filter %}&category={{ category_filter }}{% endif %}" class="btn btn-outline">
+                Next <i class="fas fa-chevron-right"></i>
+            </a>
+        {% endif %}
+    </div>
+    {% endif %}
+    {% else %}
+    <div style="text-align: center; padding: 4rem 2rem; background: white; border-radius: 15px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);">
+        <i class="fas fa-blog" style="font-size: 4rem; color: var(--gray); margin-bottom: 1.5rem; display: block; opacity: 0.5;"></i>
+        <h3 style="color: var(--gray); margin-bottom: 1rem;">No blog posts found</h3>
+        <p style="color: var(--gray); margin-bottom: 2rem;">
+            {% if search_query or status_filter or category_filter %}
+            Try adjusting your filters or <a href="{% url 'blog:list' %}">view all posts</a>.
+            {% else %}
+            Get started by creating your first blog post!
+            {% endif %}
+        </p>
+        <a href="{% url 'blog:create' %}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Create Your First Post
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+

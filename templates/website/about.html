@@ -1,0 +1,185 @@
+{% extends 'website/base.html' %}
+{% load static %}
+
+{% block title %}About Us - Novyra Marketing{% endblock %}
+
+{% block extra_css %}
+<style>
+    .about-hero {
+        background: linear-gradient(135deg, var(--novyra-deep-blue), #0015E8);
+        color: var(--novyra-white);
+        padding: 6rem 0 4rem;
+        text-align: center;
+    }
+
+    .about-hero h1 {
+        font-family: 'Poppins', sans-serif;
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        font-weight: 900;
+        margin-bottom: 1rem;
+    }
+
+    .about-content {
+        padding: 4rem 0;
+        background: var(--novyra-white);
+    }
+
+    .section-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .about-intro {
+        font-size: 1.3rem;
+        line-height: 1.9;
+        color: #666;
+        margin-bottom: 4rem;
+        text-align: center;
+    }
+
+    .mission-section {
+        background: linear-gradient(135deg, rgba(0, 6, 177, 0.05), rgba(207, 181, 59, 0.05));
+        padding: 4rem 2rem;
+        border-radius: 20px;
+        margin: 4rem 0;
+        text-align: center;
+    }
+
+    .mission-section h2 {
+        font-family: 'Poppins', sans-serif;
+        color: var(--novyra-deep-blue);
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .mission-section p {
+        font-size: 1.2rem;
+        line-height: 1.9;
+        color: #555;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .values-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin: 4rem 0;
+    }
+
+    .value-card {
+        background: white;
+        padding: 2.5rem;
+        border-radius: 15px;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+        text-align: center;
+        transition: var(--transition);
+    }
+
+    .value-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(0, 6, 177, 0.15);
+    }
+
+    .value-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, rgba(0, 6, 177, 0.1), rgba(207, 181, 59, 0.1));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        color: var(--novyra-deep-blue);
+        margin: 0 auto 1.5rem;
+    }
+
+    .value-card h3 {
+        font-family: 'Poppins', sans-serif;
+        color: var(--novyra-deep-blue);
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+    }
+
+    .value-card p {
+        color: #666;
+        line-height: 1.8;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="about-hero">
+    <div class="section-container">
+        <h1 data-aos="fade-up">{{ about_content.hero_title|default:"About Novyra Marketing" }}</h1>
+        {% if about_content.hero_subtitle %}
+        <p data-aos="fade-up" data-aos-delay="100" style="font-size: 1.2rem; opacity: 0.95;">{{ about_content.hero_subtitle }}</p>
+        {% endif %}
+    </div>
+</section>
+
+<section class="about-content">
+    <div class="section-container">
+        <div class="about-intro" data-aos="fade-up">
+            {{ about_content.intro_text|safe }}
+        </div>
+
+        <div class="mission-section" data-aos="fade-up">
+            <h2>{{ about_content.mission_title|default:"Our Mission" }}</h2>
+            {{ about_content.mission_text|safe }}
+        </div>
+
+        {% if about_content.values_title %}
+        <h2 style="font-family: 'Poppins', sans-serif; font-size: 2.5rem; color: var(--novyra-deep-blue); text-align: center; margin: 4rem 0 2rem;" data-aos="fade-up">{{ about_content.values_title }}</h2>
+        {% endif %}
+
+        {% if about_values %}
+        <div class="values-grid" data-aos="fade-up">
+            {% for value in about_values %}
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="{{ value.icon }}"></i>
+                </div>
+                <h3>{{ value.title }}</h3>
+                <p>{{ value.description }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <h2 style="font-family: 'Poppins', sans-serif; font-size: 2.5rem; color: var(--novyra-deep-blue); text-align: center; margin: 4rem 0 2rem;" data-aos="fade-up">We Work With</h2>
+
+        <div class="values-grid" data-aos="fade-up">
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="fas fa-network-wired"></i>
+                </div>
+                <h3>Advertising Networks</h3>
+                <p>Partnerships with leading ad networks to maximize revenue and user experience.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="fas fa-link"></i>
+                </div>
+                <h3>Affiliate Platforms</h3>
+                <p>Strategic affiliate partnerships that benefit both our audience and partners.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>Partners & Sponsors</h3>
+                <p>Custom partnerships and sponsorships tailored to specific business needs.</p>
+            </div>
+        </div>
+
+        <div style="background: linear-gradient(135deg, var(--novyra-deep-blue), #0015E8); color: white; padding: 4rem 2rem; border-radius: 20px; text-align: center; margin-top: 4rem;" data-aos="fade-up">
+            <h2 style="font-family: 'Poppins', sans-serif; margin-bottom: 1rem;">Ready to Work Together?</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem;">Let's discuss how we can help grow your business</p>
+            <a href="{% url 'website:contact' %}" class="btn-primary" style="background: var(--novyra-gold); color: var(--novyra-black);">Get In Touch</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+

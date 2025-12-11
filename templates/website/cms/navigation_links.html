@@ -1,0 +1,129 @@
+{% extends 'website/cms/base_cms.html' %}
+{% load static %}
+
+{% block title %}Navigation Links - Novyra CMS{% endblock %}
+
+{% block content %}
+{% include 'website/cms/modal_base.html' %}
+
+<div class="section" data-aos="fade-up">
+    <div class="cms-header">
+        <h2><i class="fas fa-link"></i> Navigation Links</h2>
+        <button onclick="loadNavigationLinkForm()" class="btn btn-primary"><i class="fas fa-plus"></i> Add Link</button>
+    </div>
+
+    {% if links %}
+    <div class="cms-grid" style="grid-template-columns: 1fr;">
+        {% for link in links %}
+        <div class="cms-card" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:50 }}">
+            <div class="cms-card-header">
+                <div style="flex: 1;">
+                    <h3 class="cms-card-title">{{ link.title }}</h3>
+                    <p style="color: var(--gray); margin: 0.5rem 0;"><i class="fas fa-link"></i> {{ link.url }}</p>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: end;">
+                    <span class="cms-card-status {% if link.is_active %}status-active{% else %}status-inactive{% endif %}">
+                        {% if link.is_active %}Active{% else %}Inactive{% endif %}
+                    </span>
+                    {% if link.is_external %}
+                    <span style="background: rgba(10, 74, 191, 0.1); color: var(--primary); padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">
+                        External
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="cms-card-content">
+                <p><strong>Order:</strong> {{ link.order }}</p>
+            </div>
+            <div class="cms-card-actions">
+                <button onclick="loadNavigationLinkForm({{ link.id }})" class="btn btn-sm btn-outline"><i class="fas fa-edit"></i> Edit</button>
+                <button onclick="deleteNavigationLink({{ link.id }})" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Delete</button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="cms-empty-state">
+        <i class="fas fa-link"></i>
+        <h3>No navigation links found</h3>
+        <button onclick="loadNavigationLinkForm()" class="btn btn-primary"><i class="fas fa-plus"></i> Add Link</button>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+function loadNavigationLinkForm(linkId = null) {
+    const title = linkId ? 'Edit Navigation Link' : 'Add New Navigation Link';
+    const formHtml = `
+        <form id="navLinkForm" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="form-label">Title *</label>
+                <input type="text" name="title" id="nav_title" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">URL *</label>
+                <input type="text" name="url" id="nav_url" class="form-control" required placeholder="/about/ or https://example.com">
+            </div>
+            <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                    <label class="form-label">Order</label>
+                    <input type="number" name="order" id="nav_order" class="form-control" value="0">
+                </div>
+                <div class="form-group" style="display: flex; flex-direction: column; gap: 0.5rem; padding-top: 1rem;">
+                    <div style="display: flex; align-items: center;">
+                        <input type="checkbox" name="is_external" id="nav_is_external" class="form-check-input">
+                        <label class="form-check-label" for="nav_is_external">External URL</label>
+                    </div>
+                    <div style="display: flex; align-items: center;">
+                        <input type="checkbox" name="is_active" id="nav_is_active" class="form-check-input" checked>
+                        <label class="form-check-label" for="nav_is_active">Active</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+                <button type="button" class="btn btn-outline" onclick="closeCMSModal()">Cancel</button>
+            </div>
+        </form>
+    `;
+    const submitUrl = linkId 
+        ? `/cms/website/navigation-links/${linkId}/update/`
+        : `/cms/website/navigation-links/create/`;
+    
+    openCMSModal(title, formHtml, 'navLinkForm', submitUrl);
+    
+    if (linkId) {
+        fetch(`/cms/website/navigation-links/${linkId}/get/`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('nav_title').value = data.title || '';
+                document.getElementById('nav_url').value = data.url || '';
+                document.getElementById('nav_order').value = data.order || 0;
+                document.getElementById('nav_is_external').checked = data.is_external;
+                document.getElementById('nav_is_active').checked = data.is_active;
+            });
+    }
+}
+
+function deleteNavigationLink(linkId) {
+    if (confirm('Are you sure you want to delete this navigation link?')) {
+        const formData = new FormData();
+        formData.append('csrfmiddlewaretoken', getCookie('csrftoken'));
+        fetch(`/cms/website/navigation-links/${linkId}/delete/`, {
+            method: 'POST',
+            body: formData,
+            headers: {'X-CSRFToken': getCookie('csrftoken')}
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showNotification(data.message, 'success');
+                setTimeout(() => location.reload(), 1000);
+            }
+        });
+    }
+}
+</script>
+{% endblock %}
+

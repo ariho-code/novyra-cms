@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Register - Novyra CMS{% endblock %}
+
+{% block content %}
+<div class="section" data-aos="fade-up" style="max-width: 600px; margin: 0 auto;">
+    <div class="section-header">
+        <h2>Add New User</h2>
+    </div>
+    
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+            <button type="submit" class="btn btn-primary">Create User</button>
+            <a href="{% url 'accounts:list' %}" class="btn btn-outline">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+

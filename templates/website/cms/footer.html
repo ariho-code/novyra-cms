@@ -1,0 +1,69 @@
+{% extends 'website/cms/base_cms.html' %}
+{% load static %}
+
+{% block title %}Footer Content - Novyra CMS{% endblock %}
+
+{% block content %}
+{% include 'website/cms/modal_base.html' %}
+
+<div class="section" data-aos="fade-up">
+    <div class="cms-header">
+        <h2><i class="fas fa-window-minimize"></i> Footer Content</h2>
+        <button onclick="loadFooterForm()" class="btn btn-primary"><i class="fas fa-edit"></i> Edit Footer</button>
+    </div>
+
+    <div class="cms-card" style="max-width: 800px; margin: 0 auto;">
+        <div class="cms-card-content">
+            <h3>Current Footer Settings</h3>
+            {% if footer_content %}
+            <p><strong>About Text:</strong> {{ footer_content.about_text|default:"Not set"|truncatewords:30 }}</p>
+            <p><strong>Copyright Text:</strong> {{ footer_content.copyright_text|default:"Not set" }}</p>
+            {% else %}
+            <p>No content set yet. Click "Edit Footer" to add content.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+function loadFooterForm() {
+    const formUrl = `{% url 'website_cms:footer_update' %}`;
+    const formHTML = getFooterFormHTML();
+    
+    openModal(
+        'Edit Footer Content',
+        formHTML,
+        formUrl,
+        'POST'
+    );
+    
+    // Load existing data after modal is opened
+    setTimeout(() => {
+        {% if footer_content %}
+        const aboutText = document.getElementById('footer_about_text');
+        const copyrightText = document.getElementById('footer_copyright_text');
+        
+        if (aboutText) aboutText.value = '{{ footer_content.about_text|default:""|escapejs }}';
+        if (copyrightText) copyrightText.value = '{{ footer_content.copyright_text|default:""|escapejs }}';
+        {% endif %}
+    }, 100);
+}
+
+function getFooterFormHTML() {
+    return `
+        <form id="footerForm">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="form-label">About Text</label>
+                <textarea name="about_text" id="footer_about_text" class="form-control" rows="4"></textarea>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Copyright Text</label>
+                <input type="text" name="copyright_text" id="footer_copyright_text" class="form-control">
+            </div>
+        </form>
+    `;
+}
+</script>
+{% endblock %}
+

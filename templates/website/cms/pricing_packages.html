@@ -1,0 +1,162 @@
+{% extends 'website/cms/base_cms.html' %}
+{% load static %}
+
+{% block title %}Pricing Packages - Novyra CMS{% endblock %}
+
+{% block content %}
+{% include 'website/cms/modal_base.html' %}
+
+<div class="section" data-aos="fade-up">
+    <div class="cms-header">
+        <h2><i class="fas fa-tags"></i> Pricing Packages</h2>
+        <button onclick="loadPricingForm()" class="btn btn-primary"><i class="fas fa-plus"></i> Add Package</button>
+    </div>
+
+    <div class="cms-search-bar">
+        <form method="get">
+            <input type="text" name="search" placeholder="Search packages..." value="{{ search }}">
+            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
+            {% if search %}<a href="{% url 'website_cms:pricing_packages' %}" class="btn btn-outline"><i class="fas fa-times"></i> Clear</a>{% endif %}
+        </form>
+    </div>
+
+    {% if packages %}
+    <div class="cms-grid">
+        {% for package in packages %}
+        <div class="cms-card {% if package.is_featured %}featured-package{% endif %}" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:50 }}">
+            <div class="cms-card-header">
+                <h3 class="cms-card-title">{{ package.name }}</h3>
+                <div>
+                    {% if package.is_featured %}
+                    <span class="cms-card-status status-featured">Featured</span>
+                    {% endif %}
+                    <span class="cms-card-status {% if package.is_active %}status-active{% else %}status-inactive{% endif %}">
+                        {% if package.is_active %}Active{% else %}Inactive{% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="cms-card-content">
+                <p class="package-price" style="font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 1rem 0;">
+                    {{ package.get_display_price }}
+                </p>
+                <p><strong>Features:</strong></p>
+                <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                    {% for feature in package.features %}
+                    <li>{{ feature }}</li>
+                    {% endfor %}
+                </ul>
+                <p><strong>Order:</strong> {{ package.order }}</p>
+            </div>
+            <div class="cms-card-actions">
+                <button onclick="loadPricingForm({{ package.id }})" class="btn btn-sm btn-outline"><i class="fas fa-edit"></i> Edit</button>
+                <button onclick="deletePricing({{ package.id }})" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Delete</button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="cms-empty-state">
+        <i class="fas fa-tags"></i>
+        <h3>No pricing packages found</h3>
+        <button onclick="loadPricingForm()" class="btn btn-primary"><i class="fas fa-plus"></i> Add Package</button>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+.featured-package {
+    border: 2px solid var(--primary);
+    box-shadow: 0 5px 20px rgba(0, 6, 177, 0.2);
+}
+.status-featured {
+    background: rgba(207, 181, 59, 0.1);
+    color: #CFB53B;
+}
+</style>
+
+<script>
+function loadPricingForm(packageId = null) {
+    const url = packageId 
+        ? `{% url 'website_cms:pricing_get' 0 %}`.replace('0', packageId)
+        : null;
+    const formUrl = packageId
+        ? `{% url 'website_cms:pricing_update' 0 %}`.replace('0', packageId)
+        : `{% url 'website_cms:pricing_create' %}`;
+    
+    openModal(
+        packageId ? 'Edit Pricing Package' : 'Add Pricing Package',
+        getPricingFormHTML(),
+        formUrl,
+        'POST',
+        url
+    );
+}
+
+function getPricingFormHTML() {
+    return `
+        <form id="pricingForm">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="form-label">Package Name *</label>
+                <input type="text" name="name" id="pricing_name" class="form-control" required placeholder="e.g., Basic Package">
+            </div>
+            <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                    <label class="form-label">Price *</label>
+                    <input type="number" name="price" id="pricing_price" class="form-control" step="0.01" required placeholder="30000">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Currency</label>
+                    <input type="text" name="currency" id="pricing_currency" class="form-control" value="₦" maxlength="10">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Billing Period</label>
+                <input type="text" name="billing_period" id="pricing_billing_period" class="form-control" value="month" placeholder="e.g., month, year">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Features * (one per line)</label>
+                <textarea name="features" id="pricing_features" class="form-control" rows="8" required placeholder="SOCIAL MEDIA ACCOUNT SETUP (UP TO 3 PLATFORMS)&#10;3 BRANDED POSTS/MONTH (GRAPHICS + CAPTIONS)&#10;AD ACCOUNT SETUP (FACEBOOK/INSTAGRAM)"></textarea>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Order</label>
+                <input type="number" name="order" id="pricing_order" class="form-control" value="0">
+            </div>
+            <div class="form-group">
+                <label class="form-check-label">
+                    <input type="checkbox" name="is_featured" id="pricing_is_featured" class="form-check-input">
+                    Featured Package
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="form-check-label">
+                    <input type="checkbox" name="is_active" id="pricing_is_active" class="form-check-input" checked>
+                    Active
+                </label>
+            </div>
+        </form>
+    `;
+}
+
+function deletePricing(packageId) {
+    if (confirm('Are you sure you want to delete this pricing package?')) {
+        fetch(`{% url 'website_cms:pricing_delete' 0 %}`.replace('0', packageId), {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken'),
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Error: ' + (data.message || 'Failed to delete'));
+            }
+        });
+    }
+}
+</script>
+{% endblock %}
+

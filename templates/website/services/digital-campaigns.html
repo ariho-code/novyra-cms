@@ -1,0 +1,155 @@
+{% extends 'website/base.html' %}
+{% load static %}
+
+{% block title %}Digital Campaigns - Novyra Marketing{% endblock %}
+
+{% block extra_css %}
+<style>
+    .service-hero {
+        background: linear-gradient(135deg, var(--novyra-deep-blue), #0015E8);
+        color: var(--novyra-white);
+        padding: 6rem 0 4rem;
+    }
+
+    .service-hero h1 {
+        font-family: 'Poppins', sans-serif;
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        font-weight: 900;
+        margin-bottom: 1rem;
+    }
+
+    .service-content {
+        padding: 4rem 0;
+        background: var(--novyra-white);
+    }
+
+    .section-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .service-intro {
+        font-size: 1.3rem;
+        color: #666;
+        line-height: 1.8;
+        margin-bottom: 3rem;
+    }
+
+    .campaign-types {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin: 3rem 0;
+    }
+
+    .campaign-card {
+        background: #f8f9fa;
+        padding: 2.5rem;
+        border-radius: 15px;
+        border-left: 4px solid var(--novyra-gold);
+    }
+
+    .campaign-card h3 {
+        font-family: 'Poppins', sans-serif;
+        color: var(--novyra-deep-blue);
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+    }
+
+    .roi-section {
+        background: linear-gradient(135deg, rgba(0, 6, 177, 0.05), rgba(207, 181, 59, 0.05));
+        padding: 4rem 2rem;
+        border-radius: 20px;
+        margin: 4rem 0;
+    }
+
+    .roi-section h2 {
+        font-family: 'Poppins', sans-serif;
+        color: var(--novyra-deep-blue);
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="service-hero">
+    <div class="section-container">
+        <h1 data-aos="fade-up">Digital Campaigns</h1>
+        <p data-aos="fade-up" data-aos-delay="100" style="font-size: 1.2rem; opacity: 0.95;">Strategic campaign planning and execution for measurable results</p>
+    </div>
+</section>
+
+<section class="service-content">
+    <div class="section-container">
+        <div class="service-intro" data-aos="fade-up">
+            <p>Strategic digital campaigns are the backbone of successful online marketing. At Novyra Marketing, we plan and execute campaigns for lead generation, product launches, and brand awareness across various platforms. Our focus is always on measurable ROI and comprehensive conversion tracking to ensure every campaign delivers tangible results for your business.</p>
+        </div>
+
+        <h2 style="font-family: 'Poppins', sans-serif; font-size: 2.5rem; color: var(--novyra-deep-blue); margin: 3rem 0 2rem;" data-aos="fade-up">Campaign Types</h2>
+        
+        <div class="campaign-types" data-aos="fade-up">
+            <div class="campaign-card">
+                <h3><i class="fas fa-bullseye" style="color: var(--novyra-gold); margin-right: 0.5rem;"></i> Lead Generation</h3>
+                <p>Targeted campaigns designed to capture high-quality leads and build your sales pipeline. We use strategic targeting, compelling offers, and optimized landing pages to maximize conversions.</p>
+            </div>
+            <div class="campaign-card">
+                <h3><i class="fas fa-rocket" style="color: var(--novyra-gold); margin-right: 0.5rem;"></i> Product Launches</h3>
+                <p>Comprehensive launch campaigns that create buzz, generate anticipation, and drive initial sales. We coordinate across multiple channels for maximum impact.</p>
+            </div>
+            <div class="campaign-card">
+                <h3><i class="fas fa-eye" style="color: var(--novyra-gold); margin-right: 0.5rem;"></i> Brand Awareness</h3>
+                <p>Campaigns focused on increasing visibility and recognition. We use strategic messaging and creative content to build brand recall and establish market presence.</p>
+            </div>
+        </div>
+
+        <h2 style="font-family: 'Poppins', sans-serif; font-size: 2.5rem; color: var(--novyra-deep-blue); margin: 3rem 0 2rem;" data-aos="fade-up">Our Approach</h2>
+        
+        <div class="campaign-types" data-aos="fade-up">
+            <div class="campaign-card">
+                <h3><i class="fas fa-chart-line" style="color: var(--novyra-gold); margin-right: 0.5rem;"></i> Data-Driven Strategy</h3>
+                <p>Every campaign starts with comprehensive research and data analysis to identify opportunities and optimize for success.</p>
+            </div>
+            <div class="campaign-card">
+                <h3><i class="fas fa-layer-group" style="color: var(--novyra-gold); margin-right: 0.5rem;"></i> Multi-Platform Execution</h3>
+                <p>We execute campaigns across multiple channels simultaneously for maximum reach and impact, ensuring consistent messaging.</p>
+            </div>
+            <div class="campaign-card">
+                <h3><i class="fas fa-sync-alt" style="color: var(--novyra-gold); margin-right: 0.5rem;"></i> Continuous Optimization</h3>
+                <p>Real-time monitoring and optimization ensure campaigns perform at peak efficiency throughout their lifecycle.</p>
+            </div>
+        </div>
+
+        <div class="roi-section" data-aos="fade-up">
+            <h2>Measurable ROI & Conversion Tracking</h2>
+            <p style="font-size: 1.2rem; color: #666; line-height: 1.8; margin-bottom: 2rem;">We believe in transparency and results. Every campaign includes comprehensive tracking and reporting to measure performance and ROI.</p>
+            <ul style="list-style: none; margin-top: 2rem;">
+                <li style="padding: 1rem 0; font-size: 1.1rem; color: #555; display: flex; align-items: center; gap: 1rem;">
+                    <i class="fas fa-check-circle" style="color: var(--novyra-gold); font-size: 1.5rem;"></i>
+                    <strong>Conversion Tracking:</strong> Set up and monitor conversion events across all touchpoints
+                </li>
+                <li style="padding: 1rem 0; font-size: 1.1rem; color: #555; display: flex; align-items: center; gap: 1rem;">
+                    <i class="fas fa-check-circle" style="color: var(--novyra-gold); font-size: 1.5rem;"></i>
+                    <strong>Performance Analytics:</strong> Detailed reporting on key metrics and KPIs
+                </li>
+                <li style="padding: 1rem 0; font-size: 1.1rem; color: #555; display: flex; align-items: center; gap: 1rem;">
+                    <i class="fas fa-check-circle" style="color: var(--novyra-gold); font-size: 1.5rem;"></i>
+                    <strong>ROI Calculation:</strong> Clear measurement of return on investment
+                </li>
+                <li style="padding: 1rem 0; font-size: 1.1rem; color: #555; display: flex; align-items: center; gap: 1rem;">
+                    <i class="fas fa-check-circle" style="color: var(--novyra-gold); font-size: 1.5rem;"></i>
+                    <strong>Regular Reporting:</strong> Weekly and monthly performance reports
+                </li>
+            </ul>
+        </div>
+
+        <div style="background: linear-gradient(135deg, var(--novyra-deep-blue), #0015E8); color: white; padding: 3rem; border-radius: 20px; text-align: center; margin-top: 4rem;" data-aos="fade-up">
+            <h2 style="font-family: 'Poppins', sans-serif; margin-bottom: 1rem;">Ready to Launch Your Campaign?</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem;">Let's create a campaign that drives measurable results for your business.</p>
+            <a href="{% url 'website:contact' %}" class="btn-primary" style="background: var(--novyra-gold); color: var(--novyra-black);">Start Your Campaign</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+

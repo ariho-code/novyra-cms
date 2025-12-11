@@ -1,0 +1,111 @@
+{% extends 'website/cms/base_cms.html' %}
+{% load static %}
+
+{% block title %}About Page - Novyra CMS{% endblock %}
+
+{% block content %}
+{% include 'website/cms/modal_base.html' %}
+
+<div class="section" data-aos="fade-up">
+    <div class="cms-header">
+        <h2><i class="fas fa-info-circle"></i> About Page Content</h2>
+        <button onclick="loadAboutForm()" class="btn btn-primary"><i class="fas fa-edit"></i> Edit Content</button>
+    </div>
+
+    <div class="cms-card" style="max-width: 800px; margin: 0 auto;">
+        <div class="cms-card-content">
+            <h3>Current About Page Settings</h3>
+            {% if about_content %}
+            <p><strong>Hero Title:</strong> {{ about_content.hero_title|default:"Not set" }}</p>
+            <p><strong>Hero Subtitle:</strong> {{ about_content.hero_subtitle|default:"Not set" }}</p>
+            <p><strong>Mission Title:</strong> {{ about_content.mission_title|default:"Not set" }}</p>
+            <p><strong>Values Title:</strong> {{ about_content.values_title|default:"Not set" }}</p>
+            {% else %}
+            <p>No content set yet. Click "Edit Content" to add content.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div style="margin-top: 2rem;">
+        <a href="{% url 'website_cms:about_values' %}" class="btn btn-outline"><i class="fas fa-list"></i> Manage About Values</a>
+    </div>
+</div>
+
+<script>
+function loadAboutForm() {
+    const formUrl = `{% url 'website_cms:about_update' %}`;
+    const formHTML = getAboutFormHTML();
+    
+    openModal(
+        'Edit About Page Content',
+        formHTML,
+        formUrl,
+        'POST'
+    );
+    
+    // Load existing data after modal is opened
+    setTimeout(() => {
+        {% if about_content %}
+        const heroTitle = document.getElementById('about_hero_title');
+        const heroSubtitle = document.getElementById('about_hero_subtitle');
+        const introText = document.getElementById('about_intro_text');
+        const missionTitle = document.getElementById('about_mission_title');
+        const missionText = document.getElementById('about_mission_text');
+        const valuesTitle = document.getElementById('about_values_title');
+        const ctaTitle = document.getElementById('about_cta_title');
+        const ctaText = document.getElementById('about_cta_text');
+        
+        if (heroTitle) heroTitle.value = '{{ about_content.hero_title|default:""|escapejs }}';
+        if (heroSubtitle) heroSubtitle.value = '{{ about_content.hero_subtitle|default:""|escapejs }}';
+        if (introText) introText.value = '{{ about_content.intro_text|default:""|escapejs }}';
+        if (missionTitle) missionTitle.value = '{{ about_content.mission_title|default:""|escapejs }}';
+        if (missionText) missionText.value = '{{ about_content.mission_text|default:""|escapejs }}';
+        if (valuesTitle) valuesTitle.value = '{{ about_content.values_title|default:""|escapejs }}';
+        if (ctaTitle) ctaTitle.value = '{{ about_content.cta_title|default:""|escapejs }}';
+        if (ctaText) ctaText.value = '{{ about_content.cta_text|default:""|escapejs }}';
+        {% endif %}
+    }, 100);
+}
+
+function getAboutFormHTML() {
+    return `
+        <form id="aboutForm" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="form-label">Hero Title</label>
+                <input type="text" name="hero_title" id="about_hero_title" class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Hero Subtitle</label>
+                <textarea name="hero_subtitle" id="about_hero_subtitle" class="form-control" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Intro Text</label>
+                <textarea name="intro_text" id="about_intro_text" class="form-control" rows="6"></textarea>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Mission Title</label>
+                <input type="text" name="mission_title" id="about_mission_title" class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Mission Text</label>
+                <textarea name="mission_text" id="about_mission_text" class="form-control" rows="6"></textarea>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Values Title</label>
+                <input type="text" name="values_title" id="about_values_title" class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="form-label">CTA Title</label>
+                <input type="text" name="cta_title" id="about_cta_title" class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="form-label">CTA Text</label>
+                <textarea name="cta_text" id="about_cta_text" class="form-control" rows="3"></textarea>
+            </div>
+        </form>
+    `;
+}
+</script>
+{% endblock %}
+

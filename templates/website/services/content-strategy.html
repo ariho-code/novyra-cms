@@ -1,0 +1,136 @@
+{% extends 'website/base.html' %}
+{% load static %}
+
+{% block title %}Content Strategy - Novyra Marketing{% endblock %}
+
+{% block extra_css %}
+<style>
+    .service-hero {
+        background: linear-gradient(135deg, var(--novyra-deep-blue), #0015E8);
+        color: var(--novyra-white);
+        padding: 6rem 0 4rem;
+    }
+
+    .service-hero h1 {
+        font-family: 'Poppins', sans-serif;
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        font-weight: 900;
+        margin-bottom: 1rem;
+    }
+
+    .service-content {
+        padding: 4rem 0;
+        background: var(--novyra-white);
+    }
+
+    .section-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .service-intro {
+        font-size: 1.3rem;
+        color: #666;
+        line-height: 1.8;
+        margin-bottom: 3rem;
+    }
+
+    .content-types {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin: 3rem 0;
+    }
+
+    .content-card {
+        background: #f8f9fa;
+        padding: 2.5rem;
+        border-radius: 15px;
+        border-left: 4px solid var(--novyra-gold);
+    }
+
+    .content-card h3 {
+        font-family: 'Poppins', sans-serif;
+        color: var(--novyra-deep-blue);
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="service-hero">
+    <div class="section-container">
+        <h1 data-aos="fade-up">Content Strategy</h1>
+        <p data-aos="fade-up" data-aos-delay="100" style="font-size: 1.2rem; opacity: 0.95;">High-value content that converts visitors into customers</p>
+    </div>
+</section>
+
+<section class="service-content">
+    <div class="section-container">
+        <div class="service-intro" data-aos="fade-up">
+            <p>Content is the foundation of digital marketing success. At Novyra Marketing, we create high-value content assets that go beyond simple social posts. Our content strategy includes SEO-optimized blog content, video scripts, website copy refinement, and email marketing sequences. Every piece of content we create is designed with one goal in mind: to convert visitors into action.</p>
+        </div>
+
+        <h2 style="font-family: 'Poppins', sans-serif; font-size: 2.5rem; color: var(--novyra-deep-blue); margin: 3rem 0 2rem;" data-aos="fade-up">Content Types We Create</h2>
+        
+        <div class="content-types" data-aos="fade-up">
+            <div class="content-card">
+                <h3><i class="fas fa-blog" style="color: var(--novyra-gold); margin-right: 0.5rem;"></i> SEO-Optimized Blog Content</h3>
+                <p>Strategic blog posts optimized for search engines to drive organic traffic. We research keywords, create comprehensive content, and optimize for both readers and search engines.</p>
+            </div>
+            <div class="content-card">
+                <h3><i class="fas fa-video" style="color: var(--novyra-gold); margin-right: 0.5rem;"></i> Video Scripts</h3>
+                <p>Engaging video scripts for YouTube, social media, and marketing videos. We craft compelling narratives that capture attention and drive engagement.</p>
+            </div>
+            <div class="content-card">
+                <h3><i class="fas fa-globe" style="color: var(--novyra-gold); margin-right: 0.5rem;"></i> Website Copy</h3>
+                <p>Website copy refinement that converts visitors into customers. We optimize headlines, calls-to-action, and page content for maximum conversion rates.</p>
+            </div>
+            <div class="content-card">
+                <h3><i class="fas fa-envelope" style="color: var(--novyra-gold); margin-right: 0.5rem;"></i> Email Marketing Sequences</h3>
+                <p>Automated email sequences that nurture leads and drive conversions. We create welcome series, nurture campaigns, and promotional emails.</p>
+            </div>
+            <div class="content-card">
+                <h3><i class="fas fa-file-alt" style="color: var(--novyra-gold); margin-right: 0.5rem;"></i> Social Media Content</h3>
+                <p>Strategic social media content that engages your audience and drives action. We create platform-specific content optimized for each channel.</p>
+            </div>
+            <div class="content-card">
+                <h3><i class="fas fa-book" style="color: var(--novyra-gold); margin-right: 0.5rem;"></i> E-books & Guides</h3>
+                <p>Comprehensive guides and e-books that establish thought leadership and capture leads. We create valuable resources your audience wants to download.</p>
+            </div>
+        </div>
+
+        <div style="background: linear-gradient(135deg, rgba(0, 6, 177, 0.05), rgba(207, 181, 59, 0.05)); padding: 4rem 2rem; border-radius: 20px; margin: 4rem 0;" data-aos="fade-up">
+            <h2 style="font-family: 'Poppins', sans-serif; color: var(--novyra-deep-blue); font-size: 2.5rem; margin-bottom: 1.5rem;">Conversion-Focused Approach</h2>
+            <p style="font-size: 1.2rem; color: #666; line-height: 1.8; margin-bottom: 2rem;">Every piece of content we create is designed to convert. We use proven copywriting techniques, strategic CTAs, and conversion optimization principles to ensure your content drives action.</p>
+            <ul style="list-style: none; margin-top: 2rem;">
+                <li style="padding: 1rem 0; font-size: 1.1rem; color: #555; display: flex; align-items: center; gap: 1rem;">
+                    <i class="fas fa-check-circle" style="color: var(--novyra-gold); font-size: 1.5rem;"></i>
+                    <strong>Strategic CTAs:</strong> Every piece of content includes clear calls-to-action
+                </li>
+                <li style="padding: 1rem 0; font-size: 1.1rem; color: #555; display: flex; align-items: center; gap: 1rem;">
+                    <i class="fas fa-check-circle" style="color: var(--novyra-gold); font-size: 1.5rem;"></i>
+                    <strong>Conversion Optimization:</strong> Content optimized for maximum conversion rates
+                </li>
+                <li style="padding: 1rem 0; font-size: 1.1rem; color: #555; display: flex; align-items: center; gap: 1rem;">
+                    <i class="fas fa-check-circle" style="color: var(--novyra-gold); font-size: 1.5rem;"></i>
+                    <strong>Audience Research:</strong> Content tailored to your target audience's needs
+                </li>
+                <li style="padding: 1rem 0; font-size: 1.1rem; color: #555; display: flex; align-items: center; gap: 1rem;">
+                    <i class="fas fa-check-circle" style="color: var(--novyra-gold); font-size: 1.5rem;"></i>
+                    <strong>Performance Tracking:</strong> Monitor content performance and optimize based on data
+                </li>
+            </ul>
+        </div>
+
+        <div style="background: linear-gradient(135deg, var(--novyra-deep-blue), #0015E8); color: white; padding: 3rem; border-radius: 20px; text-align: center; margin-top: 4rem;" data-aos="fade-up">
+            <h2 style="font-family: 'Poppins', sans-serif; margin-bottom: 1rem;">Ready to Create Content That Converts?</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem;">Let's develop a content strategy that drives results for your business.</p>
+            <a href="{% url 'website:contact' %}" class="btn-primary" style="background: var(--novyra-gold); color: var(--novyra-black);">Get Started</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+

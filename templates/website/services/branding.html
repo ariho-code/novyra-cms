@@ -1,0 +1,165 @@
+{% extends 'website/base.html' %}
+{% load static %}
+
+{% block title %}Branding Services - Novyra Marketing{% endblock %}
+
+{% block extra_css %}
+<style>
+    .service-hero {
+        background: linear-gradient(135deg, var(--novyra-deep-blue), #0015E8);
+        color: var(--novyra-white);
+        padding: 6rem 0 4rem;
+    }
+
+    .service-hero h1 {
+        font-family: 'Poppins', sans-serif;
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        font-weight: 900;
+        margin-bottom: 1rem;
+    }
+
+    .service-content {
+        padding: 4rem 0;
+        background: var(--novyra-white);
+    }
+
+    .section-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .service-intro {
+        font-size: 1.3rem;
+        color: #666;
+        line-height: 1.8;
+        margin-bottom: 3rem;
+    }
+
+    .branding-services {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin: 3rem 0;
+    }
+
+    .branding-service {
+        background: #f8f9fa;
+        padding: 2.5rem;
+        border-radius: 15px;
+        border-top: 4px solid var(--novyra-gold);
+    }
+
+    .branding-service h3 {
+        font-family: 'Poppins', sans-serif;
+        color: var(--novyra-deep-blue);
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+    }
+
+    .branding-service p {
+        color: #666;
+        line-height: 1.8;
+    }
+
+    .workshop-section {
+        background: linear-gradient(135deg, rgba(0, 6, 177, 0.05), rgba(207, 181, 59, 0.05));
+        padding: 4rem 2rem;
+        border-radius: 20px;
+        margin: 4rem 0;
+    }
+
+    .workshop-section h2 {
+        font-family: 'Poppins', sans-serif;
+        color: var(--novyra-deep-blue);
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .workshop-benefits {
+        list-style: none;
+        margin-top: 2rem;
+    }
+
+    .workshop-benefits li {
+        padding: 1rem 0;
+        font-size: 1.1rem;
+        color: #555;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .workshop-benefits li i {
+        color: var(--novyra-gold);
+        font-size: 1.5rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="service-hero">
+    <div class="section-container">
+        <h1 data-aos="fade-up">Branding Services</h1>
+        <p data-aos="fade-up" data-aos-delay="100" style="font-size: 1.2rem; opacity: 0.95;">Complete brand identity solutions that define and communicate your unique value proposition</p>
+    </div>
+</section>
+
+<section class="service-content">
+    <div class="section-container">
+        <div class="service-intro" data-aos="fade-up">
+            <p>Your brand is more than just a logo—it's the complete identity that communicates who you are, what you stand for, and why customers should choose you. At Novyra Marketing, we focus on delivering tangible brand assets that create lasting impressions. Our branding services include logo design, comprehensive brand style guides with color palettes and typography, tone of voice documentation, and Discovery Workshops to define your brand's unique value proposition.</p>
+        </div>
+
+        <h2 style="font-family: 'Poppins', sans-serif; font-size: 2.5rem; color: var(--novyra-deep-blue); margin: 3rem 0 2rem;" data-aos="fade-up">What We Deliver</h2>
+        
+        <div class="branding-services" data-aos="fade-up">
+            <div class="branding-service">
+                <h3><i class="fas fa-drafting-compass" style="color: var(--novyra-gold); margin-right: 0.5rem;"></i> Logo Design</h3>
+                <p>Professional logo design that captures your brand essence. We create multiple concepts and iterations to ensure your logo is memorable, versatile, and perfectly represents your brand identity.</p>
+            </div>
+            <div class="branding-service">
+                <h3><i class="fas fa-book" style="color: var(--novyra-gold); margin-right: 0.5rem;"></i> Brand Style Guide</h3>
+                <p>Comprehensive brand style guide including color palettes, typography systems, image standards, and usage guidelines. This ensures consistent brand representation across all touchpoints.</p>
+            </div>
+            <div class="branding-service">
+                <h3><i class="fas fa-palette" style="color: var(--novyra-gold); margin-right: 0.5rem;"></i> Color Palette</h3>
+                <p>Strategic color selection that evokes the right emotions and aligns with your brand personality. We provide primary and secondary color palettes with usage guidelines.</p>
+            </div>
+            <div class="branding-service">
+                <h3><i class="fas fa-font" style="color: var(--novyra-gold); margin-right: 0.5rem;"></i> Typography</h3>
+                <p>Carefully selected typefaces that enhance readability and reinforce your brand character. We establish a typography hierarchy for consistent communication.</p>
+            </div>
+            <div class="branding-service">
+                <h3><i class="fas fa-image" style="color: var(--novyra-gold); margin-right: 0.5rem;"></i> Image Standards</h3>
+                <p>Guidelines for photography style, image treatment, and visual elements that maintain brand consistency across all marketing materials.</p>
+            </div>
+            <div class="branding-service">
+                <h3><i class="fas fa-comments" style="color: var(--novyra-gold); margin-right: 0.5rem;"></i> Tone of Voice</h3>
+                <p>Documentation of your brand's communication style, language preferences, and messaging guidelines to ensure consistent brand voice across all content.</p>
+            </div>
+        </div>
+
+        <div class="workshop-section" data-aos="fade-up">
+            <h2>Discovery Workshop</h2>
+            <p style="font-size: 1.2rem; color: #666; line-height: 1.8;">Our Discovery Workshop is a collaborative process designed to uncover your brand's unique value proposition. Through strategic exercises and discussions, we help you define what makes your brand special and how to communicate it effectively.</p>
+            
+            <ul class="workshop-benefits">
+                <li><i class="fas fa-check-circle"></i> <strong>Brand Positioning:</strong> Define your unique position in the market</li>
+                <li><i class="fas fa-check-circle"></i> <strong>Target Audience:</strong> Identify and understand your ideal customers</li>
+                <li><i class="fas fa-check-circle"></i> <strong>Brand Values:</strong> Articulate your core values and principles</li>
+                <li><i class="fas fa-check-circle"></i> <strong>Competitive Analysis:</strong> Understand your competitive landscape</li>
+                <li><i class="fas fa-check-circle"></i> <strong>Brand Personality:</strong> Define how your brand should be perceived</li>
+                <li><i class="fas fa-check-circle"></i> <strong>Value Proposition:</strong> Craft your unique selling proposition</li>
+            </ul>
+        </div>
+
+        <div style="background: linear-gradient(135deg, var(--novyra-deep-blue), #0015E8); color: white; padding: 3rem; border-radius: 20px; text-align: center; margin-top: 4rem;" data-aos="fade-up">
+            <h2 style="font-family: 'Poppins', sans-serif; margin-bottom: 1rem;">Ready to Build Your Brand?</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem;">Let's create a brand identity that truly represents who you are and resonates with your audience.</p>
+            <a href="{% url 'website:contact' %}" class="btn-primary" style="background: var(--novyra-gold); color: var(--novyra-black);">Start Your Brand Journey</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+

@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Settings - Novyra CMS{% endblock %}
+
+{% block content %}
+<div class="section" data-aos="fade-up">
+    <div class="section-header">
+        <h2>Settings</h2>
+    </div>
+    
+    <div class="tabs" style="display: flex; border-bottom: 2px solid #e2e8f0; margin-bottom: 2rem;">
+        <div class="tab {% if active_tab == 'general' %}active{% endif %}" data-tab="general" style="padding: 0.8rem 1.5rem; cursor: pointer; font-weight: 500; color: var(--gray); transition: var(--transition); border-bottom: 2px solid transparent; margin-bottom: -2px;">General</div>
+        <div class="tab {% if active_tab == 'seo' %}active{% endif %}" data-tab="seo" style="padding: 0.8rem 1.5rem; cursor: pointer; font-weight: 500; color: var(--gray); transition: var(--transition); border-bottom: 2px solid transparent; margin-bottom: -2px;">SEO</div>
+        <div class="tab {% if active_tab == 'social' %}active{% endif %}" data-tab="social" style="padding: 0.8rem 1.5rem; cursor: pointer; font-weight: 500; color: var(--gray); transition: var(--transition); border-bottom: 2px solid transparent; margin-bottom: -2px;">Social Media</div>
+        <div class="tab {% if active_tab == 'security' %}active{% endif %}" data-tab="security" style="padding: 0.8rem 1.5rem; cursor: pointer; font-weight: 500; color: var(--gray); transition: var(--transition); border-bottom: 2px solid transparent; margin-bottom: -2px;">Security</div>
+    </div>
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="tab-content {% if active_tab == 'general' %}active{% endif %}" id="general-tab">
+            <h3 style="margin-bottom: 1.5rem; color: var(--primary);">General Settings</h3>
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Site Title</label>
+                    {{ form.site_title }}
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Tagline</label>
+                    {{ form.tagline }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Site Description</label>
+                {{ form.site_description }}
+            </div>
+            <div class="form-group">
+                <label class="form-label">Admin Email</label>
+                {{ form.admin_email }}
+            </div>
+        </div>
+        
+        <div class="tab-content {% if active_tab == 'seo' %}active{% endif %}" id="seo-tab" style="display: none;">
+            <h3 style="margin-bottom: 1.5rem; color: var(--primary);">SEO Settings</h3>
+            <div class="form-group">
+                <label class="form-label">Meta Title</label>
+                {{ form.meta_title }}
+            </div>
+            <div class="form-group">
+                <label class="form-label">Meta Description</label>
+                {{ form.meta_description }}
+            </div>
+            <div class="form-group">
+                <label class="form-label">Keywords</label>
+                {{ form.meta_keywords }}
+            </div>
+        </div>
+        
+        <div class="tab-content {% if active_tab == 'social' %}active{% endif %}" id="social-tab" style="display: none;">
+            <h3 style="margin-bottom: 1.5rem; color: var(--primary);">Social Media Links</h3>
+            <div class="form-group">
+                <label class="form-label">Facebook Handle</label>
+                {{ form.facebook_handle }}
+                <small style="color: var(--gray); display: block; margin-top: 0.5rem;">Enter handle without @ (e.g., novyramarketing)</small>
+            </div>
+            <div class="form-group">
+                <label class="form-label">X (Twitter) Handle</label>
+                {{ form.x_handle }}
+                <small style="color: var(--gray); display: block; margin-top: 0.5rem;">Enter handle without @ (e.g., novyramarketing)</small>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Instagram Handle</label>
+                {{ form.instagram_handle }}
+                <small style="color: var(--gray); display: block; margin-top: 0.5rem;">Enter handle without @ (e.g., novyramarketing)</small>
+            </div>
+            <div class="form-group">
+                <label class="form-label">LinkedIn Handle</label>
+                {{ form.linkedin_handle }}
+                <small style="color: var(--gray); display: block; margin-top: 0.5rem;">Enter handle (e.g., company/novyramarketing)</small>
+            </div>
+            <div class="form-group">
+                <label class="form-label">TikTok Handle</label>
+                {{ form.tiktok_handle }}
+                <small style="color: var(--gray); display: block; margin-top: 0.5rem;">Enter handle without @ (e.g., novyramarketing)</small>
+            </div>
+            <div class="form-group">
+                <label class="form-label">YouTube Handle</label>
+                {{ form.youtube_handle }}
+                <small style="color: var(--gray); display: block; margin-top: 0.5rem;">Enter handle with or without @ (e.g., @novyramarketing)</small>
+            </div>
+            <div class="form-group">
+                <label class="form-label">TikTok URL</label>
+                {{ form.tiktok_url }}
+            </div>
+            <div class="form-group">
+                <label class="form-label">YouTube URL</label>
+                {{ form.youtube_url }}
+            </div>
+        </div>
+        
+        <div class="tab-content {% if active_tab == 'security' %}active{% endif %}" id="security-tab" style="display: none;">
+            <h3 style="margin-bottom: 1.5rem; color: var(--primary);">Security Settings</h3>
+            <div class="form-group">
+                <label class="form-label">Two-Factor Authentication</label>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    {{ form.two_factor_enabled }}
+                    <span>Enable two-factor authentication</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Login Attempts Limit</label>
+                {{ form.login_attempts_limit }}
+                <small style="color: var(--gray); display: block; margin-top: 0.5rem;">Number of failed login attempts before lockout</small>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Session Timeout</label>
+                {{ form.session_timeout }}
+                <small style="color: var(--gray); display: block; margin-top: 0.5rem;">Session timeout in minutes</small>
+            </div>
+        </div>
+        
+        <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+    </form>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', function() {
+        const tabId = this.getAttribute('data-tab');
+        
+        // Remove active class from all tabs
+        document.querySelectorAll('.tab').forEach(t => {
+            t.classList.remove('active');
+            t.style.color = 'var(--gray)';
+            t.style.borderBottomColor = 'transparent';
+        });
+        
+        // Add active class to clicked tab
+        this.classList.add('active');
+        this.style.color = 'var(--primary)';
+        this.style.borderBottomColor = 'var(--primary)';
+        
+        // Hide all tab contents
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.style.display = 'none';
+        });
+        
+        // Show selected tab content
+        document.getElementById(tabId + '-tab').style.display = 'block';
+    });
+});
+
+// Set active tab styling on load
+document.querySelectorAll('.tab').forEach(tab => {
+    if (tab.classList.contains('active')) {
+        tab.style.color = 'var(--primary)';
+        tab.style.borderBottomColor = 'var(--primary)';
+    }
+});
+</script>
+{% endblock %}
+

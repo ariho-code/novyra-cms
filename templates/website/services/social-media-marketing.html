@@ -1,0 +1,206 @@
+{% extends 'website/base.html' %}
+{% load static %}
+
+{% block title %}Social Media Marketing - Novyra Marketing{% endblock %}
+
+{% block extra_css %}
+<style>
+    .service-hero {
+        background: linear-gradient(135deg, var(--novyra-deep-blue), #0015E8);
+        color: var(--novyra-white);
+        padding: 6rem 0 4rem;
+    }
+
+    .service-hero h1 {
+        font-family: 'Poppins', sans-serif;
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        font-weight: 900;
+        margin-bottom: 1rem;
+    }
+
+    .service-content {
+        padding: 4rem 0;
+        background: var(--novyra-white);
+    }
+
+    .section-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .service-intro {
+        font-size: 1.3rem;
+        color: #666;
+        line-height: 1.8;
+        margin-bottom: 3rem;
+    }
+
+    .features-section {
+        margin: 4rem 0;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .feature-card {
+        background: #f8f9fa;
+        padding: 2rem;
+        border-radius: 15px;
+        border-left: 4px solid var(--novyra-gold);
+    }
+
+    .feature-card h3 {
+        font-family: 'Poppins', sans-serif;
+        color: var(--novyra-deep-blue);
+        margin-bottom: 1rem;
+        font-size: 1.3rem;
+    }
+
+    .feature-card p {
+        color: #666;
+        line-height: 1.8;
+    }
+
+    .process-section {
+        background: #f8f9fa;
+        padding: 4rem 0;
+        margin: 4rem 0;
+    }
+
+    .process-steps {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+
+    .process-step {
+        text-align: center;
+        position: relative;
+    }
+
+    .process-number {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, var(--novyra-deep-blue), var(--novyra-gold));
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin: 0 auto 1.5rem;
+    }
+
+    .process-step h3 {
+        font-family: 'Poppins', sans-serif;
+        color: var(--novyra-deep-blue);
+        margin-bottom: 1rem;
+    }
+
+    .cta-box {
+        background: linear-gradient(135deg, var(--novyra-deep-blue), #0015E8);
+        color: white;
+        padding: 3rem;
+        border-radius: 20px;
+        text-align: center;
+        margin-top: 4rem;
+    }
+
+    .cta-box h2 {
+        font-family: 'Poppins', sans-serif;
+        margin-bottom: 1rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="service-hero">
+    <div class="section-container">
+        <h1 data-aos="fade-up">Social Media Marketing</h1>
+        <p data-aos="fade-up" data-aos-delay="100" style="font-size: 1.2rem; opacity: 0.95;">Beyond simple posting. Comprehensive social media management that drives results.</p>
+    </div>
+</section>
+
+<section class="service-content">
+    <div class="section-container">
+        <div class="service-intro" data-aos="fade-up">
+            <p>At Novyra Marketing, we understand that social media marketing goes far beyond simply posting content. Our comprehensive approach covers Instagram, Facebook, and TikTok with strategic daily engagement, community management, custom graphic design, and monthly content calendar approval. Our goal is to drive organic traffic, build measurable follower loyalty, and tell your brand's story effectively.</p>
+        </div>
+
+        <div class="features-section" data-aos="fade-up">
+            <h2 style="font-family: 'Poppins', sans-serif; font-size: 2.5rem; color: var(--novyra-deep-blue); margin-bottom: 1rem;">What We Cover</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3><i class="fas fa-instagram" style="color: var(--novyra-gold); margin-right: 0.5rem;"></i> Instagram Management</h3>
+                    <p>Complete Instagram strategy including feed planning, Stories, Reels, IGTV, and engagement optimization to grow your following organically.</p>
+                </div>
+                <div class="feature-card">
+                    <h3><i class="fas fa-facebook" style="color: var(--novyra-gold); margin-right: 0.5rem;"></i> Facebook Management</h3>
+                    <p>Strategic Facebook content creation, community engagement, and page optimization to build a loyal following and drive traffic.</p>
+                </div>
+                <div class="feature-card">
+                    <h3><i class="fas fa-music" style="color: var(--novyra-gold); margin-right: 0.5rem;"></i> TikTok Strategy</h3>
+                    <p>Trending content creation, hashtag strategy, and viral video production to reach younger demographics and maximize engagement.</p>
+                </div>
+                <div class="feature-card">
+                    <h3><i class="fas fa-users" style="color: var(--novyra-gold); margin-right: 0.5rem;"></i> Community Management</h3>
+                    <p>Daily engagement with your audience, responding to comments and messages, and building genuine relationships with your followers.</p>
+                </div>
+                <div class="feature-card">
+                    <h3><i class="fas fa-paint-brush" style="color: var(--novyra-gold); margin-right: 0.5rem;"></i> Custom Graphic Design</h3>
+                    <p>Professional, on-brand graphics designed specifically for each platform to maximize visual impact and engagement rates.</p>
+                </div>
+                <div class="feature-card">
+                    <h3><i class="fas fa-calendar-alt" style="color: var(--novyra-gold); margin-right: 0.5rem;"></i> Content Calendar</h3>
+                    <p>Monthly content calendar planning and approval process ensuring consistent, strategic posting aligned with your business goals.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="process-section" data-aos="fade-up">
+            <h2 style="font-family: 'Poppins', sans-serif; font-size: 2.5rem; color: var(--novyra-deep-blue); text-align: center; margin-bottom: 1rem;">Our Process</h2>
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="process-number">1</div>
+                    <h3>Discovery</h3>
+                    <p>We learn about your brand, target audience, and business objectives to create a tailored social media strategy.</p>
+                </div>
+                <div class="process-step">
+                    <div class="process-number">2</div>
+                    <h3>Strategy Development</h3>
+                    <p>We create a comprehensive content strategy and calendar aligned with your brand voice and business goals.</p>
+                </div>
+                <div class="process-step">
+                    <div class="process-number">3</div>
+                    <h3>Content Creation</h3>
+                    <p>Our team designs and creates engaging, platform-specific content that resonates with your audience.</p>
+                </div>
+                <div class="process-step">
+                    <div class="process-number">4</div>
+                    <h3>Publishing & Engagement</h3>
+                    <p>We publish content at optimal times and actively engage with your community to build relationships.</p>
+                </div>
+                <div class="process-step">
+                    <div class="process-number">5</div>
+                    <h3>Analysis & Optimization</h3>
+                    <p>We track performance metrics and continuously optimize our strategy to improve results and ROI.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="cta-box" data-aos="fade-up">
+            <h2>Ready to Grow Your Social Media Presence?</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem;">Let's discuss how we can help you build a loyal following and drive measurable results.</p>
+            <a href="{% url 'website:contact' %}" class="btn-primary" style="background: var(--novyra-gold); color: var(--novyra-black);">Get Started Today</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+

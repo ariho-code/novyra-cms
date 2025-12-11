@@ -1,0 +1,156 @@
+{% extends 'website/cms/base_cms.html' %}
+{% load static %}
+
+{% block title %}Videos - Novyra CMS{% endblock %}
+
+{% block content %}
+{% include 'website/cms/modal_base.html' %}
+
+<div class="section" data-aos="fade-up">
+    <div class="cms-header">
+        <h2><i class="fas fa-video"></i> Videos</h2>
+        <button onclick="loadVideoForm()" class="btn btn-primary"><i class="fas fa-plus"></i> Add Video</button>
+    </div>
+
+    {% if videos %}
+    <div class="cms-grid">
+        {% for video in videos %}
+        <div class="cms-card" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:50 }}">
+            {% if video.thumbnail %}
+            <img src="{{ video.thumbnail.url }}" alt="{{ video.title }}" class="cms-card-image">
+            {% else %}
+            <div class="cms-card-image" style="background: linear-gradient(135deg, var(--primary), var(--secondary)); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
+                <i class="fas fa-video"></i>
+            </div>
+            {% endif %}
+            <div class="cms-card-header">
+                <h3 class="cms-card-title">{{ video.title|default:"Untitled Video" }}</h3>
+                <span class="cms-card-status {% if video.is_active %}status-active{% else %}status-inactive{% endif %}">
+                    {% if video.is_active %}Active{% else %}Inactive{% endif %}
+                </span>
+            </div>
+            {% if video.description %}
+            <div class="cms-card-content">
+                <p>{{ video.description|truncatewords:20 }}</p>
+            </div>
+            {% endif %}
+            <div class="cms-card-actions">
+                <button onclick="loadVideoForm({{ video.id }})" class="btn btn-sm btn-outline"><i class="fas fa-edit"></i> Edit</button>
+                <button onclick="deleteVideo({{ video.id }})" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Delete</button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="cms-empty-state">
+        <i class="fas fa-video"></i>
+        <h3>No videos found</h3>
+        <button onclick="loadVideoForm()" class="btn btn-primary"><i class="fas fa-plus"></i> Add Video</button>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+function loadVideoForm(videoId = null) {
+    const title = videoId ? 'Edit Video' : 'Add New Video';
+    const formHtml = `
+        <form id="videoForm" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="form-label">Title</label>
+                <input type="text" name="title" id="video_title" class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Description</label>
+                <textarea name="description" id="video_description" class="form-control" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Video URL (YouTube/Vimeo) *</label>
+                <input type="url" name="video_url" id="video_url" class="form-control" required placeholder="https://www.youtube.com/watch?v=... or https://youtu.be/...">
+                <small style="color: var(--gray); display: block; margin-top: 0.5rem;">
+                    You can paste any YouTube or Vimeo URL. Examples:<br>
+                    • https://www.youtube.com/watch?v=VIDEO_ID<br>
+                    • https://youtu.be/VIDEO_ID<br>
+                    • https://vimeo.com/VIDEO_ID<br>
+                    The system will automatically convert it to embed format.
+                </small>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Thumbnail</label>
+                <input type="file" name="thumbnail" id="video_thumbnail" class="form-control" accept="image/*">
+                <div id="video_thumbnail_preview" style="margin-top: 0.5rem;"></div>
+            </div>
+            <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                    <label class="form-label">Order</label>
+                    <input type="number" name="order" id="video_order" class="form-control" value="0">
+                </div>
+                <div class="form-group" style="display: flex; align-items: center; padding-top: 2rem;">
+                    <input type="checkbox" name="is_active" id="video_is_active" class="form-check-input" checked>
+                    <label class="form-check-label" for="video_is_active">Active</label>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+                <button type="button" class="btn btn-outline" onclick="closeCMSModal()">Cancel</button>
+            </div>
+        </form>
+    `;
+    const submitUrl = videoId 
+        ? `/cms/website/videos/${videoId}/update/`
+        : `/cms/website/videos/create/`;
+    
+    openCMSModal(title, formHtml, 'videoForm', submitUrl);
+    
+    if (videoId) {
+        fetch(`/cms/website/videos/${videoId}/get/`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('video_title').value = data.title || '';
+                document.getElementById('video_description').value = data.description || '';
+                document.getElementById('video_url').value = data.video_url || '';
+                document.getElementById('video_order').value = data.order || 0;
+                document.getElementById('video_is_active').checked = data.is_active;
+                if (data.thumbnail_url) {
+                    document.getElementById('video_thumbnail_preview').innerHTML = 
+                        `<img src="${data.thumbnail_url}" style="max-width: 200px; border-radius: 10px; margin-top: 0.5rem;">`;
+                }
+            });
+    }
+    
+    setTimeout(() => {
+        document.getElementById('video_thumbnail').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('video_thumbnail_preview').innerHTML = 
+                        `<img src="${e.target.result}" style="max-width: 200px; border-radius: 10px; margin-top: 0.5rem;">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }, 100);
+}
+
+function deleteVideo(videoId) {
+    if (confirm('Are you sure you want to delete this video?')) {
+        const formData = new FormData();
+        formData.append('csrfmiddlewaretoken', getCookie('csrftoken'));
+        fetch(`/cms/website/videos/${videoId}/delete/`, {
+            method: 'POST',
+            body: formData,
+            headers: {'X-CSRFToken': getCookie('csrftoken')}
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showNotification(data.message, 'success');
+                setTimeout(() => location.reload(), 1000);
+            }
+        });
+    }
+}
+</script>
+{% endblock %}
+

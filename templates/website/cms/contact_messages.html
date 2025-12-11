@@ -1,0 +1,106 @@
+{% extends 'website/cms/base_cms.html' %}
+
+{% block title %}Contact Messages - Novyra CMS{% endblock %}
+
+{% block content %}
+<div class="section" data-aos="fade-up">
+    <div class="cms-header">
+        <h2><i class="fas fa-inbox"></i> Contact Messages</h2>
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <span class="badge" style="background: var(--danger); color: white; padding: 0.5rem 1rem; border-radius: 20px;">
+                {{ messages_list.paginator.count }} Total
+            </span>
+        </div>
+    </div>
+
+    <!-- Filters and Search -->
+    <div class="cms-search-bar">
+        <form method="get" style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+            <input type="text" name="search" placeholder="Search messages..." value="{{ search }}" style="flex: 1; min-width: 200px;">
+            <select name="filter" style="padding: 0.75rem 1rem; border: 2px solid #e2e8f0; border-radius: 10px;">
+                <option value="all" {% if filter_status == 'all' %}selected{% endif %}>All Messages</option>
+                <option value="unread" {% if filter_status == 'unread' %}selected{% endif %}>Unread Only</option>
+                <option value="read" {% if filter_status == 'read' %}selected{% endif %}>Read Only</option>
+            </select>
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-search"></i> Filter
+            </button>
+            {% if search or filter_status != 'all' %}
+            <a href="{% url 'website_cms:contact_messages' %}" class="btn btn-outline">
+                <i class="fas fa-times"></i> Clear
+            </a>
+            {% endif %}
+        </form>
+    </div>
+
+    <!-- Messages List -->
+    {% if messages_list %}
+    <div class="cms-grid" style="grid-template-columns: 1fr;">
+        {% for message in messages_list %}
+        <div class="cms-card" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:50 }}" style="{% if not message.is_read %}border-left: 4px solid var(--primary);{% endif %}">
+            <div class="cms-card-header">
+                <div style="flex: 1;">
+                    <h3 class="cms-card-title">
+                        {% if not message.is_read %}
+                        <span style="background: var(--primary); color: white; padding: 0.25rem 0.5rem; border-radius: 5px; font-size: 0.75rem; margin-right: 0.5rem;">NEW</span>
+                        {% endif %}
+                        {{ message.subject|default:"Contact Form Submission" }}
+                    </h3>
+                    <div style="display: flex; gap: 1rem; margin-top: 0.5rem; font-size: 0.9rem; color: var(--gray);">
+                        <span><i class="fas fa-user"></i> {{ message.name }}</span>
+                        <span><i class="fas fa-envelope"></i> {{ message.email }}</span>
+                        {% if message.phone %}
+                        <span><i class="fas fa-phone"></i> {{ message.phone }}</span>
+                        {% endif %}
+                        <span><i class="fas fa-calendar"></i> {{ message.created_at|date:"M d, Y H:i" }}</span>
+                    </div>
+                </div>
+                <span class="cms-card-status {% if message.is_read %}status-active{% else %}status-inactive{% endif %}">
+                    {% if message.is_read %}Read{% else %}Unread{% endif %}
+                </span>
+            </div>
+            <div class="cms-card-content">
+                <p style="white-space: pre-wrap;">{{ message.message|truncatewords:50 }}</p>
+            </div>
+            <div class="cms-card-actions">
+                <a href="{% url 'website_cms:contact_message_detail' message.id %}" class="btn btn-sm btn-primary">
+                    <i class="fas fa-eye"></i> View Full Message
+                </a>
+                <a href="mailto:{{ message.email }}?subject=Re: {{ message.subject }}" class="btn btn-sm btn-outline">
+                    <i class="fas fa-reply"></i> Reply
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if messages_list.has_other_pages %}
+    <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 0.5rem;">
+        {% if messages_list.has_previous %}
+        <a href="?page={{ messages_list.previous_page_number }}{% if search %}&search={{ search }}{% endif %}{% if filter_status %}&filter={{ filter_status }}{% endif %}" class="btn btn-outline">
+            <i class="fas fa-chevron-left"></i> Previous
+        </a>
+        {% endif %}
+        <span style="padding: 0.7rem 1.5rem; background: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);">
+            Page {{ messages_list.number }} of {{ messages_list.paginator.num_pages }}
+        </span>
+        {% if messages_list.has_next %}
+        <a href="?page={{ messages_list.next_page_number }}{% if search %}&search={{ search }}{% endif %}{% if filter_status %}&filter={{ filter_status }}{% endif %}" class="btn btn-outline">
+            Next <i class="fas fa-chevron-right"></i>
+        </a>
+        {% endif %}
+    </div>
+    {% endif %}
+    {% else %}
+    <div class="cms-empty-state">
+        <i class="fas fa-inbox"></i>
+        <h3>No messages found</h3>
+        <p style="color: var(--gray); margin: 1rem 0 2rem;">
+            {% if search or filter_status != 'all' %}Try adjusting your filters.{% else %}No contact messages yet.{% endif %}
+        </p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+

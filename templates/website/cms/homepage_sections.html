@@ -1,0 +1,59 @@
+{% extends 'website/cms/base_cms.html' %}
+
+{% block title %}Homepage Sections - Novyra CMS{% endblock %}
+
+{% block content %}
+<div class="section" data-aos="fade-up">
+    <div class="cms-header">
+        <h2><i class="fas fa-home"></i> Homepage Sections</h2>
+        <a href="/admin/website/homepagesection/add/" class="btn btn-primary"><i class="fas fa-plus"></i> Add Section</a>
+    </div>
+
+    {% if sections %}
+    <div class="cms-grid" style="grid-template-columns: 1fr;">
+        {% for section in sections %}
+        <div class="cms-card" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:50 }}">
+            {% if section.background_image %}
+            <img src="{{ section.background_image.url }}" alt="{{ section.get_section_type_display }}" class="cms-card-image">
+            {% endif %}
+            <div class="cms-card-header">
+                <div style="flex: 1;">
+                    <h3 class="cms-card-title">{{ section.get_section_type_display }}</h3>
+                    {% if section.title %}
+                    <p style="color: var(--gray); margin: 0.5rem 0;">{{ section.title }}</p>
+                    {% endif %}
+                </div>
+                <span class="cms-card-status {% if section.is_active %}status-active{% else %}status-inactive{% endif %}">
+                    {% if section.is_active %}Active{% else %}Inactive{% endif %}
+                </span>
+            </div>
+            {% if section.subtitle %}
+            <div class="cms-card-content">
+                <p>{{ section.subtitle|truncatewords:30 }}</p>
+            </div>
+            {% endif %}
+            <div style="display: flex; gap: 1rem; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+                <span style="color: var(--gray);"><strong>Order:</strong> {{ section.order }}</span>
+                {% if section.background_color %}
+                <span style="color: var(--gray);"><strong>Color:</strong> 
+                    <span style="display: inline-block; width: 20px; height: 20px; background: {{ section.background_color }}; border-radius: 50%; vertical-align: middle; margin-left: 0.5rem;"></span>
+                </span>
+                {% endif %}
+            </div>
+            <div class="cms-card-actions">
+                <a href="/admin/website/homepagesection/{{ section.id }}/change/" class="btn btn-sm btn-outline"><i class="fas fa-edit"></i> Edit</a>
+                <a href="/admin/website/homepagesection/{{ section.id }}/delete/" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Delete</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="cms-empty-state">
+        <i class="fas fa-home"></i>
+        <h3>No homepage sections found</h3>
+        <a href="/admin/website/homepagesection/add/" class="btn btn-primary"><i class="fas fa-plus"></i> Add Section</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ title }} - Novyra CMS{% endblock %}
+
+{% block content %}
+<div class="section" data-aos="fade-up">
+    <div class="section-header">
+        <h2>{{ title }}</h2>
+    </div>
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+            <button type="submit" class="btn btn-primary">Save Item</button>
+            <a href="{% url 'portfolio:list' %}" class="btn btn-outline">Cancel</a>
+        </div>
+    </form>
+</div>
+
+{% block extra_js %}
+{{ form.media }}
+{% endblock %}
+{% endblock %}
+
