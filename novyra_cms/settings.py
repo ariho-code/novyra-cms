@@ -41,6 +41,17 @@ if 'RENDER' in os.environ:
     ALLOWED_HOSTS.append('novyra-cms.onrender.com')
     ALLOWED_HOSTS.append('*.onrender.com')
 
+# CSRF Trusted Origins - Required for HTTPS on Render
+CSRF_TRUSTED_ORIGINS = []
+if ON_RENDER:
+    CSRF_TRUSTED_ORIGINS = [
+        'https://novyra-cms.onrender.com',
+        'https://*.onrender.com',
+    ]
+else:
+    # For local development
+    CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', default='http://localhost:8000,http://127.0.0.1:8000', cast=lambda v: [s.strip() for s in v.split(',')])
+
 
 # Application definition
 
