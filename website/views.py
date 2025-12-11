@@ -88,7 +88,10 @@ def home(request):
         testimonials = []
     
     try:
-        consultation = ConsultationSection.load() if ConsultationSection.objects.exists() else None
+        if ConsultationSection.objects.exists():
+            consultation = ConsultationSection.load()
+        else:
+            consultation = None
     except (OperationalError, DatabaseError):
         consultation = None
     except Exception:
@@ -102,7 +105,10 @@ def home(request):
         faqs = []
     
     try:
-        footer_content = FooterContent.load() if FooterContent.objects.exists() else None
+        if FooterContent.objects.exists():
+            footer_content = FooterContent.load()
+        else:
+            footer_content = None
     except (OperationalError, DatabaseError):
         footer_content = None
     except Exception:
@@ -268,7 +274,12 @@ def blog_list(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
-    categories = Category.objects.all()
+    try:
+        categories = Category.objects.all()
+    except (OperationalError, DatabaseError):
+        categories = []
+    except Exception:
+        categories = []
     
     context = {
         'posts': page_obj,
@@ -283,15 +294,27 @@ def blog_list(request):
 
 def blog_detail(request, slug):
     """Public blog post detail page"""
-    post = get_object_or_404(BlogPost, slug=slug, status='published')
-    post.views += 1
-    post.save(update_fields=['views'])
+    try:
+        post = get_object_or_404(BlogPost, slug=slug, status='published')
+        post.views += 1
+        post.save(update_fields=['views'])
+    except (OperationalError, DatabaseError):
+        from django.http import Http404
+        raise Http404("Blog post not found")
+    except Exception:
+        from django.http import Http404
+        raise Http404("Blog post not found")
     
     # Get related posts
-    related_posts = BlogPost.objects.filter(
-        status='published',
-        categories__in=post.categories.all()
-    ).exclude(id=post.id).distinct()[:3]
+    try:
+        related_posts = BlogPost.objects.filter(
+            status='published',
+            categories__in=post.categories.all()
+        ).exclude(id=post.id).distinct()[:3]
+    except (OperationalError, DatabaseError):
+        related_posts = []
+    except Exception:
+        related_posts = []
     
     context = {
         'post': post,
@@ -333,7 +356,12 @@ def portfolio_list(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
-    categories = PortfolioCategory.objects.all()
+    try:
+        categories = PortfolioCategory.objects.all()
+    except (OperationalError, DatabaseError):
+        categories = []
+    except Exception:
+        categories = []
     
     context = {
         'items': page_obj,
@@ -347,14 +375,26 @@ def portfolio_list(request):
 
 def portfolio_detail(request, slug):
     """Public portfolio item detail page"""
-    item = get_object_or_404(PortfolioItem, slug=slug)
-    item.views += 1
-    item.save(update_fields=['views'])
+    try:
+        item = get_object_or_404(PortfolioItem, slug=slug)
+        item.views += 1
+        item.save(update_fields=['views'])
+    except (OperationalError, DatabaseError):
+        from django.http import Http404
+        raise Http404("Portfolio item not found")
+    except Exception:
+        from django.http import Http404
+        raise Http404("Portfolio item not found")
     
     # Get related items
-    related_items = PortfolioItem.objects.filter(
-        categories__in=item.categories.all()
-    ).exclude(id=item.id).distinct()[:3]
+    try:
+        related_items = PortfolioItem.objects.filter(
+            categories__in=item.categories.all()
+        ).exclude(id=item.id).distinct()[:3]
+    except (OperationalError, DatabaseError):
+        related_items = []
+    except Exception:
+        related_items = []
     
     context = {
         'item': item,
@@ -395,16 +435,23 @@ def contact(request):
         phone = request.POST.get('phone', '')
         
         # Save to database
-        ContactMessage.objects.create(
-            name=name,
-            email=email,
-            subject=subject,
-            message=message,
-            phone=phone
-        )
+        try:
+            ContactMessage.objects.create(
+                name=name,
+                email=email,
+                subject=subject,
+                message=message,
+                phone=phone
+            )
+            from django.contrib import messages
+            messages.success(request, 'Thank you for your message! We will get back to you soon.')
+        except (OperationalError, DatabaseError):
+            from django.contrib import messages
+            messages.error(request, 'Sorry, there was an error saving your message. Please try again later.')
+        except Exception:
+            from django.contrib import messages
+            messages.error(request, 'Sorry, there was an error saving your message. Please try again later.')
         
-        from django.contrib import messages
-        messages.success(request, 'Thank you for your message! We will get back to you soon.')
         return redirect('website:contact')
     
     return render(request, 'website/contact.html', {
