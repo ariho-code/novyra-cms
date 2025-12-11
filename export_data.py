@@ -35,12 +35,12 @@ def export_data():
         with open(output_file, 'w', encoding='utf-8') as f:
             f.write(json_data)
         
-        print(f"✅ Data exported successfully to {output_file}")
+        print(f"[OK] Data exported successfully to {output_file}")
         print(f"   File size: {os.path.getsize(output_file)} bytes")
         return True
         
     except Exception as e:
-        print(f"❌ Error exporting data: {e}")
+        print(f"[ERROR] Error exporting data: {e}")
         return False
 
 if __name__ == '__main__':
