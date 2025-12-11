@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.db import OperationalError, DatabaseError
 from blog.models import BlogPost, Category
 from portfolio.models import PortfolioItem, PortfolioCategory
 from settings_app.models import SiteSettings
@@ -15,9 +16,26 @@ from .models import (
 
 def home(request):
     """Homepage with hero section and services overview"""
-    recent_posts = BlogPost.objects.filter(status='published').select_related('author')[:3]
-    featured_portfolio = PortfolioItem.objects.filter(is_featured=True)[:6]
-    site_settings = SiteSettings.load()
+    try:
+        recent_posts = BlogPost.objects.filter(status='published').select_related('author')[:3]
+    except (OperationalError, DatabaseError):
+        recent_posts = []
+    except Exception:
+        recent_posts = []
+    
+    try:
+        featured_portfolio = PortfolioItem.objects.filter(is_featured=True)[:6]
+    except (OperationalError, DatabaseError):
+        featured_portfolio = []
+    except Exception:
+        featured_portfolio = []
+    
+    try:
+        site_settings = SiteSettings.load()
+    except (OperationalError, DatabaseError):
+        site_settings = None
+    except Exception:
+        site_settings = None
     homepage_sections = HomePageSection.objects.filter(is_active=True)
     statistics = Statistic.objects.filter(is_active=True)
     floating_backgrounds = FloatingBackground.objects.filter(is_active=True)
