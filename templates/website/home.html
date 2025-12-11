@@ -588,6 +588,64 @@
         .stat-item h3 {
             font-size: 2rem;
         }
+        /* Pricing Section Mobile */
+        .pricing-section {
+            padding: 4rem 0 !important;
+        }
+        .pricing-section h2 {
+            font-size: 2rem !important;
+        }
+        .pricing-grid {
+            grid-template-columns: 1fr !important;
+            gap: 1.5rem !important;
+            padding: 0 1rem !important;
+        }
+        .pricing-card {
+            padding: 1.5rem !important;
+        }
+        .pricing-card h3 {
+            font-size: 1.5rem !important;
+        }
+        /* Image Responsiveness */
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        .feature-card img,
+        .portfolio-image img,
+        .blog-image img,
+        .team-card img,
+        .testimonial-photo img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+        .feature-card img {
+            max-width: 200px;
+            margin: 0 auto 1rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .pricing-card {
+            padding: 1.25rem !important;
+        }
+        .pricing-card h3 {
+            font-size: 1.3rem !important;
+        }
+        .pricing-price {
+            font-size: 2rem !important;
+        }
+        .price-amount {
+            font-size: 2rem !important;
+        }
+        .price-period {
+            font-size: 0.9rem !important;
+            display: inline-block !important;
+        }
+        .section-header h2 {
+            font-size: 1.8rem !important;
+        }
     }
 </style>
 {% endblock %}
@@ -1014,7 +1072,7 @@
             <h2 style="color: white; font-size: 3rem; margin-bottom: 1rem;">Our Pricing Packages</h2>
             <p style="font-size: 1.2rem; opacity: 0.9;">Choose the perfect plan for your business needs</p>
         </div>
-        <div class="pricing-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto;">
+        <div class="pricing-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; padding: 0 1rem;">
             {% for package in pricing_packages %}
             <div class="pricing-card {% if package.is_featured %}featured{% endif %}" style="background: white; border-radius: 20px; padding: 2.5rem; position: relative; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1); transition: var(--transition);" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
                 {% if package.is_featured %}
@@ -1024,8 +1082,9 @@
                 {% endif %}
                 <div style="text-align: center; margin-bottom: 2rem;">
                     <h3 style="color: var(--novyra-deep-blue); font-size: 1.8rem; font-weight: 700; margin-bottom: 1rem;">{{ package.name }}</h3>
-                    <div style="font-size: 2.5rem; font-weight: 700; color: var(--novyra-deep-blue); margin: 1.5rem 0;">
-                        {{ package.get_display_price }}
+                    <div class="pricing-price" style="font-size: 2.5rem; font-weight: 700; color: var(--novyra-deep-blue); margin: 1.5rem 0; line-height: 1.2;">
+                        <span class="price-amount" style="display: inline-block;">{{ package.currency }}{{ package.price|floatformat:0 }}</span>
+                        <span class="price-period" style="display: inline-block; font-size: 1rem; font-weight: 500; color: #666; margin-left: 0.25rem; white-space: nowrap;">/{{ package.billing_period }}</span>
                     </div>
                 </div>
                 <ul style="list-style: none; padding: 0; margin: 2rem 0;">
