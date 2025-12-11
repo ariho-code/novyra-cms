@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Import Result - Novyra CMS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #28a745;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            border: 1px solid #dc3545;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            color: #721c24;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .btn-success {
+            background: #28a745;
+        }
+        .btn-success:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Data Import Result</h1>
+        
+        {% for component, status, message in results %}
+            {% if status == 'SUCCESS' %}
+                <div class="success">
+                    <strong>✅ {{ component }}:</strong> {{ message }}
+                </div>
+            {% else %}
+                <div class="error">
+                    <strong>❌ {{ component }}:</strong> {{ message }}
+                </div>
+            {% endif %}
+        {% endfor %}
+        
+        <div style="margin-top: 30px;">
+            <a href="/cms/accounts/login/" class="btn btn-success">Login to CMS</a>
+            <a href="/check-database/" class="btn">Check Database Status</a>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -162,3 +162,62 @@ def check_database(request):
         'status': status
     })
 
+
+def import_data(request):
+    """
+    Import data from JSON file - accessible via browser
+    URL: /import-data/
+    """
+    if request.method != 'POST':
+        return render(request, 'import_data.html', {
+            'title': 'Import Data from Local Database'
+        })
+    
+    if 'data_file' not in request.FILES:
+        return render(request, 'import_data.html', {
+            'title': 'Import Data',
+            'error': 'Please select a JSON file to import'
+        })
+    
+    data_file = request.FILES['data_file']
+    
+    # Read JSON file
+    try:
+        import json
+        data = json.loads(data_file.read().decode('utf-8'))
+    except Exception as e:
+        return render(request, 'import_data.html', {
+            'title': 'Import Data',
+            'error': f'Error reading JSON file: {str(e)}'
+        })
+    
+    # Import data
+    results = []
+    try:
+        from django.core.management import call_command
+        from io import StringIO
+        import tempfile
+        import os
+        
+        # Save to temp file
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
+            json.dump(data, f, indent=2)
+            temp_path = f.name
+        
+        try:
+            # Load data
+            call_command('loaddata', temp_path, verbosity=0)
+            results.append(('Import', 'SUCCESS', f'Imported {len(data)} objects'))
+        finally:
+            # Clean up
+            if os.path.exists(temp_path):
+                os.unlink(temp_path)
+                
+    except Exception as e:
+        results.append(('Import', 'ERROR', str(e)))
+    
+    return render(request, 'import_result.html', {
+        'title': 'Data Import Result',
+        'results': results
+    })
+

@@ -39,6 +39,7 @@ urlpatterns = [
     path("init-database/", init_views.init_database, name="init_database"),
     path("create-admin/", init_views.create_admin, name="create_admin"),
     path("check-database/", init_views.check_database, name="check_database"),
+    path("import-data/", init_views.import_data, name="import_data"),
 ]
 
 # Serve media files in development

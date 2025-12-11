@@ -1,0 +1,874 @@
+[
+{
+  "model": "admin.logentry",
+  "pk": 1,
+  "fields": {
+    "action_time": "2025-12-10T22:54:19.782Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "1",
+    "object_repr": "Hero Section",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Background image\"]}}]"
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$720000$I95iZ4NXPLbwQREH2eT53G$Za5s/hx6DJFpxMV9P4yvv/sK80Odmwo1maXttlilcw0=",
+    "last_login": "2025-12-10T22:31:43.309Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "Timothy",
+    "last_name": "Ariho",
+    "email": "admin@novyra.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-12-10T16:47:55.204Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "blog.category",
+  "pk": 1,
+  "fields": {
+    "name": "Marketing",
+    "slug": "marketing",
+    "description": "",
+    "created_at": "2025-12-10T23:17:09.158Z"
+  }
+},
+{
+  "model": "blog.category",
+  "pk": 2,
+  "fields": {
+    "name": "Artificial intelligence",
+    "slug": "artificial-intelligence",
+    "description": "",
+    "created_at": "2025-12-10T23:17:34.109Z"
+  }
+},
+{
+  "model": "accounts.userprofile",
+  "pk": 1,
+  "fields": {
+    "user": 1,
+    "role": "author",
+    "bio": "",
+    "avatar": "avatars/Screenshot_2025-11-23_212614-removebg-preview.png",
+    "phone": "0774307557",
+    "is_active": true,
+    "last_login_ip": null,
+    "created_at": "2025-12-10T16:47:56.106Z",
+    "updated_at": "2025-12-11T00:17:52.021Z"
+  }
+},
+{
+  "model": "settings_app.sitesettings",
+  "pk": 1,
+  "fields": {
+    "site_title": "Novyra Marketing",
+    "tagline": "Digital Marketing Agency",
+    "site_description": "We help businesses grow through strategic digital marketing, compelling branding, and results-driven campaigns.",
+    "admin_email": "novyramarketingagency@gmail.com",
+    "logo": "site/logo/logo_tu9gj5a.jpg",
+    "favicon": "",
+    "address_line_1": "Lagos",
+    "address_line_2": "",
+    "city": "Lagos",
+    "state": "Lagos State",
+    "country": "Nigeria",
+    "phone": "",
+    "meta_title": "",
+    "meta_description": "",
+    "meta_keywords": "",
+    "facebook_handle": "",
+    "x_handle": "arihotimo",
+    "instagram_handle": "novyra.agency",
+    "linkedin_handle": "",
+    "tiktok_handle": "",
+    "youtube_handle": "",
+    "facebook_url": "",
+    "twitter_url": "",
+    "instagram_url": "",
+    "linkedin_url": "https://www.linkedin.com/company/novyra-marketing-agency/",
+    "tiktok_url": "https://www.tiktok.com/@novyra_agency",
+    "youtube_url": "https://www.youtube.com/@novamarketingagency.ai-1",
+    "two_factor_enabled": true,
+    "login_attempts_limit": 5,
+    "session_timeout": 60,
+    "updated_at": "2025-12-11T00:11:57.774Z"
+  }
+},
+{
+  "model": "website.homepagesection",
+  "pk": 1,
+  "fields": {
+    "section_type": "hero",
+    "title": "Welcome To Novyra Marketing",
+    "subtitle": "Leading digital marketing agency in Nigeria and Africa. We help businesses grow through strategic digital marketing, compelling branding, and results-driven campaigns.",
+    "content": "",
+    "background_image": "website/backgrounds/Gemini_Generated_Image_oycy6foycy6foycy.png",
+    "background_color": "#0006B1",
+    "is_active": true,
+    "order": 1
+  }
+},
+{
+  "model": "website.homepagesection",
+  "pk": 2,
+  "fields": {
+    "section_type": "services",
+    "title": "What We Do",
+    "subtitle": "We offer five key end-to-end solutions to help your business thrive in the digital landscape",
+    "content": "",
+    "background_image": "",
+    "background_color": "#0006B1",
+    "is_active": true,
+    "order": 3
+  }
+},
+{
+  "model": "website.homepagesection",
+  "pk": 3,
+  "fields": {
+    "section_type": "stats",
+    "title": "Our Impact",
+    "subtitle": "",
+    "content": "",
+    "background_image": "",
+    "background_color": "#0006B1",
+    "is_active": true,
+    "order": 5
+  }
+},
+{
+  "model": "website.homepagesection",
+  "pk": 4,
+  "fields": {
+    "section_type": "features",
+    "title": "Why Choose Us",
+    "subtitle": "What makes us different",
+    "content": "",
+    "background_image": "",
+    "background_color": "#0006B1",
+    "is_active": true,
+    "order": 2
+  }
+},
+{
+  "model": "website.homepagesection",
+  "pk": 5,
+  "fields": {
+    "section_type": "process",
+    "title": "Our Process",
+    "subtitle": "How we work with you to achieve success",
+    "content": "",
+    "background_image": "",
+    "background_color": "#0006B1",
+    "is_active": true,
+    "order": 4
+  }
+},
+{
+  "model": "website.homepagesection",
+  "pk": 6,
+  "fields": {
+    "section_type": "portfolio",
+    "title": "Featured Work",
+    "subtitle": "Explore some of our successful projects and campaigns",
+    "content": "",
+    "background_image": "",
+    "background_color": "#0006B1",
+    "is_active": true,
+    "order": 6
+  }
+},
+{
+  "model": "website.homepagesection",
+  "pk": 7,
+  "fields": {
+    "section_type": "team",
+    "title": "Our Team",
+    "subtitle": "Meet the experts behind Novyra Marketing",
+    "content": "",
+    "background_image": "",
+    "background_color": "#0006B1",
+    "is_active": true,
+    "order": 7
+  }
+},
+{
+  "model": "website.homepagesection",
+  "pk": 8,
+  "fields": {
+    "section_type": "testimonials",
+    "title": "What Our Clients Say",
+    "subtitle": "Don't just take our word for it",
+    "content": "",
+    "background_image": "",
+    "background_color": "#0006B1",
+    "is_active": true,
+    "order": 8
+  }
+},
+{
+  "model": "website.homepagesection",
+  "pk": 9,
+  "fields": {
+    "section_type": "consultation",
+    "title": "Free Consultation",
+    "subtitle": "",
+    "content": "",
+    "background_image": "",
+    "background_color": "#0006B1",
+    "is_active": true,
+    "order": 9
+  }
+},
+{
+  "model": "website.homepagesection",
+  "pk": 10,
+  "fields": {
+    "section_type": "faq",
+    "title": "Frequently Asked Questions",
+    "subtitle": "Everything you need to know",
+    "content": "",
+    "background_image": "",
+    "background_color": "#0006B1",
+    "is_active": true,
+    "order": 10
+  }
+},
+{
+  "model": "website.homepagesection",
+  "pk": 11,
+  "fields": {
+    "section_type": "blog",
+    "title": "Latest Insights",
+    "subtitle": "Stay updated with our latest marketing tips and strategies",
+    "content": "",
+    "background_image": "",
+    "background_color": "#0006B1",
+    "is_active": true,
+    "order": 11
+  }
+},
+{
+  "model": "website.homepagesection",
+  "pk": 12,
+  "fields": {
+    "section_type": "contact",
+    "title": "Get In Touch",
+    "subtitle": "Let's discuss how we can help grow your business",
+    "content": "",
+    "background_image": "",
+    "background_color": "#0006B1",
+    "is_active": true,
+    "order": 12
+  }
+},
+{
+  "model": "website.homepagesection",
+  "pk": 13,
+  "fields": {
+    "section_type": "cta",
+    "title": "Ready to Grow Your Business?",
+    "subtitle": "Get started with Novyra Marketing today and see the difference we can make",
+    "content": "",
+    "background_image": "",
+    "background_color": "#0006B1",
+    "is_active": true,
+    "order": 13
+  }
+},
+{
+  "model": "website.statistic",
+  "pk": 1,
+  "fields": {
+    "number": "100+",
+    "label": "Successful Campaigns",
+    "icon": "fas fa-bullseye",
+    "order": 0,
+    "is_active": true
+  }
+},
+{
+  "model": "website.statistic",
+  "pk": 2,
+  "fields": {
+    "number": "20+",
+    "label": "Happy Clients",
+    "icon": "fas fa-users",
+    "order": 0,
+    "is_active": true
+  }
+},
+{
+  "model": "website.statistic",
+  "pk": 3,
+  "fields": {
+    "number": "4+",
+    "label": "Years Experience",
+    "icon": "fas fa-calendar",
+    "order": 0,
+    "is_active": true
+  }
+},
+{
+  "model": "website.statistic",
+  "pk": 4,
+  "fields": {
+    "number": "98%",
+    "label": "Client Satisfaction",
+    "icon": "fas fa-star",
+    "order": 0,
+    "is_active": true
+  }
+},
+{
+  "model": "website.servicepage",
+  "pk": 1,
+  "fields": {
+    "slug": "social-media-marketing",
+    "title": "Social Media Marketing",
+    "hero_title": "Social Media Marketing",
+    "hero_subtitle": "Beyond simple posting. Comprehensive social media management that drives results.",
+    "hero_background_image": "",
+    "intro_text": "",
+    "main_content": "",
+    "features_title": "",
+    "process_title": "",
+    "cta_title": "",
+    "cta_text": "",
+    "is_active": true
+  }
+},
+{
+  "model": "website.servicepage",
+  "pk": 2,
+  "fields": {
+    "slug": "branding",
+    "title": "Branding",
+    "hero_title": "Branding Services",
+    "hero_subtitle": "Complete brand identity solutions that define and communicate your unique value proposition",
+    "hero_background_image": "",
+    "intro_text": "",
+    "main_content": "",
+    "features_title": "",
+    "process_title": "",
+    "cta_title": "",
+    "cta_text": "",
+    "is_active": true
+  }
+},
+{
+  "model": "website.servicepage",
+  "pk": 3,
+  "fields": {
+    "slug": "digital-campaigns",
+    "title": "Digital Campaigns",
+    "hero_title": "Digital Campaigns",
+    "hero_subtitle": "Strategic campaign planning and execution for measurable results",
+    "hero_background_image": "",
+    "intro_text": "",
+    "main_content": "",
+    "features_title": "",
+    "process_title": "",
+    "cta_title": "",
+    "cta_text": "",
+    "is_active": true
+  }
+},
+{
+  "model": "website.servicepage",
+  "pk": 4,
+  "fields": {
+    "slug": "content-strategy",
+    "title": "Content Strategy",
+    "hero_title": "Content Strategy",
+    "hero_subtitle": "High-value content that converts visitors into customers",
+    "hero_background_image": "",
+    "intro_text": "",
+    "main_content": "",
+    "features_title": "",
+    "process_title": "",
+    "cta_title": "",
+    "cta_text": "",
+    "is_active": true
+  }
+},
+{
+  "model": "website.servicepage",
+  "pk": 5,
+  "fields": {
+    "slug": "advertising",
+    "title": "Paid Advertising",
+    "hero_title": "Paid Advertising (Paid Media)",
+    "hero_subtitle": "Complete paid media management for maximum ROI",
+    "hero_background_image": "",
+    "intro_text": "",
+    "main_content": "",
+    "features_title": "",
+    "process_title": "",
+    "cta_title": "",
+    "cta_text": "",
+    "is_active": true
+  }
+},
+{
+  "model": "website.aboutpagecontent",
+  "pk": 1,
+  "fields": {
+    "hero_title": "About Novyra Marketing",
+    "hero_subtitle": "Leading digital marketing agency in Nigeria and Africa",
+    "intro_text": "<p>At <strong>Novyra Marketing</strong>, we specialize in the <strong>monetization of digital content platforms</strong>. Through a portfolio of niche websites, we connect targeted audiences with valuable information, engaging content, and relevant advertising.</p><p>Whether it's through <strong>programmatic ads</strong>, <strong>affiliate marketing</strong>, or <strong>custom partnerships</strong>, we focus on sustainable and ethical growth across all platforms.</p>",
+    "mission_title": "Our Mission",
+    "mission_text": "<p>To operate a lean, ethical, and profitable portfolio of websites that serve both readers and advertisers, while staying agile in the fast-changing digital landscape.</p>",
+    "values_title": "Our Values",
+    "cta_title": "",
+    "cta_text": ""
+  }
+},
+{
+  "model": "website.aboutvalue",
+  "pk": 1,
+  "fields": {
+    "title": "Ad Monetization",
+    "description": "We partner with top-tier ad networks to deliver the most relevant and user-friendly ads, maximizing revenue while maintaining user experience.",
+    "icon": "fas fa-ad",
+    "order": 0,
+    "is_active": true
+  }
+},
+{
+  "model": "website.aboutvalue",
+  "pk": 2,
+  "fields": {
+    "title": "Affiliate Marketing",
+    "description": "By integrating carefully selected affiliate offers, we provide value to our audience while creating sustainable revenue streams.",
+    "icon": "fas fa-handshake",
+    "order": 0,
+    "is_active": true
+  }
+},
+{
+  "model": "website.aboutvalue",
+  "pk": 3,
+  "fields": {
+    "title": "Data-Driven",
+    "description": "Our strategies are grounded in analytics and optimization to ensure top performance across all platforms and campaigns.",
+    "icon": "fas fa-chart-line",
+    "order": 0,
+    "is_active": true
+  }
+},
+{
+  "model": "website.contactpagecontent",
+  "pk": 1,
+  "fields": {
+    "hero_title": "Contact Us",
+    "hero_subtitle": "Want to connect with us for a potential partnership, advertising opportunity, or affiliate collaboration?",
+    "address": "Lagos, Nigeria",
+    "phone": "",
+    "business_hours": "Monday - Friday: 9:00 AM - 6:00 PM\nSaturday: 10:00 AM - 4:00 PM\nSunday: Closed",
+    "form_title": "Send Us a Message"
+  }
+},
+{
+  "model": "website.floatingbackground",
+  "pk": 1,
+  "fields": {
+    "name": "Background Element 1",
+    "image": "",
+    "animation_speed": "slow",
+    "position": "top-left",
+    "opacity": 0.05,
+    "is_active": true,
+    "order": 0
+  }
+},
+{
+  "model": "website.floatingbackground",
+  "pk": 2,
+  "fields": {
+    "name": "Background Element 2",
+    "image": "",
+    "animation_speed": "medium",
+    "position": "top-right",
+    "opacity": 0.05,
+    "is_active": true,
+    "order": 0
+  }
+},
+{
+  "model": "website.floatingbackground",
+  "pk": 3,
+  "fields": {
+    "name": "Background Element 3",
+    "image": "",
+    "animation_speed": "slow",
+    "position": "bottom-left",
+    "opacity": 0.05,
+    "is_active": true,
+    "order": 0
+  }
+},
+{
+  "model": "website.floatingbackground",
+  "pk": 4,
+  "fields": {
+    "name": "Background Element 4",
+    "image": "",
+    "animation_speed": "medium",
+    "position": "bottom-right",
+    "opacity": 0.05,
+    "is_active": true,
+    "order": 0
+  }
+},
+{
+  "model": "website.feature",
+  "pk": 1,
+  "fields": {
+    "title": "Expert Team",
+    "description": "Our team consists of experienced digital marketing professionals who stay ahead of industry trends.",
+    "icon": "fas fa-users",
+    "image": "",
+    "order": 0,
+    "is_active": true
+  }
+},
+{
+  "model": "website.feature",
+  "pk": 2,
+  "fields": {
+    "title": "Proven Results",
+    "description": "We have a track record of delivering measurable results for businesses across various industries.",
+    "icon": "fas fa-chart-line",
+    "image": "",
+    "order": 0,
+    "is_active": true
+  }
+},
+{
+  "model": "website.feature",
+  "pk": 3,
+  "fields": {
+    "title": "Custom Strategies",
+    "description": "Every business is unique. We create tailored marketing strategies that fit your specific needs.",
+    "icon": "fas fa-lightbulb",
+    "image": "",
+    "order": 0,
+    "is_active": true
+  }
+},
+{
+  "model": "website.feature",
+  "pk": 4,
+  "fields": {
+    "title": "24/7 Support",
+    "description": "We provide round-the-clock support to ensure your campaigns run smoothly at all times.",
+    "icon": "fas fa-headset",
+    "image": "",
+    "order": 0,
+    "is_active": true
+  }
+},
+{
+  "model": "website.processstep",
+  "pk": 1,
+  "fields": {
+    "title": "Discovery & Strategy",
+    "description": "We start by understanding your business, goals, and target audience to develop a comprehensive strategy.",
+    "icon": "fas fa-search",
+    "order": 1,
+    "is_active": true
+  }
+},
+{
+  "model": "website.processstep",
+  "pk": 2,
+  "fields": {
+    "title": "Planning & Development",
+    "description": "Our team creates detailed plans and develops all necessary assets for your marketing campaigns.",
+    "icon": "fas fa-tasks",
+    "order": 2,
+    "is_active": true
+  }
+},
+{
+  "model": "website.processstep",
+  "pk": 3,
+  "fields": {
+    "title": "Execution & Launch",
+    "description": "We launch your campaigns across all selected platforms and channels with precision and care.",
+    "icon": "fas fa-rocket",
+    "order": 3,
+    "is_active": true
+  }
+},
+{
+  "model": "website.processstep",
+  "pk": 4,
+  "fields": {
+    "title": "Optimization & Growth",
+    "description": "We continuously monitor, analyze, and optimize your campaigns to maximize ROI and drive growth.",
+    "icon": "fas fa-chart-bar",
+    "order": 4,
+    "is_active": true
+  }
+},
+{
+  "model": "website.teammember",
+  "pk": 1,
+  "fields": {
+    "name": "Timothy Ariho",
+    "position": "Senior Software Engineer",
+    "bio": "As a dedicated Full Stack Software Engineer and freelance developer, I specialize in building secure, scalable, and efficient web solutions that address practical, real-world challenges. My expertise spans the entire software development lifecycle, from conceptualizing and designing robust backend systems to crafting intuitive front-end interfaces.",
+    "photo": "website/team/Screenshot_2025-11-23_212614-removebg-preview.png",
+    "email": "arihotimothy89@gmail.com",
+    "linkedin_url": "https://www.linkedin.com/in/timothy-ariho-aab4ab216/",
+    "twitter_url": "https://x.com/arihotim",
+    "order": 0,
+    "is_active": true
+  }
+},
+{
+  "model": "website.teammember",
+  "pk": 2,
+  "fields": {
+    "name": "Nicole",
+    "position": "Publicity",
+    "bio": "Nicole is a talented programmer at Novyra, where she helps develop cutting-edge AI solutions to streamline cancer clinical trial matching. Leveraging her expertise in [mention specific programming languages or skills, e.g., Python, machine learning], she plays a vital role in building a platform that helps doctors make faster, more informed decisions for their patients. Nicole is passionate about using technology to bridge access gaps and accelerate patient access to life-saving treatments.",
+    "photo": "website/team/download_1.jpg",
+    "email": "arihotimothy89@gmail.com",
+    "linkedin_url": "https://www.linkedin.com/company/novyra-marketing-agency/",
+    "twitter_url": "https://x.com/arihotim",
+    "order": 0,
+    "is_active": true
+  }
+},
+{
+  "model": "website.consultationsection",
+  "pk": 1,
+  "fields": {
+    "title": "Ready to Grow Your Business?",
+    "subtitle": "Get a free consultation with our marketing experts",
+    "description": "<p>Let's discuss how we can help you achieve your marketing goals and grow your business.</p>",
+    "button_text": "Get Started",
+    "background_image": "",
+    "is_active": true
+  }
+},
+{
+  "model": "website.faq",
+  "pk": 1,
+  "fields": {
+    "question": "What services does Novyra Marketing offer?",
+    "answer": "<p>We offer five key end-to-end solutions: Social Media Marketing, Branding, Digital Campaigns, Content Strategy, and Paid Advertising (Paid Media).</p>",
+    "order": 1,
+    "is_active": true
+  }
+},
+{
+  "model": "website.faq",
+  "pk": 2,
+  "fields": {
+    "question": "How long does it take to see results?",
+    "answer": "<p>Results vary depending on the service and campaign type. Typically, you can expect to see initial results within 2-4 weeks, with significant improvements over 3-6 months.</p>",
+    "order": 2,
+    "is_active": true
+  }
+},
+{
+  "model": "website.faq",
+  "pk": 3,
+  "fields": {
+    "question": "Do you work with businesses of all sizes?",
+    "answer": "<p>Yes! We work with startups, small businesses, and large enterprises. Our strategies are tailored to fit your specific needs and budget.</p>",
+    "order": 3,
+    "is_active": true
+  }
+},
+{
+  "model": "website.faq",
+  "pk": 4,
+  "fields": {
+    "question": "What is your pricing structure?",
+    "answer": "<p>Our pricing is customized based on your specific needs and goals. Contact us for a free consultation and personalized quote.</p>",
+    "order": 4,
+    "is_active": true
+  }
+},
+{
+  "model": "website.faq",
+  "pk": 5,
+  "fields": {
+    "question": "Where is Novyra Marketing based?",
+    "answer": "<p>We are based in Lagos, Nigeria, and serve clients across Nigeria and Africa.</p>",
+    "order": 5,
+    "is_active": true
+  }
+},
+{
+  "model": "website.footercontent",
+  "pk": 1,
+  "fields": {
+    "about_text": "Leading digital marketing agency in Nigeria and Africa. We help businesses grow through strategic digital marketing, compelling branding, and results-driven campaigns.",
+    "copyright_text": "© 2025 Novyra Marketing. All rights reserved.",
+    "newsletter_title": "",
+    "newsletter_text": ""
+  }
+},
+{
+  "model": "website.navigationlink",
+  "pk": 1,
+  "fields": {
+    "title": "Home",
+    "url": "/",
+    "order": 1,
+    "is_active": true,
+    "is_external": false
+  }
+},
+{
+  "model": "website.navigationlink",
+  "pk": 2,
+  "fields": {
+    "title": "About",
+    "url": "/about/",
+    "order": 2,
+    "is_active": true,
+    "is_external": false
+  }
+},
+{
+  "model": "website.navigationlink",
+  "pk": 3,
+  "fields": {
+    "title": "Services",
+    "url": "/services/",
+    "order": 3,
+    "is_active": true,
+    "is_external": false
+  }
+},
+{
+  "model": "website.navigationlink",
+  "pk": 4,
+  "fields": {
+    "title": "Portfolio",
+    "url": "/portfolio/",
+    "order": 4,
+    "is_active": true,
+    "is_external": false
+  }
+},
+{
+  "model": "website.navigationlink",
+  "pk": 5,
+  "fields": {
+    "title": "Blog",
+    "url": "/blog/",
+    "order": 5,
+    "is_active": true,
+    "is_external": false
+  }
+},
+{
+  "model": "website.navigationlink",
+  "pk": 6,
+  "fields": {
+    "title": "Contact",
+    "url": "/contact/",
+    "order": 6,
+    "is_active": true,
+    "is_external": false
+  }
+},
+{
+  "model": "website.contactmessage",
+  "pk": 1,
+  "fields": {
+    "name": "Timothy Ariho",
+    "email": "arihotimothy89@gmail.com",
+    "subject": "hello",
+    "message": "hi",
+    "phone": "",
+    "is_read": true,
+    "created_at": "2025-12-10T22:09:26.339Z"
+  }
+},
+{
+  "model": "website.pricingpackage",
+  "pk": 1,
+  "fields": {
+    "name": "Basic Package",
+    "price": "30000.00",
+    "currency": "₦",
+    "billing_period": "month",
+    "features": [
+      "SOCIAL MEDIA ACCOUNT SETUP (UP TO 3 PLATFORMS)",
+      "3 BRANDED POSTS/MONTH (GRAPHICS + CAPTIONS)",
+      "AD ACCOUNT SETUP (FACEBOOK/INSTAGRAM)",
+      "BASIC PAGE SET-UP (BIO, HIGHLIGHTS, CTA BUTTON)",
+      "1 PROMOTIONAL VIDEO"
+    ],
+    "is_featured": false,
+    "is_active": true,
+    "order": 1,
+    "created_at": "2025-12-10T23:43:59.076Z",
+    "updated_at": "2025-12-10T23:43:59.076Z"
+  }
+},
+{
+  "model": "website.pricingpackage",
+  "pk": 2,
+  "fields": {
+    "name": "Premium Package",
+    "price": "45000.00",
+    "currency": "₦",
+    "billing_period": "month",
+    "features": [
+      "SOCIAL MEDIA ACCOUNT SETUP (UP TO 3 PLATFORMS)",
+      "6 BRANDED POSTS/MONTH (GRAPHICS + CAPTIONS)",
+      "AD ACCOUNT SETUP (FACEBOOK/INSTAGRAM)",
+      "BASIC PAGE SET-UP (BIO, HIGHLIGHTS, CTA BUTTON)",
+      "WEEKLY PERFORMANCE CHECK-IN",
+      "3 PROMOTIONAL VIDEOS"
+    ],
+    "is_featured": true,
+    "is_active": true,
+    "order": 2,
+    "created_at": "2025-12-10T23:43:59.083Z",
+    "updated_at": "2025-12-10T23:43:59.083Z"
+  }
+},
+{
+  "model": "website.pricingpackage",
+  "pk": 3,
+  "fields": {
+    "name": "Elite Package",
+    "price": "65000.00",
+    "currency": "₦",
+    "billing_period": "month",
+    "features": [
+      "SOCIAL MEDIA ACCOUNT SETUP (UP TO 3 PLATFORMS)",
+      "8 BRANDED POSTS/MONTH (GRAPHICS + CAPTIONS)",
+      "2 AD ACCOUNT SETUP (FACEBOOK/INSTAGRAM)",
+      "BASIC PAGE SET-UP (BIO, HIGHLIGHTS, CTA BUTTON)",
+      "WEEKLY PERFORMANCE CHECK-IN",
+      "5 PROMOTIONAL VIDEOS",
+      "FULL SOCIAL MEDIA MANAGEMENT"
+    ],
+    "is_featured": false,
+    "is_active": true,
+    "order": 3,
+    "created_at": "2025-12-10T23:43:59.094Z",
+    "updated_at": "2025-12-10T23:43:59.094Z"
+  }
+}
+]
